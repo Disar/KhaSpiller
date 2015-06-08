@@ -1,7 +1,7 @@
-![KhaFlixel 0.1](http://ratalaika.com/flixel-js/logo.png)
+![KhaSpiller 0.1](http://ratalaika.com/flixel-js/logo.png)
 
-##KhaFlixel 0.1
-KhaFlixel is a port of the famous OpenFL library Flixel to Kha.
+##KhaSpiller 0.1
+KhaSpiller is a port of the famous library Flixel to Kha.
 
 # Index
 - [About](#about)
@@ -13,8 +13,7 @@ KhaFlixel is a port of the famous OpenFL library Flixel to Kha.
 
 <a name="#about"></a>
 ##About
-KhaFlixel is a port of the famous OpenFL library Flixel to Kha.
-We used HaxeFlixel structure for convenience.
+KhaSpiller is a port of the famous library Flixel to Kha.
 It has some improvements and also some new stuff like support for SpriteSheets or Tiled Map format parser.
 
 It's still new and shinny so you may find some bugs.
@@ -26,7 +25,7 @@ The main development is by [Ratalaika Games](http://www.ratalaikagames.com)
 Things you can do now:
 * Why not following us on [Twitter](https://twitter.com/RatalaikaGames)?
 * You can check out the [examples](https://github.com/ratalaika/flixel-js-examples)!
-* Also why not reading the [documentation](http://khaflixel.ratalaikagames.com/docs)?
+* Also why not reading the [documentation](http://KhaSpiller.ratalaikagames.com/docs)?
 
 <a name="#features"></a>
 ##Features
@@ -83,8 +82,8 @@ Add as much information as possible, also upload the source code that causes the
 
 <a name="license"></a>
 ## License
-KhaFlixel is released under the [MIT License](http://opensource.org/licenses/MIT).
-KhaFlixel uses source code from multiple open source projects. Check the license file for more information.
+KhaSpiller is released under the GNU 2
+KhaSpiller uses source code from multiple open source projects. Check the license file for more information.
 
-[issues]: https://github.com/ratalaika/flixel-js/issues
-[contribute]: https://github.com/ratalaika/flixel-js/blob/master/CONTRIBUTING.md
+[issues]: https://github.com/ratalaika/KhaSpiller/issues
+[contribute]: https://github.com/ratalaika/KhaSpiller/blob/master/CONTRIBUTING.md
