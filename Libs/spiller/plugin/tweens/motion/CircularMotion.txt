@@ -1,0 +1,159 @@
+package com.ratalaika.spiller.plugin.tweens.motion;
+
+import com.ratalaika.spiller.SpiU;
+import com.ratalaika.spiller.event.ISpiTween;
+import com.ratalaika.spiller.event.ISpiTweenEase;
+
+/**
+ * Determines a circular motion.
+ * 
+ * v1.1 Ported to Java
+ * v1.0 Initial version (?)
+ * 
+ * @version 1.1 - January 24th 2013
+ * @author ratalaika / ratalaikaGames
+ */
+public class CircularMotion extends Motion
+{
+	/**
+	 * The current position on the circle.
+	 */
+	public float angle;
+
+	// Circle information.
+	private float _centerX;
+	private float _centerY;
+	private float _radius;
+	private float _angleStart;
+	private float _angleFinish;
+
+	private static final float _CIRC = SpiU.TWO_PI;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param	complete	Optional completion callback.
+	 * @param	type		Tween type.
+	 */
+	public CircularMotion(ISpiTween complete, int type)
+	{
+		super(0, complete, type, null);
+		_centerX = _centerY = 0;
+		_radius = angle = 0;
+		_angleStart = _angleFinish = 0;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param	complete	Optional completion callback.
+	 */
+	public CircularMotion(ISpiTween complete)
+	{
+		this(complete, 0);
+	}
+
+	/**
+	 * Constructor.
+	 */
+	public CircularMotion()
+	{
+		this(null, 0);
+	}
+
+	/**
+	 * Starts moving along a circle.
+	 * 
+	 * @param	centerX		X position of the circle's center.
+	 * @param	centerY		Y position of the circle's center.
+	 * @param	radius		Radius of the circle.
+	 * @param	angle		Starting position on the circle.
+	 * @param	clockwise	If the motion is clockwise.
+	 * @param	duration	Duration of the movement.
+	 * @param	ease		Optional easer function.
+	 */
+	public void setMotion(float centerX, float centerY, float radius, float angle, boolean clockwise, float duration, ISpiTweenEase ease)
+	{
+		_centerX = centerX;
+		_centerY = centerY;
+		_radius = radius;
+		this.angle = _angleStart = angle * SpiU.PI / ( -180);
+		_angleFinish = _CIRC * (clockwise ? 1 : -1);
+		_target = duration;
+		_ease = ease;
+		start();
+	}
+
+	/**
+	 * Starts moving along a circle.
+	 * 
+	 * @param	centerX		X position of the circle's center.
+	 * @param	centerY		Y position of the circle's center.
+	 * @param	radius		Radius of the circle.
+	 * @param	angle		Starting position on the circle.
+	 * @param	clockwise	If the motion is clockwise.
+	 * @param	duration	Duration of the movement.
+	 */
+	public void setMotion(float centerX, float centerY, float radius, float angle, boolean clockwise, float duration)
+	{
+		setMotion(centerX, centerY, radius, angle, clockwise, duration, null);
+	}
+
+	/**
+	 * Starts moving along a circle at the speed.
+	 * 
+	 * @param	centerX		X position of the circle's center.
+	 * @param	centerY		Y position of the circle's center.
+	 * @param	radius		Radius of the circle.
+	 * @param	angle		Starting position on the circle.
+	 * @param	clockwise	If the motion is clockwise.
+	 * @param	speed		Speed of the movement.
+	 * @param	ease		Optional easer function.
+	 */
+	public void setMotionSpeed(float centerX, float centerY, float radius, float angle, boolean clockwise, float speed, ISpiTweenEase ease)
+	{
+		_centerX = centerX;
+		_centerY = centerY;
+		_radius = radius;
+		this.angle = _angleStart = angle * SpiU.PI / ( -180);
+		_angleFinish = _CIRC * (clockwise ? 1 : -1);
+		_target = (_radius * _CIRC) / speed;
+		_ease = ease;
+		start();
+	}
+
+	/**
+	 * Starts moving along a circle at the speed.
+	 * 
+	 * @param	centerX		X position of the circle's center.
+	 * @param	centerY		Y position of the circle's center.
+	 * @param	radius		Radius of the circle.
+	 * @param	angle		Starting position on the circle.
+	 * @param	clockwise	If the motion is clockwise.
+	 * @param	speed		Speed of the movement.
+	 */
+	public void setMotionSpeed(float centerX, float centerY, float radius, float angle, boolean clockwise, float speed)
+	{
+		setMotionSpeed(centerX, centerY, radius, angle, clockwise, speed, null);
+	}
+
+	/**
+	 * Updates the Tween.
+	 */
+	@Override
+	public void update()
+	{
+		super.update();
+		angle = _angleStart + _angleFinish * _t;
+		x = _centerX + SpiU.cos(angle) * _radius;
+		y = _centerY + SpiU.sin(angle) * _radius;
+	}
+
+	/**
+	 * The circumference of the current circle motion.
+	 */
+	public float getCircumference()
+	{
+		return _radius * _CIRC;
+	}
+}

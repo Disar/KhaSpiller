@@ -1,0 +1,4 @@
+Install NodeJS
+git clone --recursive 
+node Kha/make html5
+node Kha/make osx
