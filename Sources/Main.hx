@@ -21,6 +21,4 @@ class Main {
 		//starter.start(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 //		starter.start(new KhaFlixelGame());
 	}
-
-	protected new() {}
 }

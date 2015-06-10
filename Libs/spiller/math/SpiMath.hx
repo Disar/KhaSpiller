@@ -64,6 +64,22 @@ class SpiMath
 	}
 
 	/**
+	 * Bound a number by a minimum and maximum. Ensures that this number is 
+	 * no smaller than the minimum, and no larger than the maximum.
+	 * Leaving a bound null means that side is unbounded.
+	 * 
+	 * @param	Value	Any number.
+	 * @param	Min		Any number.
+	 * @param	Max		Any number.
+	 * @return	The bounded value of the number.
+	 */
+	public static inline function bound(Value:Float, ?Min:Float, ?Max:Float):Float
+	{
+		var lowerBound:Float = (Min != null && Value < Min) ? Min : Value;
+		return (Max != null && lowerBound > Max) ? Max : lowerBound;
+	}
+
+	/**
 	 * Returns true if the given x/y coordinate is within the given rectangular block
 	 * 
 	 * @param	pointX		The X value to test

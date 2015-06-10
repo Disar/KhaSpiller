@@ -1,0 +1,6 @@
+-cp Kha/Sources
+-cp Kha/Backends/Kore
+-cp Sources
+-cp Libs
+-xml docs.xml
+--macro include('spiller')
