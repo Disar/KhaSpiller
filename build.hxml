@@ -3,4 +3,6 @@
 -cp Kha/Backends/HTML5
 -cp Libs
 -js build/html5/kha.js
+-xml build.xml
 -main Main
+--macro include('spiller')
