@@ -1,6 +1,6 @@
 ![KhaSpiller 0.1](http://ratalaika.com/flixel-js/logo.png)
 
-##KhaSpiller 0.1
+## KhaSpiller 0.1
 KhaSpiller is a port of the famous library Flixel to Kha.
 
 # Index
