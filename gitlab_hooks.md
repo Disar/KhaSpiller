@@ -9,6 +9,7 @@ git remote add --mirror github git@github.com:ratalaika/KhaSpiller.git
 After that we make a backup of the post-recive hook
 mv post-revice post-recive.back
 
+
 echo "exec git push --quiet github &" >> post-receive
 
 chmod 755 post-receive
