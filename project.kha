@@ -1,7 +1,7 @@
 {
 	"format": 2,
 	"game": {
-		"name": "KhaFlixel",
+		"name": "KhaSpiller",
 		"width": 800,
 		"height": 480
 	},
