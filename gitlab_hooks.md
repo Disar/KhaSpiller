@@ -10,6 +10,7 @@ After that we make a new directory called custom_hooks
 
 
 mkdir custom_hooks
+
 cd custom_hooks
 echo "exec git push --quiet github &" >> post-receive
 chmod 755 post-receive
