@@ -1,3 +1,5 @@
+## Set up a hook using GitLab
+
 First we log into our GitLab server and go to
 <pre lang="bash">
 /var/opt/gitlab/git-data/repositories/<group>/<project>.git.
