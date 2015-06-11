@@ -1,6 +1,18 @@
-git remote add --mirror github https://github.com/ratalaika/KhaSpiller.git
+First we log into our GitLab server and go to
+
 /var/opt/gitlab/git-data/repositories/<group>/<project>.git.
-mkdir custom_hooks
-cd custom_hooks
+
+Then we add a mirror to our gitlab git
+
+git remote add --mirror github git@github.com:ratalaika/KhaSpiller.git
+
+After that we make a backup of the post-recive hook
+mv post-revice post-recive.back
+
 echo "exec git push --quiet github &" >> post-receive
+
 chmod 755 post-receive
+
+https://help.github.com/articles/generating-ssh-keys/
+
+./hooks/custom_hooks/post-receive
