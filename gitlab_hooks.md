@@ -6,7 +6,7 @@ Then we add a mirror to our gitlab git
 
 git remote add --mirror github git@github.com:ratalaika/KhaSpiller.git
 
-After that
+After that we make a new directory called custom_hooks
 
 mkdir custom_hooks
 cd custom_hooks
