@@ -66,7 +66,7 @@ You can get a copy of NodeJS on its site <a target="_blank" href="http://nodejs.
 
 If you have NodeJS already installed make sure it's updated!
 You can do so with the following commands.
-<pre lang="bash">>
+<pre lang="bash">
 sudo npm cache clean -f
 node --version
 sudo npm install -g n
