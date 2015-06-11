@@ -5,3 +5,4 @@ cd custom_hooks
 echo "exec git push --quiet github &" >> post-receive
 chmod 755 post-receive
 https://help.github.com/articles/generating-ssh-keys/
+./hooks/custom_hooks/post-receive
