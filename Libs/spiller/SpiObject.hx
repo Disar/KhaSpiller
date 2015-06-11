@@ -1,12 +1,12 @@
 package spiller;
 
-
-// import spiller.event.ISpiObject;
-// import spiller.math.SpiMath;
+import spiller.math.SpiMath;
 // import spiller.system.SpiTile;
 // import spiller.system.flash.Graphics;
-// import spiller.util.SpiDestroyUtil;
+import spiller.util.SpiDestroyUtil;
+import spiller.util.SpiPath;
 import spiller.math.SpiPoint;
+import spiller.math.SpiRect;
 
 /**
  * This is the base class for most of the display objects<br>
@@ -24,485 +24,445 @@ import spiller.math.SpiPoint;
  */
 class SpiObject extends SpiBasic
 {
-	// /**
-	//  * Generic value for "left" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-	//  */
-	// public static inline var LEFT = 0x000100;
-	// /**
-	//  * Generic value for "right" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-	//  */
-	// public static inline var RIGHT = 0x001000;
-	// /**
-	//  * Generic value for "up" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-	//  */
-	// public static inline var UP = 0x010000;
-	// /**
-	//  * Generic value for "down" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-	//  */
-	// public static inline var DOWN = 0x100000;	
-	// /**
-	//  * Special-case const meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-	//  */
-	// public static inline var NONE = 0;
-	// /**
-	//  * Special-case const meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-	//  */
-	// public static inline var CEILING = UP;
-	// /**
-	//  * Special-case const meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-	//  */
-	// public static inline var FLOOR = DOWN;
-	// /**
-	//  * Special-case const meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-	//  */
-	// public static inline var WALL = LEFT | RIGHT;
-	// /**
-	//  * Special-case const meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-	//  */
-	// public static inline var ANY	= LEFT | RIGHT | UP | DOWN;
-	// /**
-	//  * The number of pixels the overlap can have before it won't count.<br>
-	//  * Default value is 4, should be enough for normal games 16x16 or so<br>
-	//  * for bigger game you may need to increase this to avoid entering on the map.<br>
-	//  * (Used in <code>separateX()</code> and <code>separateY()</code>).
-	//  */
-	// public static float OVERLAP_BIAS = 4;
-	// /**
-	//  * If we want to prevent overlapping of colliding objects.<br>
-	//  * This is useful to prevent that one objects move inside another a few pixels.
-	//  */
-	// public static boolean PREVENT_OVERLAP = false;
-	// /**
-	//  * Path behavior controls: move from the start of the path to the end then stop.
-	//  */
-	// public static inline var PATH_FORWARD = 0x000000;
-	// /**
-	//  * Path behavior controls: move from the end of the path to the start then stop.
-	//  */
-	// public static inline var PATH_BACKWARD = 0x000001;
-	// /**
-	//  * Path behavior controls: move from the start of the path to the end then directly back to the start, and start over.
-	//  */
-	// public static inline var PATH_LOOP_FORWARD = 0x000010;
-	// /**
-	//  * Path behavior controls: move from the end of the path to the start then directly back to the end, and start over.
-	//  */
-	// public static inline var PATH_LOOP_BACKWARD = 0x000100;
-	// /**
-	//  * Path behavior controls: move from the start of the path to the end then turn around and go back to the start, over and over.
-	//  */
-	// public static inline var  PATH_YOYO = 0x001000;
-	// /**
-	//  * Path behavior controls: ignores any vertical component to the path data, only follows side to side.
-	//  */
-	// public static inline var PATH_HORIZONTAL_ONLY = 0x010000;
-	// /**
-	//  * Path behavior controls: ignores any horizontal component to the path data, only follows up and down.
-	//  */
-	// public static inline var PATH_VERTICAL_ONLY = 0x100000;
+	/**
+	 * Generic value for "left" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
+	 */
+	public static inline var LEFT:Int = 0x000100;
+	/**
+	 * Generic value for "right" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
+	 */
+	public static inline var RIGHT:Int = 0x001000;
+	/**
+	 * Generic value for "up" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
+	 */
+	public static inline var UP:Int = 0x010000;
+	/**
+	 * Generic value for "down" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
+	 */
+	public static inline var DOWN:Int = 0x100000;	
+	/**
+	 * Special-case const meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.
+	 */
+	public static inline var NONE:Int = 0;
+	/**
+	 * Special-case const meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.
+	 */
+	public static inline var CEILING:Int = UP;
+	/**
+	 * Special-case const meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.
+	 */
+	public static inline var FLOOR:Int = DOWN;
+	/**
+	 * Special-case const meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.
+	 */
+	public static inline var WALL:Int = LEFT | RIGHT;
+	/**
+	 * Special-case const meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.
+	 */
+	public static inline var ANY:Int	= LEFT | RIGHT | UP | DOWN;
+	/**
+	 * The number of pixels the overlap can have before it won't count.<br>
+	 * Default value is 4, should be enough for normal games 16x16 or so<br>
+	 * for bigger game you may need to increase this to avoid entering on the map.<br>
+	 * (Used in <code>separateX()</code> and <code>separateY()</code>).
+	 */
+	public static var OVERLAP_BIAS:Float = 4;
+	/**
+	 * If we want to prevent overlapping of colliding objects.<br>
+	 * This is useful to prevent that one objects move inside another a few pixels.
+	 */
+	public static var PREVENT_OVERLAP:Bool = false;
+	/**
+	 * Path behavior controls: move from the start of the path to the end then stop.
+	 */
+	public static inline var PATH_FORWARD:Int = 0x000000;
+	/**
+	 * Path behavior controls: move from the end of the path to the start then stop.
+	 */
+	public static inline var PATH_BACKWARD:Int = 0x000001;
+	/**
+	 * Path behavior controls: move from the start of the path to the end then directly back to the start, and start over.
+	 */
+	public static inline var PATH_LOOP_FORWARD:Int = 0x000010;
+	/**
+	 * Path behavior controls: move from the end of the path to the start then directly back to the end, and start over.
+	 */
+	public static inline var PATH_LOOP_BACKWARD = 0x000100;
+	/**
+	 * Path behavior controls: move from the start of the path to the end then turn around and go back to the start, over and over.
+	 */
+	public static inline var  PATH_YOYO:Int = 0x001000;
+	/**
+	 * Path behavior controls: ignores any vertical component to the path data, only follows side to side.
+	 */
+	public static inline var PATH_HORIZONTAL_ONLY:Int = 0x010000;
+	/**
+	 * Path behavior controls: ignores any horizontal component to the path data, only follows up and down.
+	 */
+	public static inline var PATH_VERTICAL_ONLY:Int = 0x100000;
 
-	// //==========================//
-	// //	NON STATIC ATTRIBUTES	//
-	// //==========================//
-	// /**
-	//  * X position of the upper left corner of this object in world space.
-	//  */
-	// public float x;
-	// /**
-	//  * Y position of the upper left corner of this object in world space.
-	//  */
-	// public float y;
-	// /**
-	//  * The width of this object.
-	//  */
-	// public float width;
-	// /**
-	//  * The height of this object.
-	//  */
-	// public float height;
-	// /**
-	//  * Whether an object will move/alter position after a collision.
-	//  */
-	// public boolean immovable;
-	// /**
-	//  * Whether an object will move/alter position after a collision in the X.
-	//  */
-	// public boolean immovableX;
-	// /**
-	//  * Whether an object will move/alter position after a collision in the Y axis.
-	//  */
-	// public boolean immovableY;
-	// /**
-	//  * The basic speed of this object.
-	//  */
-	// public SpiPoint velocity;
-	// /**
-	//  * The virtual mass of the object. Default value is 1.
-	//  * Currently only used with <code>elasticity</code> during collision resolution.
-	//  * Change at your own risk; effects seem crazy unpredictable so far!
-	//  */
-	// public float mass;
-	// /**
-	//  * The bounciness of this object.  Only affects collisions.  Default value is 0, or "not bouncy at all."
-	//  */
-	// public float elasticity;
-	// /**
-	//  * How fast the speed of this object is changing.
-	//  * Useful for smooth movement and gravity.
-	//  */
-	// public SpiPoint acceleration;
-	// /**
-	//  * This isn't drag exactly, more like deceleration that is only applied
-	//  * when acceleration is not affecting the sprite.
-	//  */
-	// public SpiPoint drag;
-	// /**
-	//  * If you are using <code>acceleration</code>, you can use <code>maxVelocity</code> with it
-	//  * to cap the speed automatically (very useful!).
-	//  */
-	// public SpiPoint maxVelocity;
-	// /**
-	//  * Set the angle of a sprite to rotate it.
-	//  * WARNING: rotating sprites decreases rendering
-	//  * performance for this sprite by a factor of 10x!
-	//  */
-	// public float angle;
-	// /**
-	//  * This is how fast you want this sprite to spin.
-	//  */
-	// public float angularVelocity;
-	// /**
-	//  * How fast the spin speed should change.
-	//  */
-	// public float angularAcceleration;
-	// /**
-	//  * Like <code>drag</code> but for spinning.
-	//  */
-	// public float angularDrag;
-	// /**
-	//  * Use in conjunction with <code>angularAcceleration</code> for fluid spin speed control.
-	//  */
-	// public float maxAngular;
+	//==========================//
+	//	NON STATIC ATTRIBUTES	//
+	//==========================//
+	/**
+	 * X position of the upper left corner of this object in world space.
+	 */
+	public var x:Float;
+	/**
+	 * Y position of the upper left corner of this object in world space.
+	 */
+	public var y:Float;
+	/**
+	 * The width of this object.
+	 */
+	public var width:Float;
+	/**
+	 * The height of this object.
+	 */
+	public var height:Float;
+	/**
+	 * Whether an object will move/alter position after a collision.
+	 */
+	public var immovable:Bool;
+	/**
+	 * Whether an object will move/alter position after a collision in the X.
+	 */
+	public var immovableX:Bool;
+	/**
+	 * Whether an object will move/alter position after a collision in the Y axis.
+	 */
+	public var immovableY:Bool;
+	/**
+	 * The basic speed of this object.
+	 */
+	public var velocity:SpiPoint;
+	/**
+	 * The virtual mass of the object. Default value is 1.
+	 * Currently only used with <code>elasticity</code> during collision resolution.
+	 * Change at your own risk; effects seem crazy unpredictable so far!
+	 */
+	public var mass:Float;
+	/**
+	 * The bounciness of this object.  Only affects collisions.  Default value is 0, or "not bouncy at all."
+	 */
+	public var elasticity:Float;
+	/**
+	 * How fast the speed of this object is changing.
+	 * Useful for smooth movement and gravity.
+	 */
+	public var acceleration:SpiPoint;
+	/**
+	 * This isn't drag exactly, more like deceleration that is only applied
+	 * when acceleration is not affecting the sprite.
+	 */
+	public var drag:SpiPoint;
+	/**
+	 * If you are using <code>acceleration</code>, you can use <code>maxVelocity</code> with it
+	 * to cap the speed automatically (very useful!).
+	 */
+	public var maxVelocity:SpiPoint;
+	/**
+	 * Set the angle of a sprite to rotate it.
+	 * WARNING: rotating sprites decreases rendering
+	 * performance for this sprite by a factor of 10x!
+	 */
+	public var angle:Float;
+	/**
+	 * This is how fast you want this sprite to spin.
+	 */
+	public var angularVelocity:Float;
+	/**
+	 * How fast the spin speed should change.
+	 */
+	public var angularAcceleration:Float;
+	/**
+	 * Like <code>drag</code> but for spinning.
+	 */
+	public var angularDrag:Float;
+	/**
+	 * Use in conjunction with <code>angularAcceleration</code> for fluid spin speed control.
+	 */
+	public var maxAngular:Float;
 	/**
 	 * Should always represent (0,0) - useful for different things, for avoiding unnecessary <code>new</code> calls.
 	 */
 	private static var _pZero(default, never):SpiPoint = SpiPoint.get();
-	// /**
-	//  * A point that can store numbers from 0 to 1 (for X and Y independently)
-	//  * that governs how much this object is affected by the camera subsystem.
-	//  * 0 means it never moves, like a HUD element or far background graphic.
-	//  * 1 means it scrolls along a the same speed as the foreground layer.
-	//  * scrollFactor is initialized as (1,1) by default.
-	//  */
-	// public SpiPoint scrollFactor;
-	// /**
-	//  * Internal helper used for retro-style flickering.
-	//  */
-	// private boolean _flicker;
-	// /**
-	//  * Internal helper used for retro-style flickering.
-	//  */
-	// private float _flickerTimer;
-	// /**
-	//  * Handy for storing health percentage or armor points or whatever.
-	//  */
-	// public float health;
-	// /**
-	//  * This is just a pre-allocated x-y point container to be used however you like
-	//  */
-	// private SpiPoint _point;
-	// /**
-	//  * This is just a pre-allocated rectangle container to be used however you like
-	//  */
-	// private SpiRect _rect;
-	// /**
-	//  * Set this to false if you want to skip the automatic motion/movement stuff (see <code>updateMotion()</code>).
-	//  * SpiObject and SpiSprite default to true.
-	//  * SpiText, SpiTileblock and SpiTilemap default to false.
-	//  */
-	// public boolean moves;
-	// /**
-	//  * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.
-	//  * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
-	//  * You can even use them broadly as boolean values if you're feeling saucy!
-	//  */
-	// public int touching;
-	// /**
-	//  * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.
-	//  * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
-	//  * You can even use them broadly as boolean values if you're feeling saucy!
-	//  */
-	// public int wasTouching;
-	// /**
-	//  * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.
-	//  * Use bitwise operators to check the values stored here.
-	//  * Useful for things like one-way platforms (e.g. allowCollisions = UP;)
-	//  * The accessor "solid" just flips this variable between NONE and ANY.
-	//  */
-	// public int allowCollisions;
-	// /**
-	//  * Important variable for collision processing.
-	//  * By default this value is set automatically during <code>preUpdate()</code>.
-	//  */
-	// public SpiPoint last;
-	// /**
-	//  * A reference to a path object.  Null by default, assigned by <code>followPath()</code>.
-	//  */
-	// public SpiPath path;
-	// /**
-	//  * The speed at which the object is moving on the path.
-	//  * When an object completes a non-looping path circuit,
-	//  * the pathSpeed will be zeroed out, but the <code>path</code> reference
-	//  * will NOT be nulled out.  So <code>pathSpeed</code> is a good way
-	//  * to check if this object is currently following a path or not.
-	//  */
-	// public float pathSpeed;
-	// /**
-	//  * The angle in degrees between this object and the next node, where 0 is directly upward, and 90 is to the right.
-	//  */
-	// public float pathAngle;
-	// /**
-	//  * Internal helper, tracks which node of the path this object is moving toward.
-	//  */
-	// private int _pathNodeIndex;
-	// /**
-	//  * Internal tracker for path behavior flags (like looping, horizontal only, etc).
-	//  */
-	// private int _pathMode;
-	// /**
-	//  * Internal helper for node navigation, specifically yo-yo and backwards movement.
-	//  */
-	// private int _pathInc;
-	// /**
-	//  * Internal flag for whether the object's angle should be adjusted to the path angle during path follow behavior.
-	//  */
-	// private boolean _pathRotate;
-	// /**
-	//  * The object you are seeking.
-	//  */
-	// private SpiObject _seeked;
-	// /**
-	//  * The force of the seeker.
-	//  */
-	// private SpiPoint steerForce;
-	// /**
-	//  * The collision categoryBits.
-	//  */
-	// public int categoryBits = NONE;
-	// /**
-	//  * The collision maskBits.
-	//  */
-	// public int maskBits = NONE;
-	// /**
-	//  * The ground index for collisions.
-	//  */
-	// public int groupIndex = NONE;
-	// /**
-	//  * The information about the last collision.<br>
-	//  * You can use it on the postCollision method. 
-	//  */
-	// private int _lastTouching;
+	/**
+	 * A point that can store numbers from 0 to 1 (for X and Y independently)
+	 * that governs how much this object is affected by the camera subsystem.
+	 * 0 means it never moves, like a HUD element or far background graphic.
+	 * 1 means it scrolls along a the same speed as the foreground layer.
+	 * scrollFactor is initialized as (1,1) by default.
+	 */
+	public var scrollFactor:SpiPoint;
+	/**
+	 * Internal helper used for retro-style flickering.
+	 */
+	private var _flicker:Bool;
+	/**
+	 * Internal helper used for retro-style flickering.
+	 */
+	private var _flickerTimer:Float;
+	/**
+	 * Handy for storing health percentage or armor points or whatever.
+	 */
+	public var health:Float;
+	/**
+	 * This is just a pre-allocated x-y point container to be used however you like
+	 */
+	private var _point:SpiPoint;
+	/**
+	 * This is just a pre-allocated rectangle container to be used however you like
+	 */
+	private var _rect:SpiRect;
+	/**
+	 * Set this to false if you want to skip the automatic motion/movement stuff (see <code>updateMotion()</code>).
+	 * SpiObject and SpiSprite default to true.
+	 * SpiText, SpiTileblock and SpiTilemap default to false.
+	 */
+	public var moves:Bool;
+	/**
+	 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.
+	 * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
+	 * You can even use them broadly as boolean values if you're feeling saucy!
+	 */
+	public var touching:Int;
+	/**
+	 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.
+	 * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
+	 * You can even use them broadly as boolean values if you're feeling saucy!
+	 */
+	public var wasTouching:Int;
+	/**
+	 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.
+	 * Use bitwise operators to check the values stored here.
+	 * Useful for things like one-way platforms (e.g. allowCollisions = UP;)
+	 * The accessor "solid" just flips this variable between NONE and ANY.
+	 */
+	public var allowCollisions:Int;
+	/**
+	 * Important variable for collision processing.
+	 * By default this value is set automatically during <code>preUpdate()</code>.
+	 */
+	public var last:SpiPoint;
+	/**
+	 * A reference to a path object.  Null by default, assigned by <code>followPath()</code>.
+	 */
+	public var path:SpiPath;
+	/**
+	 * The speed at which the object is moving on the path.
+	 * When an object completes a non-looping path circuit,
+	 * the pathSpeed will be zeroed out, but the <code>path</code> reference
+	 * will NOT be nulled out.  So <code>pathSpeed</code> is a good way
+	 * to check if this object is currently following a path or not.
+	 */
+	public var pathSpeed:Float;
+	/**
+	 * The angle in degrees between this object and the next node, where 0 is directly upward, and 90 is to the right.
+	 */
+	public var pathAngle:Float;
+	/**
+	 * Internal helper, tracks which node of the path this object is moving toward.
+	 */
+	private var _pathNodeIndex:Int;
+	/**
+	 * Internal tracker for path behavior flags (like looping, horizontal only, etc).
+	 */
+	private var _pathMode:Int;
+	/**
+	 * Internal helper for node navigation, specifically yo-yo and backwards movement.
+	 */
+	private var _pathInc:Int;
+	/**
+	 * Internal flag for whether the object's angle should be adjusted to the path angle during path follow behavior.
+	 */
+	private var _pathRotate:Bool;
+	/**
+	 * The object you are seeking.
+	 */
+	private var _seeked:SpiObject;
+	/**
+	 * The force of the seeker.
+	 */
+	private var steerForce:SpiPoint;
+	/**
+	 * The collision categoryBits.
+	 */
+	public var categoryBits:Int = NONE;
+	/**
+	 * The collision maskBits.
+	 */
+	public var maskBits:Int = NONE;
+	/**
+	 * The ground index for collisions.
+	 */
+	public var groupIndex:Int = NONE;
+	/**
+	 * The information about the last collision.<br>
+	 * You can use it on the postCollision method. 
+	 */
+	private var _lastTouching:Int;
 		
-	// /**
-	//  * Instantiates a <code>SpiObject</code>.
-	//  * 
-	//  * @param	X		The X-coordinate of the point in space.
-	//  * @param	Y		The Y-coordinate of the point in space.
-	//  * @param	Width	Desired width of the rectangle.
-	//  * @param	Height	Desired height of the rectangle.
-	//  */
-	// public SpiObject(float X, float Y, int Width, int Height)
-	// {
-	// 	x = X;
-	// 	y = Y;
-	// 	last = SpiPoint.get(x, y);
-	// 	width = Width;
-	// 	height = Height;
-	// 	mass = 1.0f;
-	// 	elasticity = 0.0f;
+	/**
+	 * Instantiates a <code>SpiObject</code>.
+	 * 
+	 * @param	X		The X-coordinate of the point in space.
+	 * @param	Y		The Y-coordinate of the point in space.
+	 * @param	Width	Desired width of the rectangle.
+	 * @param	Height	Desired height of the rectangle.
+	 */
+	public function new(X:Float = 0, Y:Float = 0, Width:Int = 0, Height:Int = 0)
+	{
+		super();
+		x = X;
+		y = Y;
+		last = SpiPoint.get(x, y);
+		width = Width;
+		height = Height;
+		mass = 1.0;
+		elasticity = 0.0;
 
-	// 	health = 1;
+		health = 1;
 		
-	// 	immovable = false;
-	// 	immovableX = false;
-	// 	immovableY = false;
-	// 	moves = true;
+		immovable = false;
+		immovableX = false;
+		immovableY = false;
+		moves = true;
 		
-	// 	touching = NONE;
-	// 	wasTouching = NONE;
-	// 	allowCollisions = ANY;
+		touching = NONE;
+		wasTouching = NONE;
+		allowCollisions = ANY;
 		
-	// 	velocity = SpiPoint.get();
-	// 	acceleration = SpiPoint.get();
-	// 	drag = SpiPoint.get();
-	// 	maxVelocity = SpiPoint.get(10000,10000);
-	// 	steerForce = SpiPoint.get();
+		velocity = SpiPoint.get();
+		acceleration = SpiPoint.get();
+		drag = SpiPoint.get();
+		maxVelocity = SpiPoint.get(10000,10000);
+		steerForce = SpiPoint.get();
 		
-	// 	angle = 0;
-	// 	angularVelocity = 0;
-	// 	angularAcceleration = 0;
-	// 	angularDrag = 0;
-	// 	maxAngular = 10000;
+		angle = 0;
+		angularVelocity = 0;
+		angularAcceleration = 0;
+		angularDrag = 0;
+		maxAngular = 10000;
 		
-	// 	scrollFactor = SpiPoint.get(1.0f,1.0f);
-	// 	_flicker = false;
-	// 	_flickerTimer = 0;
+		scrollFactor = SpiPoint.get(1, 1);
+		_flicker = false;
+		_flickerTimer = 0;
 		
-	// 	_point = SpiPoint.get();
-	// 	_rect = new SpiRect();
+		_point = SpiPoint.get();
+		_rect = new SpiRect();
 		
-	// 	path = null;
-	// 	pathSpeed = 0;
-	// 	pathAngle = 0;
+		path = null;
+		pathSpeed = 0;
+		pathAngle = 0;
 
-	// 	_seeked = null;
-	// }
+		_seeked = null;
+	}
 	
-	// /**
-	//  * Instantiates a <code>SpiObject</code>.
-	//  * 
-	//  * @param	X		The X-coordinate of the point in space.
-	//  * @param	Y		The Y-coordinate of the point in space.
-	//  * @param	Width	Desired width of the rectangle.
-	//  */
-	// public SpiObject(float X, float Y, int Width)
-	// {
-	// 	this(X, Y, Width, 0);
-	// }
-	
-	// /**
-	//  * Instantiates a <code>SpiObject</code>.
-	//  * 
-	//  * @param	X		The X-coordinate of the point in space.
-	//  * @param	Y		The Y-coordinate of the point in space.
-	//  */
-	// public SpiObject(float X,float Y)
-	// {
-	// 	this(X, Y, 0, 0);
-	// }
-	
-	// /**
-	//  * Instantiates a <code>SpiObject</code>.
-	//  * 
-	//  * @param	X		The X-coordinate of the point in space.
-	//  */
-	// public SpiObject(float X)
-	// {
-	// 	this(X, 0, 0, 0);
-	// }
-	
-	// /**
-	//  * Instantiates a <code>SpiObject</code>.
-	//  */
-	// public SpiObject()
-	// {
-	// 	this(0, 0, 0, 0);
-	// }
-	
-	// /**
-	//  * Override this method to null out variables or
-	//  * manually call destroy() on class members if necessary.
-	//  * Don't forget to call super.destroy()!
-	//  */
-	// override
-	// public void destroy()
-	// {
-	// 	velocity = SpiDestroyUtil.put(velocity);
-	// 	acceleration = SpiDestroyUtil.put(acceleration);
-	// 	drag = SpiDestroyUtil.put(drag);
-	// 	maxVelocity = SpiDestroyUtil.put(maxVelocity);
-	// 	scrollFactor = SpiDestroyUtil.put(scrollFactor);
-	// 	last = SpiDestroyUtil.put(last);
-	// 	_point = SpiDestroyUtil.put(_point);
-	// 	steerForce = SpiDestroyUtil.put(steerForce);
-	// 	_rect = null;
+	/**
+	 * Override this method to null out variables or
+	 * manually call destroy() on class members if necessary.
+	 * Don't forget to call super.destroy()!
+	 */
+	override
+	public function destroy():Void
+	{
+		velocity = SpiDestroyUtil.put(velocity);
+		acceleration = SpiDestroyUtil.put(acceleration);
+		drag = SpiDestroyUtil.put(drag);
+		maxVelocity = SpiDestroyUtil.put(maxVelocity);
+		scrollFactor = SpiDestroyUtil.put(scrollFactor);
+		last = SpiDestroyUtil.put(last);
+		_point = SpiDestroyUtil.put(_point);
+		steerForce = SpiDestroyUtil.put(steerForce);
+		_rect = null;
 		
-	// 	cameras = null;
-	// 	if(path != null)
-	// 		path.destroy();
-	// 	path = null;
-	// 	_seeked = null;
+		cameras = null;
+		if(path != null)
+			path.destroy();
+		path = null;
+		_seeked = null;
 
-	// 	super.destroy();
-	// }
+		super.destroy();
+	}
 	
-	// /**
-	//  * Pre-update is called right before <code>update()</code> on each object in the game loop.
-	//  * In <code>SpiObject</code> it controls the flicker timer,
-	//  * tracking the last coordinates for collision purposes,
-	//  * and checking if the object is moving along a path or not.
-	//  */
-	// override
-	// public void preUpdate()
-	// {
-	// 	ACTIVECOUNT++;
+	/**
+	 * Pre-update is called right before <code>update()</code> on each object in the game loop.
+	 * In <code>SpiObject</code> it controls the flicker timer,
+	 * tracking the last coordinates for collision purposes,
+	 * and checking if the object is moving along a path or not.
+	 */
+	override
+	public function preUpdate():Void
+	{
+		super.preUpdate();
 		
-	// 	if(_flickerTimer != 0)
-	// 	{
-	// 		_flicker = !_flicker;
-	// 		if(_flickerTimer > 0)
-	// 		{
-	// 			_flickerTimer = _flickerTimer - SpiG.elapsed;
-	// 			if(_flickerTimer <= 0)
-	// 			{
-	// 				_flickerTimer = 0;
-	// 				_flicker = false;
-	// 			}
-	// 		}
-	// 	}
+		if(_flickerTimer != 0)
+		{
+			_flicker = !_flicker;
+			if(_flickerTimer > 0)
+			{
+				_flickerTimer = _flickerTimer - SpiG.elapsed;
+				if(_flickerTimer <= 0)
+				{
+					_flickerTimer = 0;
+					_flicker = false;
+				}
+			}
+		}
 		
-	// 	last.x = x;
-	// 	last.y = y;
+		last.x = x;
+		last.y = y;
 		
-	// 	if((path != null) && (pathSpeed != 0) && (path.nodes.get(_pathNodeIndex) != null))
-	// 		updatePathMotion();
+		if((path != null) && (pathSpeed != 0) && (path.nodes[_pathNodeIndex] != null))
+			updatePathMotion();
 
-	// 	if(_seeked != null)
-	// 		updateSeekMotion();
-	// }
+		if(_seeked != null)
+			updateSeekMotion();
+	}
 	
-	// /**
-	//  * Post-update is called right after <code>update()</code> on each object in the game loop.
-	//  * In <code>SpiObject</code> this method handles integrating the objects motion
-	//  * based on the velocity and acceleration settings, and tracking/clearing the <code>touching</code> flags.
-	//  */
-	// override
-	// public void postUpdate()
-	// {
-	// 	if(moves)
-	// 		updateMotion();
+	/**
+	 * Post-update is called right after <code>update()</code> on each object in the game loop.
+	 * In <code>SpiObject</code> this method handles integrating the objects motion
+	 * based on the velocity and acceleration settings, and tracking/clearing the <code>touching</code> flags.
+	 */
+	override
+	public function postUpdate():Void
+	{
+		if(moves)
+			updateMotion();
 		
-	// 	wasTouching = touching;
-	// 	touching = NONE;
-	// }
+		wasTouching = touching;
+		touching = NONE;
+	}
 	
-	// /**
-	//  * Internal method for updating the position and speed of this object.
-	//  * Useful for cases when you need to update this but are buried down in too many supers.
-	//  * Does a slightly fancier-than-normal integration to help with higher fidelity framerate-independenct motion.
-	//  */
-	// private void updateMotion()
-	// {
-	// 	float delta;
-	// 	float velocityDelta;
+	/**
+	 * Internal method for updating the position and speed of this object.
+	 * Useful for cases when you need to update this but are buried down in too many supers.
+	 * Does a slightly fancier-than-normal integration to help with higher fidelity framerate-independenct motion.
+	 */
+	private function updateMotion():Void
+	{
+		var delta;
+		var velocityDelta;
 
-	// 	velocityDelta = (SpiU.computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular, SpiG.elapsed) - angularVelocity) / 2.f;
-	// 	angularVelocity += velocityDelta; 
-	// 	angle += angularVelocity * SpiG.elapsed;
-	// 	angularVelocity += velocityDelta;
+		velocityDelta = (SpiU.computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular, SpiG.elapsed) - angularVelocity) / 2.0;
+		angularVelocity += velocityDelta; 
+		angle += angularVelocity * SpiG.elapsed;
+		angularVelocity += velocityDelta;
 
-	// 	velocityDelta = (SpiU.computeVelocity(velocity.x, acceleration.x, drag.x, maxVelocity.x, SpiG.elapsed) - velocity.x)/2f;
-	// 	velocity.x += velocityDelta;
-	// 	delta = velocity.x * SpiG.elapsed;
-	// 	velocity.x += velocityDelta;
-	// 	x += delta;
+		velocityDelta = (SpiU.computeVelocity(velocity.x, acceleration.x, drag.x, maxVelocity.x, SpiG.elapsed) - velocity.x) / 2.0;
+		velocity.x += velocityDelta;
+		delta = velocity.x * SpiG.elapsed;
+		velocity.x += velocityDelta;
+		x += delta;
 
-	// 	velocityDelta = (SpiU.computeVelocity(velocity.y, acceleration.y, drag.y, maxVelocity.y, SpiG.elapsed) - velocity.y) / 2f;
-	// 	velocity.y += velocityDelta;
-	// 	delta = velocity.y * SpiG.elapsed;
-	// 	velocity.y += velocityDelta;
-	// 	y += delta;
-	// }
+		velocityDelta = (SpiU.computeVelocity(velocity.y, acceleration.y, drag.y, maxVelocity.y, SpiG.elapsed) - velocity.y) / 2.0;
+		velocity.y += velocityDelta;
+		delta = velocity.y * SpiG.elapsed;
+		velocity.y += velocityDelta;
+		y += delta;
+	}
 	
 	// /**
 	//  * Rarely called, and in this case just increments the visible objects count and calls <code>drawDebug()</code> if necessary.
@@ -562,297 +522,240 @@ class SpiObject extends SpiBasic
 	// 	gfx.drawRect(boundingBoxX, boundingBoxY, boundingBoxWidth, boundingBoxHeight);
 	// }
 	
-	// /**
-	//  * Call this method to give this object a path to follow.
-	//  * If the path does not have at least one node in it, this method
-	//  * will log a warning message and return.
-	//  * 
-	//  * @param	Path		The <code>SpiPath</code> you want this object to follow.
-	//  * @param	Speed		How fast to travel along the path in pixels per second.
-	//  * @param	Mode		Optional, controls the behavior of the object following the path using the path behavior constants.  Can use multiple flags at once, for example PATH_YOYO|PATH_HORIZONTAL_ONLY will make an object move back and forth along the X axis of the path only.
-	//  * @param	AutoRotate	Automatically point the object toward the next node.  Assumes the graphic is pointing upward.  Default behavior is false, or no automatic rotation.
-	//  */
-	// public void followPath(SpiPath Path, float Speed, int Mode, boolean AutoRotate)
-	// {
-	// 	if (Path == null || Path.nodes.size <= 0) {
-	// 		SpiG.log("WARNING: Paths need at least one node in them to be followed.");
-	// 		return;
-	// 	}
+	/**
+	 * Call this method to give this object a path to follow.
+	 * If the path does not have at least one node in it, this method
+	 * will log a warning message and return.
+	 * 
+	 * @param	Path		The <code>SpiPath</code> you want this object to follow.
+	 * @param	Speed		How fast to travel along the path in pixels per second.
+	 * @param	Mode		Optional, controls the behavior of the object following the path using the path behavior constants.  Can use multiple flags at once, for example PATH_YOYO|PATH_HORIZONTAL_ONLY will make an object move back and forth along the X axis of the path only.
+	 * @param	AutoRotate	Automatically point the object toward the next node.  Assumes the graphic is pointing upward.  Default behavior is false, or no automatic rotation.
+	 */
+	public function followPath(Path:SpiPath, Speed:Float = 100, Mode:Int = PATH_FORWARD, AutoRotate:Bool = false):Void
+	{
+		if (Path == null || Path.nodes.length <= 0) {
+			SpiG.log("WARNING: Paths need at least one node in them to be followed.");
+			return;
+		}
 		
-	// 	path = Path;
-	// 	pathSpeed = SpiU.abs(Speed);
-	// 	_pathMode = Mode;
-	// 	_pathRotate = AutoRotate;
+		path = Path;
+		pathSpeed = SpiU.abs(Speed);
+		_pathMode = Mode;
+		_pathRotate = AutoRotate;
 		
-	// 	//get starting node
-	// 	if((_pathMode == PATH_BACKWARD) || (_pathMode == PATH_LOOP_BACKWARD)) {
-	// 		_pathNodeIndex = path.nodes.size-1;
-	// 		_pathInc = -1;
-	// 	} else {
-	// 		_pathNodeIndex = 0;
-	// 		_pathInc = 1;
-	// 	}
-	// }
+		//get starting node
+		if((_pathMode == PATH_BACKWARD) || (_pathMode == PATH_LOOP_BACKWARD)) {
+			_pathNodeIndex = path.nodes.length - 1;
+			_pathInc = -1;
+		} else {
+			_pathNodeIndex = 0;
+			_pathInc = 1;
+		}
+	}
 	
-	// /**
-	//  * Call this method to give this object a path to follow.
-	//  * If the path does not have at least one node in it, this method
-	//  * will log a warning message and return.
-	//  * 
-	//  * @param	Path		The <code>SpiPath</code> you want this object to follow.
-	//  * @param	Speed		How fast to travel along the path in pixels per second.
-	//  * @param	Mode		Optional, controls the behavior of the object following the path using the path behavior constants.  Can use multiple flags at once, for example PATH_YOYO|PATH_HORIZONTAL_ONLY will make an object move back and forth along the X axis of the path only.
-	//  */
-	// public void followPath(SpiPath Path, float Speed, int Mode)
-	// {
-	// 	followPath(Path, Speed, Mode, false);
-	// }
-	
-	// /**
-	//  * Call this method to give this object a path to follow.
-	//  * If the path does not have at least one node in it, this method
-	//  * will log a warning message and return.
-	//  * 
-	//  * @param	Path		The <code>SpiPath</code> you want this object to follow.
-	//  * @param	Speed		How fast to travel along the path in pixels per second.
-	//  */
-	// public void followPath(SpiPath Path, float Speed)
-	// {
-	// 	followPath(Path, Speed, PATH_FORWARD, false);
-	// }
-	
-	// /**
-	//  * Call this method to give this object a path to follow.
-	//  * If the path does not have at least one node in it, this method
-	//  * will log a warning message and return.
-	//  * 
-	//  * @param	Path		The <code>SpiPath</code> you want this object to follow.
-	//  */
-	// public void followPath(SpiPath Path)
-	// {
-	// 	followPath(Path, 100, PATH_FORWARD, false);
-	// }
-	
-	// /**
-	//  * Tells this object to stop following the path its on.
-	//  * 
-	//  * @param	DestroyPath		Tells this method whether to call destroy on the path object.  Default value is false.
-	//  */
-	// public void stopFollowingPath(boolean DestroyPath)
-	// {
-	// 	pathSpeed = 0;
-	// 	velocity.x = 0;
-	// 	velocity.y = 0;
+	/**
+	 * Tells this object to stop following the path its on.
+	 * 
+	 * @param	DestroyPath		Tells this method whether to call destroy on the path object.  Default value is false.
+	 */
+	public function stopFollowingPath(DestroyPath:Bool = false):Void
+	{
+		pathSpeed = 0;
+		velocity.x = 0;
+		velocity.y = 0;
 
-	// 	if(DestroyPath && (path != null)) {
-	// 		path.destroy();
-	// 		path = null;
-	// 	}
-	// }
-	
-	// /**
-	//  * Tells this object to stop following the path its on. 
-	//  */
-	// public void stopFollowingPath()
-	// {
-	// 	stopFollowingPath(false);
-	// }
-		
-	// /**
-	//  * Internal method that decides what node in the path to aim for next based on the behavior flags.
-	//  * 
-	//  * @param Snap		True if you want to update the X or Y positions for PATH_VERTICAL_ONLY and PATH_HORIZONTAL_ONLY, false otherwise.
-	//  * @return			The node (a <code>SpiPoint</code> object) we are aiming for next.
-	//  */
-	// private SpiPoint advancePath(boolean Snap)
-	// {
-	// 	if(Snap) {
-	// 		SpiPoint oldNode = path.nodes.get(_pathNodeIndex);
-	// 		if(oldNode != null) {
-	// 			if((_pathMode & PATH_VERTICAL_ONLY) == 0)
-	// 				x = oldNode.x - width * 0.5f;
-	// 			if((_pathMode & PATH_HORIZONTAL_ONLY) == 0)
-	// 				y = oldNode.y - height * 0.5f;
-	// 		}
-	// 	}
-		
-	// 	_pathNodeIndex += _pathInc;
-		
-	// 	if((_pathMode & PATH_BACKWARD) > 0) {
-	// 		if(_pathNodeIndex < 0) {
-	// 			_pathNodeIndex = 0;
-	// 			stopFollowingPath(false);
-	// 		}
-	// 	} else if((_pathMode & PATH_LOOP_FORWARD) > 0) {
-	// 		if(_pathNodeIndex >= path.nodes.size)
-	// 			_pathNodeIndex = 0;
-	// 	} else if((_pathMode & PATH_LOOP_BACKWARD) > 0) {
-	// 		if(_pathNodeIndex < 0) {
-	// 			_pathNodeIndex = path.nodes.size - 1;
-	// 			if(_pathNodeIndex < 0)
-	// 				_pathNodeIndex = 0;
-	// 		}
-	// 	} else if((_pathMode & PATH_YOYO) > 0) {
-	// 		if(_pathInc > 0) {
-	// 			if(_pathNodeIndex >= path.nodes.size) {
-	// 				_pathNodeIndex = path.nodes.size - 2;
-	// 				if(_pathNodeIndex < 0)
-	// 					_pathNodeIndex = 0;
-	// 				_pathInc = -_pathInc;
-	// 			}
-	// 		} else if(_pathNodeIndex < 0) {
-	// 			_pathNodeIndex = 1;
-	// 			if(_pathNodeIndex >= path.nodes.size)
-	// 				_pathNodeIndex = path.nodes.size - 1;
-	// 			if(_pathNodeIndex < 0)
-	// 				_pathNodeIndex = 0;
-	// 			_pathInc = -_pathInc;
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		if(_pathNodeIndex >= path.nodes.size) {
-	// 			_pathNodeIndex = path.nodes.size - 1;
-	// 			stopFollowingPath(false);
-	// 		}
-	// 	}
+		if(DestroyPath && (path != null)) {
+			path.destroy();
+			path = null;
+		}
+	}
 
-	// 	return path.nodes.get(_pathNodeIndex);
-	// }
-	
-	// /**
-	//  * Internal method that decides what node in the path to aim for next based on the behavior flags.
-	//  * 
-	//  * @return	The node (a <code>SpiPoint</code> object) we are aiming for next.
-	//  */
-	// private SpiPoint advancePath()
-	// {
-	// 	return advancePath(true);
-	// }
-	
-	// /**
-	//  * Internal method for moving the object along the path.
-	//  * Generally this method is called automatically by <code>preUpdate()</code>.
-	//  * The first half of the method decides if the object can advance to the next node in the path,
-	//  * while the second half handles actually picking a velocity toward the next node.
-	//  */
-	// private void updatePathMotion()
-	// {
-	// 	// First check if we need to be pointing at the next node yet
-	// 	_point.x = x + width * 0.5f;
-	// 	_point.y = y + height * 0.5f;
-	// 	SpiPoint node = path.nodes.get(_pathNodeIndex);
-	// 	float deltaX = node.x - _point.x;
-	// 	float deltaY = node.y - _point.y;
+	/**
+	 * Internal method that decides what node in the path to aim for next based on the behavior flags.
+	 * 
+	 * @param Snap		True if you want to update the X or Y positions for PATH_VERTICAL_ONLY and PATH_HORIZONTAL_ONLY, false otherwise.
+	 * @return			The node (a <code>SpiPoint</code> object) we are aiming for next.
+	 */
+	private function advancePath(Snap:Bool = true):SpiPoint
+	{
+		if(Snap) {
+			var oldNode:SpiPoint = path.nodes[_pathNodeIndex];
+			if(oldNode != null) {
+				if((_pathMode & PATH_VERTICAL_ONLY) == 0)
+					x = oldNode.x - width * 0.5;
+				if((_pathMode & PATH_HORIZONTAL_ONLY) == 0)
+					y = oldNode.y - height * 0.5;
+			}
+		}
 		
-	// 	boolean horizontalOnly = (_pathMode & PATH_HORIZONTAL_ONLY) > 0;
-	// 	boolean verticalOnly = (_pathMode & PATH_VERTICAL_ONLY) > 0;
+		_pathNodeIndex += _pathInc;
 		
-	// 	if(horizontalOnly) {
-	// 		if(((deltaX>0)?deltaX:-deltaX) < pathSpeed * SpiG.elapsed)
-	// 			node = advancePath();
-	// 	} else if(verticalOnly) {
-	// 		if(((deltaY>0)?deltaY:-deltaY) < pathSpeed * SpiG.elapsed)
-	// 			node = advancePath();
-	// 	} else {
-	// 		if(Math.sqrt(deltaX*deltaX + deltaY*deltaY) < pathSpeed * SpiG.elapsed)
-	// 			node = advancePath();
-	// 	}
+		if((_pathMode & PATH_BACKWARD) > 0) {
+			if(_pathNodeIndex < 0) {
+				_pathNodeIndex = 0;
+				stopFollowingPath(false);
+			}
+		} else if((_pathMode & PATH_LOOP_FORWARD) > 0) {
+			if(_pathNodeIndex >= path.nodes.length)
+				_pathNodeIndex = 0;
+		} else if((_pathMode & PATH_LOOP_BACKWARD) > 0) {
+			if(_pathNodeIndex < 0) {
+				_pathNodeIndex = path.nodes.length - 1;
+				if(_pathNodeIndex < 0)
+					_pathNodeIndex = 0;
+			}
+		} else if((_pathMode & PATH_YOYO) > 0) {
+			if(_pathInc > 0) {
+				if(_pathNodeIndex >= path.nodes.length) {
+					_pathNodeIndex = path.nodes.length - 2;
+					if(_pathNodeIndex < 0)
+						_pathNodeIndex = 0;
+					_pathInc = -_pathInc;
+				}
+			} else if(_pathNodeIndex < 0) {
+				_pathNodeIndex = 1;
+				if(_pathNodeIndex >= path.nodes.length)
+					_pathNodeIndex = path.nodes.length - 1;
+				if(_pathNodeIndex < 0)
+					_pathNodeIndex = 0;
+				_pathInc = -_pathInc;
+			}
+		}
+		else
+		{
+			if(_pathNodeIndex >= path.nodes.length) {
+				_pathNodeIndex = path.nodes.length - 1;
+				stopFollowingPath(false);
+			}
+		}
+
+		return path.nodes[_pathNodeIndex];
+	}
+
+	/**
+	 * Internal method for moving the object along the path.
+	 * Generally this method is called automatically by <code>preUpdate()</code>.
+	 * The first half of the method decides if the object can advance to the next node in the path,
+	 * while the second half handles actually picking a velocity toward the next node.
+	 */
+	private function updatePathMotion():Void
+	{
+		// First check if we need to be pointing at the next node yet
+		_point.x = x + width * 0.5;
+		_point.y = y + height * 0.5;
+		var node:SpiPoint = path.nodes[_pathNodeIndex];
+		var deltaX:Float = node.x - _point.x;
+		var deltaY:Float = node.y - _point.y;
 		
-	// 	// Then just move toward the current node at the requested speed
-	// 	if(pathSpeed != 0)
-	// 	{
-	// 		// Set velocity based on path mode
-	// 		_point.x = x + width * 0.5f;
-	// 		_point.y = y + height * 0.5f;
-	// 		if(horizontalOnly || (_point.y == node.y))
-	// 		{
-	// 			velocity.x = (_point.x < node.x) ? pathSpeed : -pathSpeed;
-	// 			if(velocity.x < 0)
-	// 				pathAngle = -90;
-	// 			else
-	// 				pathAngle = 90;
-	// 			if(!horizontalOnly)
-	// 				velocity.y = 0;
-	// 		}
-	// 		else if(verticalOnly || (_point.x == node.x))
-	// 		{
-	// 			velocity.y = (_point.y < node.y) ? pathSpeed : -pathSpeed;
-	// 			if(velocity.y < 0)
-	// 				pathAngle = 0;
-	// 			else
-	// 				pathAngle = 180;
-	// 			if(!verticalOnly)
-	// 				velocity.x = 0;
-	// 		}
-	// 		else
-	// 		{
-	// 			pathAngle = SpiU.getAngle(_point, node);
-	// 			SpiU.rotatePoint(0, (int)pathSpeed, 0, 0, pathAngle, velocity);
-	// 		}
+		var horizontalOnly:Bool = (_pathMode & PATH_HORIZONTAL_ONLY) > 0;
+		var verticalOnly:Bool = (_pathMode & PATH_VERTICAL_ONLY) > 0;
+		
+		if(horizontalOnly) {
+			if(((deltaX > 0) ? deltaX : -deltaX) < pathSpeed * SpiG.elapsed)
+				node = advancePath();
+		} else if(verticalOnly) {
+			if(((deltaY > 0) ? deltaY : -deltaY) < pathSpeed * SpiG.elapsed)
+				node = advancePath();
+		} else {
+			if(Math.sqrt(deltaX * deltaX + deltaY * deltaY) < pathSpeed * SpiG.elapsed)
+				node = advancePath();
+		}
+		
+		// Then just move toward the current node at the requested speed
+		if(pathSpeed != 0)
+		{
+			// Set velocity based on path mode
+			_point.x = x + width * 0.5;
+			_point.y = y + height * 0.5;
+			if(horizontalOnly || (_point.y == node.y))
+			{
+				velocity.x = (_point.x < node.x) ? pathSpeed : -pathSpeed;
+				if(velocity.x < 0)
+					pathAngle = -90;
+				else
+					pathAngle = 90;
+				if(!horizontalOnly)
+					velocity.y = 0;
+			}
+			else if(verticalOnly || (_point.x == node.x))
+			{
+				velocity.y = (_point.y < node.y) ? pathSpeed : -pathSpeed;
+				if(velocity.y < 0)
+					pathAngle = 0;
+				else
+					pathAngle = 180;
+				if(!verticalOnly)
+					velocity.x = 0;
+			}
+			else
+			{
+				pathAngle = SpiU.getAngle(_point, node);
+				SpiU.rotatePoint(0, cast(pathSpeed, Int), 0, 0, pathAngle, velocity);
+			}
 			
-	// 		// Then set object rotation if necessary
-	// 		if(_pathRotate)
-	// 		{
-	// 			angularVelocity = 0;
-	// 			angularAcceleration = 0;
-	// 			angle = pathAngle;
-	// 		}
-	// 	}			
-	// }
+			// Then set object rotation if necessary
+			if(_pathRotate)
+			{
+				angularVelocity = 0;
+				angularAcceleration = 0;
+				angle = pathAngle;
+			}
+		}			
+	}
 
-	// /**
-	//  * Update your current speed in order to seek an object.
-	//  */
-	// private void updateSeekMotion()
-	// {
-	// 	_point.x = (_seeked.x + (int)(_seeked.width/2)) - (x + (int)(width/2));
-	// 	_point.y = (_seeked.y + (int)(_seeked.height/2)) - (x + (int)(height/2));
-	// 	SpiMath.normalize(_point);
-	// 	SpiMath.multiply(_point, maxVelocity);
-	// 	SpiMath.subtract(_point, velocity);
-	// 	SpiMath.add(steerForce, _point);
-	// 	SpiMath.add(velocity, steerForce);
-	// }
+	/**
+	 * Update your current speed in order to seek an object.
+	 */
+	private function updateSeekMotion():Void
+	{
+		_point.x = (_seeked.x + cast(_seeked.width / 2, Int) - (x + cast(width / 2, Int)));
+		_point.y = (_seeked.y + cast(_seeked.height / 2, Int) - (x + cast(height / 2, Int)));
+		SpiMath.normalize(_point);
+		SpiMath.multiply(_point, maxVelocity);
+		SpiMath.subtract(_point, velocity);
+		SpiMath.add(steerForce, _point);
+		SpiMath.add(velocity, steerForce);
+	}
 
-	// /**
-	//  * Start seeking an object
-	//  */
-	// public void seek(SpiObject o)
-	// {
-	// 	_seeked = o;
-	// }
+	/**
+	 * Start seeking an object
+	 */
+	public function seek(o:SpiObject):Void
+	{
+		_seeked = o;
+	}
 
-	// /**
-	//  * Stop seeking an object.
-	//  */
-	// public void stopSeek()
-	// {
-	// 	_seeked = null;
-	// }
+	/**
+	 * Stop seeking an object.
+	 */
+	public function stopSeek():Void
+	{
+		_seeked = null;
+	}
 	
-	// /**
-	//  * Override this method if you want to store something before the separate method.
-	//  * 
-	//  * @param otherObject	The object we are colliding with!
-	//  */
-	// private void preCollision(SpiObject otherObject)
-	// {
-	// 	// Nothing to do here
-	// }
+	/**
+	 * Override this method if you want to store something before the separate method.
+	 * 
+	 * @param otherObject	The object we are colliding with!
+	 */
+	private function preCollision(otherObject:SpiObject):Void
+	{
+		// Nothing to do here
+	}
 	
-	// /**
-	//  * Override this method if you want to store something before the separate method.<br>
-	//  * You can check the <b>_lastTouching</b> value to get the collision info.
-	//  * 
-	//  * @param otherObject	The object we are colliding with!
-	//  * @param separatedX	Whether the objects in fact touched and were separated along the X axis.
-	//  * @param separatedY	Whether the objects in fact touched and were separated along the Y axis.
-	//  */
-	// private void postCollision(SpiObject otherObject, boolean separatedX, boolean separatedY)
-	// {
-	// 	// Nothing to do here
-	// }
+	/**
+	 * Override this method if you want to store something before the separate method.<br>
+	 * You can check the <b>_lastTouching</b> value to get the collision info.
+	 * 
+	 * @param otherObject	The object we are colliding with!
+	 * @param separatedX	Whether the objects in fact touched and were separated along the X axis.
+	 * @param separatedY	Whether the objects in fact touched and were separated along the Y axis.
+	 */
+	private function postCollision(otherObject:SpiObject, separatedX:Bool, separatedY:Bool):Void
+	{
+		// Nothing to do here
+	}
 
 	// /**
 	//  * Checks to see if some <code>SpiObject</code> overlaps this <code>SpiObject</code> or <code>SpiGroup</code>.
@@ -873,7 +776,7 @@ class SpiObject extends SpiBasic
 	// 		SpiBasic basic = null;
 	// 		int i = 0;
 	// 		Array<SpiBasic> members = ((SpiGroup)ObjectOrGroup).members;
-	// 		int length = ((SpiGroup)ObjectOrGroup).size();
+	// 		int length = ((SpiGroup)ObjectOrGroup).length();
 	// 		while(i < length)
 	// 		{
 	// 			basic = members.get(i++);
@@ -962,7 +865,7 @@ class SpiObject extends SpiBasic
 	// 		SpiBasic basic = null;
 	// 		int i = 0;
 	// 		Array<SpiBasic> members = ((SpiGroup)ObjectOrGroup).members;
-	// 		int length = ((SpiGroup)ObjectOrGroup).size();
+	// 		int length = ((SpiGroup)ObjectOrGroup).length();
 	// 		while(i < length)
 	// 		{
 	// 			basic = members.get(i++);

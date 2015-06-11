@@ -22141,11 +22141,301 @@
 	</class>
 	<class path="spiller.SpiObject" params="" file="Libs/spiller/SpiObject.hx">
 		<extends path="spiller.SpiBasic"/>
+		<LEFT public="1" get="inline" set="null" line="30" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Generic value for "left" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.]]></haxe_doc>
+		</LEFT>
+		<RIGHT public="1" get="inline" set="null" line="34" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Generic value for "right" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.]]></haxe_doc>
+		</RIGHT>
+		<UP public="1" get="inline" set="null" line="38" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Generic value for "up" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.]]></haxe_doc>
+		</UP>
+		<DOWN public="1" get="inline" set="null" line="42" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Generic value for "down" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.]]></haxe_doc>
+		</DOWN>
+		<NONE public="1" get="inline" set="null" line="46" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Special-case const meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.]]></haxe_doc>
+		</NONE>
+		<CEILING public="1" get="inline" set="null" line="50" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Special-case const meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.]]></haxe_doc>
+		</CEILING>
+		<FLOOR public="1" get="inline" set="null" line="54" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Special-case const meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.]]></haxe_doc>
+		</FLOOR>
+		<WALL public="1" get="inline" set="null" line="58" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Special-case const meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.]]></haxe_doc>
+		</WALL>
+		<ANY public="1" get="inline" set="null" line="62" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Special-case const meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.]]></haxe_doc>
+		</ANY>
+		<OVERLAP_BIAS public="1" line="69" static="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* The number of pixels the overlap can have before it won't count.<br>
+	 * Default value is 4, should be enough for normal games 16x16 or so<br>
+	 * for bigger game you may need to increase this to avoid entering on the map.<br>
+	 * (Used in <code>separateX()</code> and <code>separateY()</code>).]]></haxe_doc>
+		</OVERLAP_BIAS>
+		<PREVENT_OVERLAP public="1" line="74" static="1">
+			<x path="Bool"/>
+			<haxe_doc><![CDATA[* If we want to prevent overlapping of colliding objects.<br>
+	 * This is useful to prevent that one objects move inside another a few pixels.]]></haxe_doc>
+		</PREVENT_OVERLAP>
+		<PATH_FORWARD public="1" get="inline" set="null" line="78" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Path behavior controls: move from the start of the path to the end then stop.</haxe_doc>
+		</PATH_FORWARD>
+		<PATH_BACKWARD public="1" get="inline" set="null" line="82" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Path behavior controls: move from the end of the path to the start then stop.</haxe_doc>
+		</PATH_BACKWARD>
+		<PATH_LOOP_FORWARD public="1" get="inline" set="null" line="86" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Path behavior controls: move from the start of the path to the end then directly back to the start, and start over.</haxe_doc>
+		</PATH_LOOP_FORWARD>
+		<PATH_LOOP_BACKWARD public="1" get="inline" set="null" line="90" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Path behavior controls: move from the end of the path to the start then directly back to the end, and start over.</haxe_doc>
+		</PATH_LOOP_BACKWARD>
+		<PATH_YOYO public="1" get="inline" set="null" line="94" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Path behavior controls: move from the start of the path to the end then turn around and go back to the start, over and over.</haxe_doc>
+		</PATH_YOYO>
+		<PATH_HORIZONTAL_ONLY public="1" get="inline" set="null" line="98" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Path behavior controls: ignores any vertical component to the path data, only follows side to side.</haxe_doc>
+		</PATH_HORIZONTAL_ONLY>
+		<PATH_VERTICAL_ONLY public="1" get="inline" set="null" line="102" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Path behavior controls: ignores any horizontal component to the path data, only follows up and down.</haxe_doc>
+		</PATH_VERTICAL_ONLY>
 		<_pZero set="null" line="189" static="1">
 			<c path="spiller.math.SpiPoint"/>
 			<haxe_doc><![CDATA[* Should always represent (0,0) - useful for different things, for avoiding unnecessary <code>new</code> calls.]]></haxe_doc>
 		</_pZero>
-		<new public="1" set="method" line="25"><f a=""><x path="Void"/></f></new>
+		<x public="1">
+			<x path="Float"/>
+			<haxe_doc>* X position of the upper left corner of this object in world space.</haxe_doc>
+		</x>
+		<y public="1">
+			<x path="Float"/>
+			<haxe_doc>* Y position of the upper left corner of this object in world space.</haxe_doc>
+		</y>
+		<width public="1">
+			<x path="Float"/>
+			<haxe_doc>* The width of this object.</haxe_doc>
+		</width>
+		<height public="1">
+			<x path="Float"/>
+			<haxe_doc>* The height of this object.</haxe_doc>
+		</height>
+		<immovable public="1">
+			<x path="Bool"/>
+			<haxe_doc>* Whether an object will move/alter position after a collision.</haxe_doc>
+		</immovable>
+		<immovableX public="1">
+			<x path="Bool"/>
+			<haxe_doc>* Whether an object will move/alter position after a collision in the X.</haxe_doc>
+		</immovableX>
+		<immovableY public="1">
+			<x path="Bool"/>
+			<haxe_doc>* Whether an object will move/alter position after a collision in the Y axis.</haxe_doc>
+		</immovableY>
+		<velocity public="1">
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc>* The basic speed of this object.</haxe_doc>
+		</velocity>
+		<mass public="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* The virtual mass of the object. Default value is 1.
+	 * Currently only used with <code>elasticity</code> during collision resolution.
+	 * Change at your own risk; effects seem crazy unpredictable so far!]]></haxe_doc>
+		</mass>
+		<elasticity public="1">
+			<x path="Float"/>
+			<haxe_doc>* The bounciness of this object.  Only affects collisions.  Default value is 0, or "not bouncy at all."</haxe_doc>
+		</elasticity>
+		<acceleration public="1">
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc>* How fast the speed of this object is changing.
+	 * Useful for smooth movement and gravity.</haxe_doc>
+		</acceleration>
+		<drag public="1">
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc>* This isn't drag exactly, more like deceleration that is only applied
+	 * when acceleration is not affecting the sprite.</haxe_doc>
+		</drag>
+		<maxVelocity public="1">
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc><![CDATA[* If you are using <code>acceleration</code>, you can use <code>maxVelocity</code> with it
+	 * to cap the speed automatically (very useful!).]]></haxe_doc>
+		</maxVelocity>
+		<angle public="1">
+			<x path="Float"/>
+			<haxe_doc>* Set the angle of a sprite to rotate it.
+	 * WARNING: rotating sprites decreases rendering
+	 * performance for this sprite by a factor of 10x!</haxe_doc>
+		</angle>
+		<angularVelocity public="1">
+			<x path="Float"/>
+			<haxe_doc>* This is how fast you want this sprite to spin.</haxe_doc>
+		</angularVelocity>
+		<angularAcceleration public="1">
+			<x path="Float"/>
+			<haxe_doc>* How fast the spin speed should change.</haxe_doc>
+		</angularAcceleration>
+		<angularDrag public="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* Like <code>drag</code> but for spinning.]]></haxe_doc>
+		</angularDrag>
+		<maxAngular public="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* Use in conjunction with <code>angularAcceleration</code> for fluid spin speed control.]]></haxe_doc>
+		</maxAngular>
+		<scrollFactor public="1">
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc>* A point that can store numbers from 0 to 1 (for X and Y independently)
+	 * that governs how much this object is affected by the camera subsystem.
+	 * 0 means it never moves, like a HUD element or far background graphic.
+	 * 1 means it scrolls along a the same speed as the foreground layer.
+	 * scrollFactor is initialized as (1,1) by default.</haxe_doc>
+		</scrollFactor>
+		<_flicker>
+			<x path="Bool"/>
+			<haxe_doc>* Internal helper used for retro-style flickering.</haxe_doc>
+		</_flicker>
+		<_flickerTimer>
+			<x path="Float"/>
+			<haxe_doc>* Internal helper used for retro-style flickering.</haxe_doc>
+		</_flickerTimer>
+		<health public="1">
+			<x path="Float"/>
+			<haxe_doc>* Handy for storing health percentage or armor points or whatever.</haxe_doc>
+		</health>
+		<_point>
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc>* This is just a pre-allocated x-y point container to be used however you like</haxe_doc>
+		</_point>
+		<_rect>
+			<c path="spiller.math.SpiRect"/>
+			<haxe_doc>* This is just a pre-allocated rectangle container to be used however you like</haxe_doc>
+		</_rect>
+		<moves public="1">
+			<x path="Bool"/>
+			<haxe_doc><![CDATA[* Set this to false if you want to skip the automatic motion/movement stuff (see <code>updateMotion()</code>).
+	 * SpiObject and SpiSprite default to true.
+	 * SpiText, SpiTileblock and SpiTilemap default to false.]]></haxe_doc>
+		</moves>
+		<touching public="1">
+			<x path="Int"/>
+			<haxe_doc>* Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.
+	 * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
+	 * You can even use them broadly as boolean values if you're feeling saucy!</haxe_doc>
+		</touching>
+		<wasTouching public="1">
+			<x path="Int"/>
+			<haxe_doc>* Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.
+	 * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
+	 * You can even use them broadly as boolean values if you're feeling saucy!</haxe_doc>
+		</wasTouching>
+		<allowCollisions public="1">
+			<x path="Int"/>
+			<haxe_doc>* Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.
+	 * Use bitwise operators to check the values stored here.
+	 * Useful for things like one-way platforms (e.g. allowCollisions = UP;)
+	 * The accessor "solid" just flips this variable between NONE and ANY.</haxe_doc>
+		</allowCollisions>
+		<last public="1">
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc><![CDATA[* Important variable for collision processing.
+	 * By default this value is set automatically during <code>preUpdate()</code>.]]></haxe_doc>
+		</last>
+		<path public="1">
+			<c path="spiller.util.SpiPath"/>
+			<haxe_doc><![CDATA[* A reference to a path object.  Null by default, assigned by <code>followPath()</code>.]]></haxe_doc>
+		</path>
+		<pathSpeed public="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* The speed at which the object is moving on the path.
+	 * When an object completes a non-looping path circuit,
+	 * the pathSpeed will be zeroed out, but the <code>path</code> reference
+	 * will NOT be nulled out.  So <code>pathSpeed</code> is a good way
+	 * to check if this object is currently following a path or not.]]></haxe_doc>
+		</pathSpeed>
+		<pathAngle public="1">
+			<x path="Float"/>
+			<haxe_doc>* The angle in degrees between this object and the next node, where 0 is directly upward, and 90 is to the right.</haxe_doc>
+		</pathAngle>
+		<_pathNodeIndex>
+			<x path="Int"/>
+			<haxe_doc>* Internal helper, tracks which node of the path this object is moving toward.</haxe_doc>
+		</_pathNodeIndex>
+		<_pathMode>
+			<x path="Int"/>
+			<haxe_doc>* Internal tracker for path behavior flags (like looping, horizontal only, etc).</haxe_doc>
+		</_pathMode>
+		<_pathInc>
+			<x path="Int"/>
+			<haxe_doc>* Internal helper for node navigation, specifically yo-yo and backwards movement.</haxe_doc>
+		</_pathInc>
+		<_pathRotate>
+			<x path="Bool"/>
+			<haxe_doc>* Internal flag for whether the object's angle should be adjusted to the path angle during path follow behavior.</haxe_doc>
+		</_pathRotate>
+		<_seeked>
+			<c path="spiller.SpiObject"/>
+			<haxe_doc>* The object you are seeking.</haxe_doc>
+		</_seeked>
+		<steerForce>
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc>* The force of the seeker.</haxe_doc>
+		</steerForce>
+		<categoryBits public="1">
+			<x path="Int"/>
+			<haxe_doc>* The collision categoryBits.</haxe_doc>
+		</categoryBits>
+		<maskBits public="1">
+			<x path="Int"/>
+			<haxe_doc>* The collision maskBits.</haxe_doc>
+		</maskBits>
+		<groupIndex public="1">
+			<x path="Int"/>
+			<haxe_doc>* The ground index for collisions.</haxe_doc>
+		</groupIndex>
+		<_lastTouching>
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* The information about the last collision.<br>
+	 * You can use it on the postCollision method.]]></haxe_doc>
+		</_lastTouching>
+		<destroy public="1" set="method" line="368" override="1">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Override this method to null out variables or
+	 * manually call destroy() on class members if necessary.
+	 * Don't forget to call super.destroy()!</haxe_doc>
+		</destroy>
+		<new public="1" set="method" line="314">
+			<f a="?X:?Y:?Width:?Height">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Instantiates a <code>SpiObject</code>.
+	 * 
+	 * @param	X		The X-coordinate of the point in space.
+	 * @param	Y		The Y-coordinate of the point in space.
+	 * @param	Width	Desired width of the rectangle.
+	 * @param	Height	Desired height of the rectangle.]]></haxe_doc>
+		</new>
 		<haxe_doc><![CDATA[* This is the base class for most of the display objects<br>
  * (<code>SpiSprite</code>, <code>SpiText</code>, etc).<br>
  * It includes some basic attributes about game objects,<br>
@@ -24197,6 +24487,202 @@
 	<color2><x path="spiller.util.SpiColor"/></color2>
 	<color1><x path="spiller.util.SpiColor"/></color1>
 </a></typedef>
+	<class path="spiller.util.SpiDestroyUtil" params="" file="Libs/spiller/util/SpiDestroyUtil.hx">
+		<destroy public="1" params="T" set="method" line="21" static="1">
+			<f a="object">
+				<c path="destroy.T"/>
+				<c path="destroy.T"/>
+			</f>
+			<haxe_doc>* Checks if an object is not null before calling destroy(), always returns null.
+	 * 
+	 * @param	object	An ISpiDestroyable object that will be destroyed if it's not null.</haxe_doc>
+		</destroy>
+		<destroyArray public="1" params="T" set="method" line="35" static="1">
+			<f a="array">
+				<c path="Array"><c path="destroyArray.T"/></c>
+				<c path="Array"><c path="destroyArray.T"/></c>
+			</f>
+			<haxe_doc>* Destroy every element of an array of ISpiDestroyables
+	 *
+	 * @param	array	An Array of ISpiDestroyable objects</haxe_doc>
+		</destroyArray>
+		<put public="1" params="T" set="method" line="51" static="1">
+			<f a="object">
+				<c path="put.T"/>
+				<c path="put.T"/>
+			</f>
+			<haxe_doc>* Checks if an object is not null before putting it back into the pool, always returns null.
+	 * 
+	 * @param	object	An ISpiPoolable object that will be put back into the pool if it's not null</haxe_doc>
+		</put>
+		<putArray public="1" params="T" set="method" line="67" static="1">
+			<f a="array">
+				<c path="Array"><c path="putArray.T"/></c>
+				<c path="Array"><c path="putArray.T"/></c>
+			</f>
+			<haxe_doc>* Puts all objects in an Array of ISpiPoolable objects back into 
+	 * the pool by calling SpiDestroyUtil.put() on them
+	 *
+	 * @param	array	An Array of ISpiPoolable objects
+	 * @return	null</haxe_doc>
+		</putArray>
+		<haxe_doc><![CDATA[* Handy manager for pooling and destroying objects.
+ * 
+ * v1.0 Initial version<br>
+ * <br>
+ * @version 1.0 - 18/04/2015
+ * @author ratalaika / ratalaikaGames]]></haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="spiller.util.SpiPath" params="" file="Libs/spiller/util/SpiPath.hx">
+		<nodes public="1">
+			<c path="Array"><c path="spiller.math.SpiPoint"/></c>
+			<haxe_doc><![CDATA[* The list of <code>SpiPoint</code>s that make up the path data.]]></haxe_doc>
+		</nodes>
+		<debugColor public="1">
+			<x path="Int"/>
+			<haxe_doc>* Specify a debug display color for the path.  Default is white.</haxe_doc>
+		</debugColor>
+		<debugScrollFactor public="1">
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc>* Specify a debug display scroll factor for the path.  Default is (1,1).
+	 * NOTE: does not affect world movement!  Object scroll factors take care of that.</haxe_doc>
+		</debugScrollFactor>
+		<ignoreDrawDebug public="1">
+			<x path="Bool"/>
+			<haxe_doc>* Setting this to true will prevent the object from appearing
+	 * when the visual debug mode in the debugger overlay is toggled on.
+	 * @default false</haxe_doc>
+		</ignoreDrawDebug>
+		<_point>
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc>* Internal helper for keeping new variable instantiations under control.</haxe_doc>
+		</_point>
+		<destroy public="1" set="method" line="72">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Clean up memory.</haxe_doc>
+		</destroy>
+		<add public="1" set="method" line="92">
+			<f a="X:Y">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Add a new node to the end of the path at the specified location.
+	 * 
+	 * @param	X	X position of the new path point in world coordinates.
+	 * @param	Y	Y position of the new path point in world coordinates.</haxe_doc>
+		</add>
+		<addAt public="1" set="method" line="104">
+			<f a="X:Y:Index">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Add a new node to the path at the specified location and index within the path.
+	 * 
+	 * @param	X		X position of the new path point in world coordinates.
+	 * @param	Y		Y position of the new path point in world coordinates.
+	 * @param	Index	Where within the list of path nodes to insert this new point.</haxe_doc>
+		</addAt>
+		<addPoint public="1" set="method" line="119">
+			<f a="Node:?AsReference">
+				<c path="spiller.math.SpiPoint"/>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Sometimes its easier or faster to just pass a point object instead of separate X and Y coordinates.
+	 * This also gives you the option of not creating a new node but actually adding that specific
+	 * <code>SpiPoint</code> object to the path.  This allows you to do neat things, like dynamic paths.
+	 * 
+	 * @param	Node			The point in world coordinates you want to add to the path.
+	 * @param	AsReference		Whether to add the point as a reference, or to create a new point with the specified values.]]></haxe_doc>
+		</addPoint>
+		<addPointAt public="1" set="method" line="136">
+			<f a="Node:Index:?AsReference">
+				<c path="spiller.math.SpiPoint"/>
+				<x path="Int"/>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Sometimes its easier or faster to just pass a point object instead of separate X and Y coordinates.
+	 * This also gives you the option of not creating a new node but actually adding that specific
+	 * <code>SpiPoint</code> object to the path.  This allows you to do neat things, like dynamic paths.
+	 * 
+	 * @param	Node			The point in world coordinates you want to add to the path.
+	 * @param	Index			Where within the list of path nodes to insert this new point.
+	 * @param	AsReference		Whether to add the point as a reference, or to create a new point with the specified values.]]></haxe_doc>
+		</addPointAt>
+		<remove public="1" set="method" line="154">
+			<f a="Node">
+				<c path="spiller.math.SpiPoint"/>
+				<c path="spiller.math.SpiPoint"/>
+			</f>
+			<haxe_doc><![CDATA[* Remove a node from the path.
+	 * NOTE: only works with points added by reference or with references from <code>nodes</code> itself!
+	 * 
+	 * @param	Node	The point object you want to remove from the path.
+	 * 
+	 * @return	The node that was excised.  Returns null if the node was not found.]]></haxe_doc>
+		</remove>
+		<removeAt public="1" set="method" line="170">
+			<f a="Index">
+				<x path="Int"/>
+				<c path="spiller.math.SpiPoint"/>
+			</f>
+			<haxe_doc>* Remove a node from the path using the specified position in the list of path nodes.
+	 * 
+	 * @param	Index	Where within the list of path nodes you want to remove a node.
+	 * 
+	 * @return	The node that was excised.  Returns null if there were no nodes in the path.</haxe_doc>
+		</removeAt>
+		<head public="1" set="method" line="184">
+			<f a=""><c path="spiller.math.SpiPoint"/></f>
+			<haxe_doc>* Get the first node in the list.
+	 * 
+	 * @return	The first node in the path.</haxe_doc>
+		</head>
+		<tail public="1" set="method" line="196">
+			<f a=""><c path="spiller.math.SpiPoint"/></f>
+			<haxe_doc>* Get the last node in the list.
+	 * 
+	 * @return	The last node in the path.</haxe_doc>
+		</tail>
+		<drawDebug public="1" set="method" line="211">
+			<f a="?Camera">
+				<c path="spiller.SpiCamera"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* While this doesn't override <code>SpiBasic.drawDebug()</code>, the behavior is very similar.
+	 * Based on this path data, it draws a simple lines-and-boxes representation of the path
+	 * if the visual debug mode was toggled in the debugger overlay.  You can use <code>debugColor</code>
+	 * and <code>debugScrollFactor</code> to control the path's appearance.
+	 * 
+	 * @param	Camera		The camera object the path will draw to.]]></haxe_doc>
+		</drawDebug>
+		<new public="1" set="method" line="53">
+			<f a="?Nodes">
+				<c path="Array"><c path="spiller.math.SpiPoint"/></c>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Instantiate a new path object.
+	 * 
+	 * @param	Nodes	Optional, can specify all the points for the path up front if you want.</haxe_doc>
+		</new>
+		<haxe_doc><![CDATA[* This is a simple path data container.  Basically a list of points that<br>
+ * a <code>SpiObject</code> can follow.  Also has code for drawing debug visuals.<br>
+ * <code>SpiTilemap.findPath()</code> returns a path object, but you can<br>
+ * also just make your own, using the <code>add()</code> functions below<br>
+ * or by creating your own array of points.<br>
+ * <br>
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 17/07/2013
+ * @author ratalaika / ratalaikaGames
+ * @author	Thomas Weston
+ * @author	Ka Wing Chin]]></haxe_doc>
+	</class>
 	<class path="spiller.util.SpiStringUtil" params="" file="Libs/spiller/util/SpiStringUtil.hx">
 		<formatTicks public="1" get="inline" set="null" line="26" static="1">
 			<f a="StartTicks:EndTicks">
