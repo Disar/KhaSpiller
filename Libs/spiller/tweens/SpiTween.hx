@@ -1,4 +1,4 @@
-package spiller.plugin.tweens;
+package spiller.tweens;
 
 import spiller.SpiBasic;
 import spiller.SpiG;
@@ -11,7 +11,7 @@ import spiller.util.interfaces.ISpiDestroyable;
  * v1.0 Initial version (?)
  * 
  * @version 1.1 - January 24th 2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  */
 class SpiTween implements ISpiDestroyable
 {

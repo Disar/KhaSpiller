@@ -14,7 +14,7 @@ import spiller.SpiObject;
  * v1.0 Initial version<br>
  * <br>
  * @version 1.2 - 28/03/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Ka Wing Chin
  */
 class SpiPoint implements ISpiPoolable

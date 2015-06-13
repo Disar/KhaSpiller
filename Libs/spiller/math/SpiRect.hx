@@ -8,7 +8,7 @@ import kha.Rectangle;
  * v1.0 Initial version
  * 
  * @version 1.0 - 17/07/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author	Ka Wing Chin
  */
 class SpiRect

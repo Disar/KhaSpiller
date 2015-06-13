@@ -6,7 +6,7 @@ package spiller.util.interfaces;
  * v1.0 Initial version<br>
  * <br>
  * @version 1.0 - 18/04/2015
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  */
 interface ISpiPoolable extends ISpiDestroyable
 {

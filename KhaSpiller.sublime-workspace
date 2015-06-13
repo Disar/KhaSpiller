@@ -4,6 +4,78 @@
 		"selected_items":
 		[
 			[
+				"Spi",
+				"SpiObject	spiller"
+			],
+			[
+				"fr",
+				"frameRateArray	var"
+			],
+			[
+				"fram",
+				"frameRate	Null<Float>"
+			],
+			[
+				"I",
+				"int"
+			],
+			[
+				"Int",
+				"Int64	haxe"
+			],
+			[
+				"pa",
+				"parseInt( x : String )	Null<Int>"
+			],
+			[
+				"form",
+				"formatMoney(...)	String"
+			],
+			[
+				"strig",
+				"string( s : Dynamic )	String"
+			],
+			[
+				"Sp",
+				"SpiRect	class"
+			],
+			[
+				"func",
+				"Function	haxe.macro.Expr"
+			],
+			[
+				"Lba",
+				"LabelValuePairPool"
+			],
+			[
+				"n",
+				"new"
+			],
+			[
+				"LabelV",
+				"LabelValuePair	class"
+			],
+			[
+				"inde",
+				"indexOf"
+			],
+			[
+				"in",
+				"int( x : Float )	Int"
+			],
+			[
+				"Arra",
+				"ArrayExtender	spiller.system.extensions"
+			],
+			[
+				"inter",
+				"interfaces	package"
+			],
+			[
+				"Vec",
+				"Vector2"
+			],
+			[
 				"ma",
 				"math	package"
 			],
@@ -52,23 +124,43 @@
 	"buffers":
 	[
 	],
-	"build_system": "",
+	"build_system": "Packages/Haxe/Support/Hxml.sublime-build",
 	"build_system_choices":
 	[
+		[
+			[
+				[
+					"Packages/Java/Ant.sublime-build",
+					""
+				],
+				[
+					"Packages/Haxe/Support/Hxml.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Haxe/Support/Hxml.sublime-build",
+				""
+			]
+		]
 	],
 	"build_varint": "",
 	"command_palette":
 	{
 		"height": 327.0,
-		"last_filter": "haxe",
+		"last_filter": "Haxe",
 		"selected_items":
 		[
 			[
-				"haxe",
+				"Haxe",
 				"Haxe: Choose Build Target"
 			],
 			[
-				"Haxe",
+				"",
+				"Package Control: Install Package"
+			],
+			[
+				"haxe",
 				"Haxe: Choose Build Target"
 			],
 			[
@@ -151,6 +243,7 @@
 		"height": 125.0,
 		"history":
 		[
+			"haxe build.hxml",
 			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
 		]
 	},
@@ -163,19 +256,156 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/Users/ratalaika/Repositories/KhaSpiller",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/util",
+		"/Users/ratalaika/Repositories/KhaSpiller/Sources"
+	],
 	"file_history":
 	[
-		""
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/SpiGame.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/SpiG.hx",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/SpiEmitter.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/SpiCamera.hx",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/SpiButton.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/SpiBasic.hx",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/util/TweenOptions.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/util/Ease.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/SpiTween.hx",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/sound/SfxFader.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/sound/Fader.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/motion/QuadPath.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/motion/QuadMotion.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/motion/Motion.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/motion/LinearPath.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/motion/LinearMotion.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/motion/CubicMotion.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/motion/CircularMotion.txt",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/motion/CircularMotion.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/misc/VarTween.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/misc/NumTween.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/misc/MultiVarTween.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/misc/ColorTween.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/misc/AngleTween.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tweens/misc/Alarm.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tasks/SpiTaskManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tasks/SpiTask.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tasks/SpiConcurrentTaskManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tasks/SpiConcurrentTask.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/tasks/ISpiTaskAction.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/store/SpiSavePref.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/store/SpiSaveData.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/store/SpiSave.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/store/SpiPreferences.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiWaterManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiVelocity.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiUpdateFPS.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiTimerManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiTimer.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiTextInput.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiStateStack.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiSplashScreen.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiRPGDungeonGenerator.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiRotation.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiRectangleButton.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiPause.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiMazeGenerator.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiLogoPixel.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiLanguagesManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiFullscreenManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiDungeonGenerator.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiDebugPathDisplay.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiCaveGenerator.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiBitmapFontButton.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiBackKeyManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/SpiBackdrop.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/scripts/SpiScriptManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/scripts/SpiScript.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiWeapon.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiSpecialFX.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiScreenGrab.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiLinkedGroup.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiGradient.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiExtendedSprite.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiDisplay.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiDelay.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiControlHandler.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiControl.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiColor.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiCollision.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiButtonPlus.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/SpiBar.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/MouseSpring.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/fx/StarfieldFX.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/fx/BaseFX.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/powertools/Bullet.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/lighting/SpiLightning.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/lighting/SpiLight.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/inapp/SpiReceipt.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/inapp/SpiProduct.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/inapp/SpiInAppManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/inapp/events/OuyaUserRequestEvent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/inapp/events/OuyaReceiptRequestEvent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/inapp/events/OuyaPurchaseEvent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/inapp/events/OuyaProductRequestEvent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/extension/SpiZoomCamera.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/extension/SpiTrail.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/extension/SpiTilemapSlopes.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/extension/SpiTilemapExtended.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/extension/SpiRayCastTilemap.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/extension/SpiHexTilemap.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/extension/SpiEmitterExt.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/consoles/SpiButtonManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/ccontent/SpiModule.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/ccontent/SpiCContent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/ccontent/events/OuyaUnpublishModuleEvent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/ccontent/events/OuyaSearchModuleEvent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/ccontent/events/OuyaSaveModuleEvent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/ccontent/events/OuyaPublishModuleEvent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/ccontent/events/OuyaDownloadModuleEvent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/ccontent/events/OuyaDeleteModuleEvent.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/api/SpiSocialGames.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/api/SpiPNManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/api/SpiMoreGames.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/api/SpiAlertManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/plugin/ads/SpiAdManager.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/math/SpiRect.hx",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/math/SpiPoint.hx",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/math/SpiMath.hx",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/gl/SpiSpriteHelper.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/gl/SpiShaderProgram.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/gl/SpiManagedTextureData.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiVolume.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiTweenEase.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiTween.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiTimer.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiTile.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiSwipeListener.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiShaderProgram.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiReplay.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiObject.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiMatcher.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiFire.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiCollision.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiCamera.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiCall.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiButton.java",
+		"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller/event/ISpiAnim.java"
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
 		"height": 93.0,
 		"where_history":
 		[
+			"/Users/ratalaika/Repositories/KhaSpiller/Libs/spiller",
 			""
 		]
 	},
@@ -184,6 +414,68 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"ratalaikaGames",
+			"flixel",
+			"Flx",
+			"Type ==",
+			"sortHandler",
+			"SpiType = null",
+			"i)",
+			"removeIndex",
+			"members.add",
+			".clear();",
+			"i);",
+			"++);",
+			".get(",
+			"for(int i = 0; i < members.length; i++) {",
+			"members.size",
+			"final String",
+			" =",
+			"final String",
+			" =",
+			"@Override",
+			": ",
+			"com.ratalaika.",
+			"formatScore",
+			"formatEveryThirdPower",
+			"formatTime",
+			".size",
+			"import com.ratalaika.",
+			"pointInSpiRect",
+			"vectorLength",
+			"public boolean",
+			"float ",
+			"public SpiPoint",
+			"@Override",
+			"Bitmap",
+			"Flx",
+			".indexOf",
+			".contains(",
+			".contains",
+			"flixel",
+			"Flixel",
+			"Flx",
+			"round",
+			"SpiMath",
+			"spiller.plugin.SpiMath",
+			"flixel",
+			"Flx",
+			"flixel",
+			"cameras;",
+			"activeCam",
+			"cameras;",
+			"activeCam",
+			"finish",
+			"SpiG",
+			"import com.badlogic.gdx.utils.Array;",
+			"protected",
+			"final int",
+			" =",
+			"public void ",
+			"()",
+			"public class",
+			"protected",
+			"com.ratalaika.",
 			"BitmapData",
 			"Rectangle",
 			"BitmapData",
@@ -249,54 +541,7 @@
 			"Bitmap",
 			"FLX_RENDER_TRIANGLE",
 			"FLX_MOUSE_ADVANCED",
-			"Graphics",
-			"onResize",
-			"Bitmap",
-			"FLX_RENDER_TILE",
-			"FLX_RENDER_CRISP",
-			"FLX_RENDER_TILE",
-			"FLX_RENDER_CRISP",
-			"Bitmap",
-			"getTimer",
-			"update(",
-			"colorTransform",
-			"_colorTransform",
-			"ColorTransform",
-			"DisplayObject",
-			"URLRequest",
-			"Matrix",
-			"URLRequest",
-			"Lib",
-			"BitmapData",
-			"Point",
-			"BitmapData",
-			"resumeAudio",
-			"caja",
-			"arbol",
-			"MenuState",
-			"onm",
-			"foundLaunchpad",
-			"foundLaunch",
-			"set(index",
-			"this.",
-			"onPowerup",
-			"getFrame()",
-			"getFrame()?(this.player",
-			"Flixel.FlxG.getState().spawnPowerup(x, y)",
-			"Flixel.FlxG.getState().spawnPowerup(x,y)",
-			"bombsDec",
-			"Assets.map",
-			"emptyColor",
-			"this.bombbox.",
-			"healthBoxes",
-			"healthBoxesthis",
-			"healthBoxes",
-			"ceil",
-			"ImgFootsteps",
-			"states",
-			"},",
-			"new int[]{",
-			"Spi"
+			"Graphics"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -304,6 +549,49 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Ratalaika Games",
+			"Spi",
+			"SpiType = NONE",
+			"members.push",
+			".splice(0, members.length);",
+			"i];",
+			"++];",
+			"[",
+			"for(i in 0 ... members.length) {",
+			"members.length",
+			"inline var",
+			":String =",
+			"inline var",
+			":String =",
+			"override",
+			"",
+			".length",
+			"import ",
+			"public function",
+			"var ",
+			"public function",
+			"override",
+			"canvas",
+			"Spi",
+			".indexOf(",
+			".indexOf",
+			"spiller",
+			"Spiller",
+			"Spi",
+			"spiller.math.SpiMath",
+			"spiller",
+			"Spi",
+			"spiller",
+			"isFinished",
+			"",
+			"private",
+			"inline var",
+			":Int =",
+			"public function ",
+			"():Void",
+			"class",
+			"private",
+			"",
 			"Image",
 			"Loader.the.getBlob",
 			"Loader.the.getBlob(Description)",
@@ -341,7 +629,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 23.0
+		"height": 34.0
 	},
 	"input":
 	{
@@ -372,7 +660,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 234.0
+		"height": 134.0
 	},
 	"output.find_results":
 	{
@@ -382,7 +670,7 @@
 	"project": "KhaSpiller.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 64.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -420,7 +708,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 291.0,
+	"side_bar_width": 235.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

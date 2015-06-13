@@ -14,11 +14,43 @@ package spiller.math;
  * v1.0 Initial version
  * 
  * @version 1.1 - 27/02/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Richard Davey / Photon Storm
  */
 class SpiMath
  {
+ 	#if (flash || js || ios)
+	/**
+	 * Minimum value of a floating point number.
+	 */
+	public static inline var MIN_VALUE_FLOAT:Float = 0.0000000000000001;
+	#else
+	/**
+	 * Minimum value of a floating point number.
+	 */
+	public static inline var MIN_VALUE_FLOAT:Float = 5e-324;
+	#end
+	/**
+	 * Maximum value of a floating point number.
+	 */
+	public static inline var MAX_VALUE_FLOAT:Float = 1.79e+308;
+	/**
+	 * Minimum value of an integer.
+	 */
+	public static inline var MIN_VALUE_INT:Int = -MAX_VALUE_INT;
+	/**
+	 * Maximum value of an integer.
+	 */
+	public static inline var MAX_VALUE_INT:Int = 0x7FFFFFFF;
+	/**
+	 * Approximation of Math.sqrt(2).
+	 */
+	public static inline var SQUARE_ROOT_OF_TWO:Float = 1.41421356237;
+	/**
+	 * Used to account for floating-point inaccuracies.
+	 */
+	public static inline var EPSILON:Float = 0.0000001;
+
 // 	public static var getrandmax:Int = Integer.MAX_VALUE;
 // 	private static var mr:Int = 0;
 // 	private static var cosTable:Array<Float> = new Array<Float>();
@@ -745,77 +777,78 @@ class SpiMath
 // 		return degrees * DEGTORAD;
 // 	}
 
-// 	/**
-// 	 * Add the first vector the second one.
-// 	 * 
-// 	 * @param	v1	The SpiPoint in question
-// 	 * @param	v2	The SpiPoint to be added to v1
-// 	 */
-// 	public static void add(SpiPoint v1, SpiPoint v2)
-// 	{
-// 		v1.x += v2.x;
-// 		v1.y += v2.y;
-// 	}
+	/**
+	 * Add the first vector the second one.
+	 * 
+	 * @param	v1	The SpiPoint in question
+	 * @param	v2	The SpiPoint to be added to v1
+	 */
+	public static function add(v1:SpiPoint, v2:SpiPoint):Void
+	{
+		v1.x += v2.x;
+		v1.y += v2.y;
+	}
 
-// 	/**
-// 	 * Subtract the first vector the second one.
-// 	 */
-// 	public static void subtract(SpiPoint v1, SpiPoint v2)
-// 	{
-// 		v1.x -= v2.x;
-// 		v1.y -= v2.y;
-// 	}
+	/**
+	 * Subtract the first vector the second one.
+	 */
+	public static function subtract(v1:SpiPoint, v2:SpiPoint):Void
+	{
+		v1.x -= v2.x;
+		v1.y -= v2.y;
+	}
 
-// 	/**
-// 	 * Multiplies the two vectors by a value.
-// 	 * 
-// 	 * @param v 		A SpiPoint instance.
-// 	 * @param value 	The value to multiply the vector instance by.
-// 	 */
-// 	public static void multiply(SpiPoint v, float value)
-// 	{
-// 		v.x *= value;
-// 		v.y *= value;
-// 	}
+	/**
+	 * Multiplies the two vectors by a value.
+	 * 
+	 * @param v 		A SpiPoint instance.
+	 * @param value 	The value to multiply the vector instance by.
+	 */
+	public static function multiplyByValue(v:SpiPoint, value:Float):Void
+	{
+		v.x *= value;
+		v.y *= value;
+	}
 
-// 	/**
-// 	 * Multiplies the two vectors by a value.
-// 	 * 
-// 	 * @param v1 		A SpiPoint instance.
-// 	 * @param v2	 	Another SpiPoint instance.
-// 	 */
-// 	public static void multiply(SpiPoint v1, SpiPoint v2)
-// 	{
-// 		v1.x *= v2.x;
-// 		v1.y *= v2.y;
-// 	}
+	/**
+	 * Multiplies the two vectors by a value.
+	 * 
+	 * @param v1 		A SpiPoint instance.
+	 * @param v2	 	Another SpiPoint instance.
+	 */
+	public static function multiply(v1:SpiPoint, v2:SpiPoint):Void
+	{
+		v1.x *= v2.x;
+		v1.y *= v2.y;
+	}
 
-// 	/**
-// 	 * Divides this vector by a value.
-// 	 * 
-// 	 * @param v			A SpiPoint instance.
-// 	 * @param value 	The value to multiply the vector instance by.
-// 	 */
-// 	public static void divide(SpiPoint v, float value)
-// 	{
-// 		v.x /= value;
-// 		v.y /= value;
-// 	}
+	/**
+	 * Divides this vector by a value.
+	 * 
+	 * @param v			A SpiPoint instance.
+	 * @param value 	The value to multiply the vector instance by.
+	 */
+	public static function divide(v:SpiPoint, value:Float):Void
+	{
+		v.x /= value;
+		v.y /= value;
+	}
 
-// 	/**
-// 	 * Brings the given vector's magnitude down to a 0-1 value so it can be used to constrain other vectors.
-// 	 * 
-// 	 * @param	v		A SpiPoint instance.
-// 	 */
-// 	public static void normalize(SpiPoint v) {
-// 		float vx = v.x;
-// 		float vy = v.y;
-// 		float len = (float)Math.sqrt((vx * vx) + (vy * vy));
-// 		if (len > 0) {
-// 			v.x /= len;
-// 			v.y /= len;
-// 		}
-// 	}
+	/**
+	 * Brings the given vector's magnitude down to a 0-1 value so it can be used to constrain other vectors.
+	 * 
+	 * @param	v		A SpiPoint instance.
+	 */
+	public static function normalize(v:SpiPoint):Void
+	{
+		var vx:Float = v.x;
+		var vy:Float = v.y;
+		var len:Float = Math.sqrt((vx * vx) + (vy * vy));
+		if (len > 0) {
+			v.x /= len;
+			v.y /= len;
+		}
+	}
 
 // 	/**
 // 	 * Ensures the length of the vector is no longer than the given value.
@@ -910,4 +943,176 @@ class SpiMath
 // 		else if (value < min) return min;
 // 		else return value;
 // 	}
+
+/**
+	 * Rotates a point in 2D space around another point by the given angle.
+	 * 
+	 * @param X The X coordinate of the point you want to rotate.
+	 * @param Y The Y coordinate of the point you want to rotate.
+	 * @param PivotX The X coordinate of the point you want to rotate around.
+	 * @param PivotY The Y coordinate of the point you want to rotate around.
+	 * @param Angle Rotate the point by this many degrees.
+	 * @param Point Optional <code>SpiPoint</code> to store the results in.
+	 * 
+	 * @return A <code>SpiPoint</code> containing the coordinates of the rotated point.
+	 */
+	public static function rotatePoint(X:Float, Y:Float, PivotX:Float, PivotY:Float, Angle:Float, Point:SpiPoint = null):SpiPoint
+	{
+		var sin:Float = 0;
+		var cos:Float = 0;
+		var radians:Float = Angle * -0.017453293;
+		while (radians < -3.14159265)
+			radians += 6.28318531;
+		while (radians > 3.14159265)
+			radians = radians - 6.28318531;
+
+		if (radians < 0) {
+			sin = 1.27323954 * radians + 0.405284735 * radians * radians;
+			if (sin < 0)
+				sin = 0.225 * (sin * -sin - sin) + sin;
+			else
+				sin = 0.225 * (sin * sin - sin) + sin;
+		} else {
+			sin = 1.27323954 * radians - 0.405284735 * radians * radians;
+			if (sin < 0)
+				sin = 0.225 * (sin * -sin - sin) + sin;
+			else
+				sin = 0.225 * (sin * sin - sin) + sin;
+		}
+
+		radians += 1.57079632;
+		if (radians > 3.14159265)
+			radians = radians - 6.28318531;
+		if (radians < 0) {
+			cos = 1.27323954 * radians + 0.405284735 * radians * radians;
+			if (cos < 0)
+				cos = 0.225 * (cos * -cos - cos) + cos;
+			else
+				cos = 0.225 * (cos * cos - cos) + cos;
+		} else {
+			cos = 1.27323954 * radians - 0.405284735 * radians * radians;
+			if (cos < 0)
+				cos = 0.225 * (cos * -cos - cos) + cos;
+			else
+				cos = 0.225 * (cos * cos - cos) + cos;
+		}
+
+		var dx:Float = X - PivotX;
+		var dy:Float = PivotY + Y; // Y axis is inverted in flash, normally this would be a subtract operation
+		if (Point == null)
+			Point = SpiPoint.get();
+		Point.x = PivotX + cos * dx - sin * dy;
+		Point.y = PivotY - sin * dx - cos * dy;
+		return Point;
+	}
+
+	/**
+	 * Calculates the angle between two points. 0 degrees points straight up.
+	 * 
+	 * @param Point1 The X coordinate of the point.
+	 * @param Point2 The Y coordinate of the point.
+	 * 
+	 * @return The angle in degrees, between -180 and 180.
+	 */
+	public static function getAngle(Point1:SpiPoint, Point2:SpiPoint):Float
+	{
+		var x:Float = Point2.x - Point1.x;
+		var y:Float = Point2.y - Point1.y;
+		if ((x == 0) && (y == 0))
+			return 0;
+		var c1:Float = 3.14159265 * 0.25;
+		var c2:Float = 3 * c1;
+		var ay:Float = (y < 0) ? -y : y;
+		var angle:Float = 0;
+		if (x >= 0)
+			angle = c1 - c1 * ((x - ay) / (x + ay));
+		else
+			angle = c2 - c1 * ((x + ay) / (ay - x));
+		angle = ((y < 0) ? -angle : angle) * 57.2957796;
+		if (angle > 90)
+			angle = angle - 270;
+		else
+			angle += 90;
+		return angle;
+	}
+
+	/**
+	 * Calculate the absolute value of a number.
+	 * 
+	 * @param Value Any number.
+	 * 
+	 * @return The absolute value of that number.
+	 */
+	public static function abs(N:Float):Float
+	{
+		return (N >= 0.0) ? N : -N;
+	}
+
+	/**
+	 * Round down to the next whole number. E.g. floor(1.7) == 1, and floor(-2.7) == -2.
+	 * 
+	 * @param Value Any number.
+	 * 
+	 * @return The rounded value of that number.
+	 */
+	public static function floor(N:Float):Int
+	{
+		var n:Int = Std.int(N);
+		return (N > 0) ? (n) : ((n != N) ? (n - 1) : (n));
+	}
+
+	/**
+	 * Round up to the next whole number. E.g. ceil(1.3) == 2, and ceil(-2.3) == -3.
+	 * 
+	 * @param Value Any number.
+	 * 
+	 * @return The rounded value of that number.
+	 */
+	public static function ceil(N:Float):Int
+	{
+		var n:Int = Std.int(N);
+		return (N > 0) ? ((n != N) ? (n + 1) : (n)) : (n);
+	}
+
+	/**
+	 * Round to the closest whole number. E.g. round(1.7) == 2, and round(-2.3) == -2.
+	 * 
+	 * @param Value Any number.
+	 * 
+	 * @return The rounded value of that number.
+	 */
+	public static function round(value:Float):Int
+	{
+		// If it is 0 we do not round.
+		if (value == 0.0)
+			return Std.int(value);
+
+		return Std.int(value + ((value > 0) ? 0.5 : -0.5));
+	}
+
+	/**
+	 * Figure out which number is smaller.
+	 * 
+	 * @param Number1 Any number.
+	 * @param Number2 Any number.
+	 * 
+	 * @return The smaller of the two numbers.
+	 */
+	public static function min(Number1:Float, Number2:Float):Float
+	{
+		return (Number1 <= Number2) ? Number1 : Number2;
+	}
+
+	/**
+	 * Figure out which number is larger.
+	 * 
+	 * @param Number1 Any number.
+	 * @param Number2 Any number.
+	 * 
+	 * @return The larger of the two numbers.
+	 */
+	public static function max(Number1:Float, Number2):Float
+	{
+		return (Number1 >= Number2) ? Number1 : Number2;
+	}
 }

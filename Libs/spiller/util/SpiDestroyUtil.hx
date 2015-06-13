@@ -9,7 +9,7 @@ import spiller.util.interfaces.ISpiPoolable;
  * v1.0 Initial version<br>
  * <br>
  * @version 1.0 - 18/04/2015
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  */
 class SpiDestroyUtil
 {

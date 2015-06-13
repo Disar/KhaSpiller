@@ -4,6 +4,23 @@
 			<x path="Int"/>
 			<haxe_doc>The length of `this` Array.</haxe_doc>
 		</length>
+		<concat public="1" set="method">
+			<f a="a">
+				<c path="Array"><c path="Array.T"/></c>
+				<c path="Array"><c path="Array.T"/></c>
+			</f>
+			<haxe_doc>Returns a new Array by appending the elements of `a` to the elements of
+		`this` Array.
+
+		This operation does not modify `this` Array.
+
+		If `a` is the empty Array `[]`, a copy of `this` Array is returned.
+
+		The length of the returned Array is equal to the sum of `this.length`
+		and `a.length`.
+
+		If `a` is `null`, the result is unspecified.</haxe_doc>
+		</concat>
 		<join public="1" set="method">
 			<f a="sep">
 				<c path="String"/>
@@ -479,6 +496,11 @@
 			<meta><m n=":compilerGenerated"/></meta>
 		</new>
 	</class>
+	<abstract path="SpiTypeExt" params="" file="Sources/Main.hx" module="Main">
+		<this><x path="spiller.SpiType"/></this>
+		<impl><class path="_Main.SpiTypeExt_Impl_" params="" file="Sources/Main.hx" private="1" module="Main"><TILEMAP_2 public="1" get="inline" set="null" line="30" static="1"><x path="spiller.SpiType"/></TILEMAP_2></class></impl>
+	</abstract>
+	<class path="_Main.SpiTypeExt_Impl_" params="" file="Sources/Main.hx" private="1" module="Main"><TILEMAP_2 public="1" get="inline" set="null" line="30" static="1"><x path="spiller.SpiType"/></TILEMAP_2></class>
 	<abstract path="Map" params="K:V" file="/usr/lib/haxe/std/Map.hx">
 		<from>
 			<icast field="fromStringMap"><c path="haxe.ds.StringMap"><c path="fromStringMap.V"/></c></icast>
@@ -572,6 +594,7 @@
 	<x path="Float"/>
 	<x path="Float"/>
 </f></pow>
+		<random public="1" set="method" static="1"><f a=""><x path="Float"/></f></random>
 		<round public="1" set="method" static="1"><f a="v">
 	<x path="Float"/>
 	<x path="Int"/>
@@ -629,6 +652,22 @@
 		(As3) If used on a property field, the setter will be invoked. It is
 		not possible to set the value directly.</haxe_doc>
 		</setField>
+		<setProperty public="1" get="inline" set="null" line="41" static="1">
+			<f a="o:field:value">
+				<d/>
+				<c path="String"/>
+				<d/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Sets the field named `field` of object `o` to value `value`, taking
+		property setter functions into account.
+
+		If the field is not a property, this function behaves like
+		`Reflect.setField`, but might be slower.
+
+		If `field` is null, the result is unspecified.</haxe_doc>
+		</setProperty>
 		<callMethod public="1" get="inline" set="null" line="46" static="1">
 			<f a="o:func:args">
 				<d/>
@@ -1133,6 +1172,24 @@
 
 		This is a convenience function for ltrim(rtrim(s)).</haxe_doc>
 		</trim>
+		<lpad public="1" set="method" line="269" static="1">
+			<f a="s:c:l">
+				<c path="String"/>
+				<c path="String"/>
+				<x path="Int"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>Concatenates `c` to `s` until `s.length` is at least `l`.
+
+		If `c` is the empty String "" or if `l` does not exceed `s.length`,
+		`s` is returned unchanged.
+
+		If `c.length` is 1, the resulting String length is exactly `l`.
+
+		Otherwise the length may exceed `l`.
+
+		If `c` is null, the result is unspecified.</haxe_doc>
+		</lpad>
 		<replace public="1" set="method" line="312" static="1">
 			<f a="s:sub:by">
 				<c path="String"/>
@@ -1290,6 +1347,29 @@
 
 		The enum name must not include any type parameters.</haxe_doc>
 		</resolveEnum>
+		<createInstance public="1" params="T" set="method" line="79" static="1">
+			<f a="cl:args">
+				<x path="Class"><c path="createInstance.T"/></x>
+				<c path="Array"><d/></c>
+				<c path="createInstance.T"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Creates an instance of class `cl`, using `args` as arguments to the
+		class constructor.
+
+		This function guarantees that the class constructor is called.
+
+		Default values of constructors arguments are not guaranteed to be
+		taken into account.
+
+		If `cl` or `args` are null, or if the number of elements in `args` does
+		not match the expected number of constructor arguments, or if any
+		argument has an invalid type,  or if `cl` has no own constructor, the
+		result is unspecified.
+
+		In particular, default values of constructor arguments are not
+		guaranteed to be taken into account.</haxe_doc>
+		</createInstance>
 		<createEmptyInstance public="1" params="T" set="method" line="105" static="1">
 			<f a="cl">
 				<x path="Class"><c path="createEmptyInstance.T"/></x>
@@ -2250,7 +2330,6 @@
 		</ofData>
 		<length public="1" set="null"><x path="Int"/></length>
 		<b><c path="js.html.Uint8Array"/></b>
-		<data><c path="js.html.DataView"/></data>
 		<get public="1" get="inline" set="null" line="43"><f a="pos">
 	<x path="Int"/>
 	<x path="Int"/>
@@ -2260,14 +2339,6 @@
 	<x path="Int"/>
 	<x path="Void"/>
 </f></set>
-		<getFloat public="1" set="method" line="88">
-			<f a="pos">
-				<x path="Int"/>
-				<x path="Float"/>
-			</f>
-			<haxe_doc>Returns the IEEE single precision value at given position (in low endian encoding).
-		Result is unspecified if reading outside of the bounds</haxe_doc>
-		</getFloat>
 		<getString public="1" set="method" line="132"><f a="pos:len">
 	<x path="Int"/>
 	<x path="Int"/>
@@ -2442,24 +2513,6 @@
 			</f>
 			<haxe_doc>Write all bytes stored in `s`.</haxe_doc>
 		</write>
-		<writeInt16 public="1" set="method" line="167">
-			<f a="x">
-				<x path="Int"/>
-				<x path="Void"/>
-			</f>
-			<haxe_doc>Write `x` as 16-bit signed integer.
-
-		Endianness is specified by the `bigEndian` property.</haxe_doc>
-		</writeInt16>
-		<writeUInt16 public="1" set="method" line="177">
-			<f a="x">
-				<x path="Int"/>
-				<x path="Void"/>
-			</f>
-			<haxe_doc>Write `x` as 16-bit unsigned integer.
-
-		Endianness is specified by the `bigEndian` property.</haxe_doc>
-		</writeUInt16>
 		<writeInt32 public="1" set="method" line="221">
 			<f a="x">
 				<x path="Int"/>
@@ -6883,10 +6936,7 @@
 			</f>
 			<haxe_doc>@throws DOMError</haxe_doc>
 		</new>
-		<meta>
-			<m n=":directlyUsed"/>
-			<m n=":native"><e>"DataView"</e></m>
-		</meta>
+		<meta><m n=":native"><e>"DataView"</e></m></meta>
 	</class>
 	<abstract path="js.html.DirectionSetting" params="" file="/usr/lib/haxe/std/js/html/DirectionSetting.hx">
 		<this><c path="String"/></this>
@@ -16023,7 +16073,15 @@
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
 	<abstract path="kha.Color" params="" file="Kha/Sources/kha/Color.hx">
+		<from>
+			<icast><x path="UInt"/></icast>
+			<icast><x path="Int"/></icast>
+		</from>
 		<this><x path="Int"/></this>
+		<to>
+			<icast><x path="UInt"/></icast>
+			<icast><x path="Int"/></icast>
+		</to>
 		<haxe_doc>* Class representing a color, based on Int.
  * Provides a variety of methods for creating and converting colors.
  * 
@@ -17697,25 +17755,25 @@
 	<x path="Void"/>
 </f></back>
 		<executeFrame public="1" set="method" line="119" static="1"><f a=""><x path="Void"/></f></executeFrame>
-		<time public="1" set="method" line="243" static="1"><f a=""><x path="Float"/></f></time>
-		<realTime public="1" set="method" line="247" static="1"><f a=""><x path="Float"/></f></realTime>
-		<resetTime public="1" set="method" line="251" static="1"><f a=""><x path="Void"/></f></resetTime>
-		<addBreakableFrameTask public="1" set="method" line="265" static="1"><f a="task:priority">
+		<time public="1" set="method" line="226" static="1"><f a=""><x path="Float"/></f></time>
+		<realTime public="1" set="method" line="230" static="1"><f a=""><x path="Float"/></f></realTime>
+		<resetTime public="1" set="method" line="234" static="1"><f a=""><x path="Void"/></f></resetTime>
+		<addBreakableFrameTask public="1" set="method" line="248" static="1"><f a="task:priority">
 	<f a=""><x path="Bool"/></f>
 	<x path="Int"/>
 	<x path="Int"/>
 </f></addBreakableFrameTask>
-		<addFrameTask public="1" set="method" line="271" static="1"><f a="task:priority">
+		<addFrameTask public="1" set="method" line="254" static="1"><f a="task:priority">
 	<f a=""><x path="Void"/></f>
 	<x path="Int"/>
 	<x path="Int"/>
 </f></addFrameTask>
-		<removeFrameTask public="1" set="method" line="275" static="1"><f a="id">
+		<removeFrameTask public="1" set="method" line="258" static="1"><f a="id">
 	<x path="Int"/>
 	<x path="Void"/>
 </f></removeFrameTask>
-		<generateGroupId public="1" set="method" line="285" static="1"><f a=""><x path="Int"/></f></generateGroupId>
-		<addBreakableTimeTaskToGroup public="1" set="method" line="289" static="1"><f a="groupId:task:start:?period:?duration">
+		<generateGroupId public="1" set="method" line="268" static="1"><f a=""><x path="Int"/></f></generateGroupId>
+		<addBreakableTimeTaskToGroup public="1" set="method" line="272" static="1"><f a="groupId:task:start:?period:?duration">
 	<x path="Int"/>
 	<f a=""><x path="Bool"/></f>
 	<x path="Float"/>
@@ -17723,7 +17781,7 @@
 	<x path="Float"/>
 	<x path="Int"/>
 </f></addBreakableTimeTaskToGroup>
-		<addTimeTaskToGroup public="1" set="method" line="308" static="1"><f a="groupId:task:start:?period:?duration">
+		<addTimeTaskToGroup public="1" set="method" line="291" static="1"><f a="groupId:task:start:?period:?duration">
 	<x path="Int"/>
 	<f a=""><x path="Void"/></f>
 	<x path="Float"/>
@@ -17731,44 +17789,44 @@
 	<x path="Float"/>
 	<x path="Int"/>
 </f></addTimeTaskToGroup>
-		<addBreakableTimeTask public="1" set="method" line="312" static="1"><f a="task:start:?period:?duration">
+		<addBreakableTimeTask public="1" set="method" line="295" static="1"><f a="task:start:?period:?duration">
 	<f a=""><x path="Bool"/></f>
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Int"/>
 </f></addBreakableTimeTask>
-		<addTimeTask public="1" set="method" line="316" static="1"><f a="task:start:?period:?duration">
+		<addTimeTask public="1" set="method" line="299" static="1"><f a="task:start:?period:?duration">
 	<f a=""><x path="Void"/></f>
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Int"/>
 </f></addTimeTask>
-		<getTimeTask set="method" line="320" static="1"><f a="id">
+		<getTimeTask set="method" line="303" static="1"><f a="id">
 	<x path="Int"/>
 	<c path="kha.TimeTask"/>
 </f></getTimeTask>
-		<removeTimeTask public="1" set="method" line="329" static="1"><f a="id">
+		<removeTimeTask public="1" set="method" line="312" static="1"><f a="id">
 	<x path="Int"/>
 	<x path="Void"/>
 </f></removeTimeTask>
-		<removeTimeTasks public="1" set="method" line="337" static="1"><f a="groupId">
+		<removeTimeTasks public="1" set="method" line="320" static="1"><f a="groupId">
 	<x path="Int"/>
 	<x path="Void"/>
 </f></removeTimeTasks>
-		<numTasksInSchedule public="1" set="method" line="350" static="1"><f a=""><x path="Int"/></f></numTasksInSchedule>
-		<insertSorted set="method" line="354" static="1"><f a="list:task">
+		<numTasksInSchedule public="1" set="method" line="333" static="1"><f a=""><x path="Int"/></f></numTasksInSchedule>
+		<insertSorted set="method" line="337" static="1"><f a="list:task">
 	<c path="Array"><c path="kha.TimeTask"/></c>
 	<c path="kha.TimeTask"/>
 	<x path="Void"/>
 </f></insertSorted>
-		<sortFrameTasks set="method" line="364" static="1"><f a=""><x path="Void"/></f></sortFrameTasks>
-		<get_deltaScale set="method" line="378" static="1">
+		<sortFrameTasks set="method" line="347" static="1"><f a=""><x path="Void"/></f></sortFrameTasks>
+		<get_deltaScale set="method" line="361" static="1">
 			<f a=""><x path="Float"/></f>
 			<haxe_doc>Delta time between frames</haxe_doc>
 		</get_deltaScale>
-		<set_deltaScale set="method" line="383" static="1"><f a="value">
+		<set_deltaScale set="method" line="366" static="1"><f a="value">
 	<x path="Float"/>
 	<x path="Float"/>
 </f></set_deltaScale>
@@ -18134,20 +18192,22 @@
 		<channelCount get="inline" set="null" line="11" static="1"><x path="Int"/></channelCount>
 		<soundChannels static="1"><x path="haxe.ds.Vector"><t path="kha.audio1.SoundChannel"/></x></soundChannels>
 		<musicChannels static="1"><x path="haxe.ds.Vector"><t path="kha.audio1.MusicChannel"/></x></musicChannels>
-		<_init public="1" set="method" line="19" static="1">
+		<sampleCache1 static="1"><x path="haxe.ds.Vector"><x path="Float"/></x></sampleCache1>
+		<sampleCache2 static="1"><x path="haxe.ds.Vector"><x path="Float"/></x></sampleCache2>
+		<_init public="1" set="method" line="22" static="1">
 			<f a=""><x path="Void"/></f>
 			<meta><m n=":noCompletion"/></meta>
 		</_init>
-		<_mix set="method" line="28" static="1"><f a="samples:buffer">
+		<_mix set="method" line="33" static="1"><f a="samples:buffer">
 	<x path="Int"/>
 	<c path="kha.audio2.Buffer"/>
 	<x path="Void"/>
 </f></_mix>
-		<playSound public="1" set="method" line="63" static="1"><f a="sound">
+		<playSound public="1" set="method" line="98" static="1"><f a="sound">
 	<c path="kha.Sound"/>
 	<t path="kha.audio1.SoundChannel"/>
 </f></playSound>
-		<playMusic public="1" set="method" line="81" static="1"><f a="music:?loop">
+		<playMusic public="1" set="method" line="117" static="1"><f a="music:?loop">
 	<c path="kha.Music"/>
 	<x path="Bool"/>
 	<t path="kha.audio1.MusicChannel"/>
@@ -18170,18 +18230,16 @@
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
 	<class path="kha.audio2.MusicChannel" params="" file="Kha/Sources/kha/audio2/MusicChannel.hx">
-		<bufferSize get="inline" set="null" line="10" static="1"><x path="Int"/></bufferSize>
 		<volume public="1"><x path="Float"/></volume>
-		<buffer><x path="haxe.ds.Vector"><x path="Float"/></x></buffer>
 		<reader><c path="kha.audio2.ogg.vorbis.Reader"/></reader>
-		<position><x path="Int"/></position>
-		<count><x path="Int"/></count>
 		<atend><x path="Bool"/></atend>
 		<loop><x path="Bool"/></loop>
-		<updateBuffer set="method" line="26"><f a=""><x path="Void"/></f></updateBuffer>
-		<nextSample public="1" set="method" line="49"><f a=""><x path="Float"/></f></nextSample>
-		<ended public="1" set="method" line="58"><f a=""><x path="Bool"/></f></ended>
-		<new public="1" set="method" line="18"><f a="data:loop">
+		<nextSamples public="1" set="method" line="20"><f a="samples">
+	<x path="haxe.ds.Vector"><x path="Float"/></x>
+	<x path="Void"/>
+</f></nextSamples>
+		<ended public="1" set="method" line="35"><f a=""><x path="Bool"/></f></ended>
+		<new public="1" set="method" line="14"><f a="data:loop">
 	<c path="haxe.io.Bytes"/>
 	<x path="Bool"/>
 	<x path="Void"/>
@@ -18192,8 +18250,11 @@
 		<data public="1"><x path="haxe.ds.Vector"><x path="Float"/></x></data>
 		<volume public="1"><x path="Float"/></volume>
 		<position><x path="Int"/></position>
-		<nextSample public="1" set="method" line="15"><f a=""><x path="Float"/></f></nextSample>
-		<ended public="1" set="method" line="21"><f a=""><x path="Bool"/></f></ended>
+		<nextSamples public="1" set="method" line="15"><f a="samples">
+	<x path="haxe.ds.Vector"><x path="Float"/></x>
+	<x path="Void"/>
+</f></nextSamples>
+		<ended public="1" set="method" line="22"><f a=""><x path="Bool"/></f></ended>
 		<new public="1" set="method" line="10"><f a=""><x path="Void"/></f></new>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
@@ -18316,20 +18377,20 @@
 	<x path="Void"/>
 </f></seekFunc>
 		<inputLength><x path="Int"/></inputLength>
-		<read public="1" set="method" line="116"><f a="output:?samples:?channels:?sampleRate:?useFloat">
-	<c path="haxe.io.Output"/>
+		<read public="1" set="method" line="121"><f a="output:?samples:?channels:?sampleRate:?useFloat">
+	<x path="haxe.ds.Vector"><x path="Float"/></x>
 	<x path="Int"/>
 	<x path="Int"/>
 	<x path="Int"/>
 	<x path="Bool"/>
 	<x path="Int"/>
 </f></read>
-		<clone public="1" set="method" line="131"><f a=""><c path="kha.audio2.ogg.vorbis.Reader"/></f></clone>
-		<sampleToMillisecond public="1" get="inline" set="null" line="142"><f a="samples">
+		<clone public="1" set="method" line="136"><f a=""><c path="kha.audio2.ogg.vorbis.Reader"/></f></clone>
+		<sampleToMillisecond public="1" get="inline" set="null" line="147"><f a="samples">
 	<x path="Int"/>
 	<x path="Float"/>
 </f></sampleToMillisecond>
-		<millisecondToSample public="1" get="inline" set="null" line="146"><f a="millseconds">
+		<millisecondToSample public="1" get="inline" set="null" line="151"><f a="millseconds">
 	<x path="Float"/>
 	<x path="Int"/>
 </f></millisecondToSample>
@@ -18522,18 +18583,18 @@
 		<totalSample public="1" set="null"><t path="Null"><x path="Int"/></t></totalSample>
 		<decodeState><c path="kha.audio2.ogg.vorbis.VorbisDecodeState"/></decodeState>
 		<read public="1" set="method" line="82"><f a="output:samples:channels:sampleRate:useFloat">
-	<c path="haxe.io.Output"/>
+	<x path="haxe.ds.Vector"><x path="Float"/></x>
 	<x path="Int"/>
 	<x path="Int"/>
 	<x path="Int"/>
 	<x path="Bool"/>
 	<x path="Int"/>
 </f></read>
-		<skipSamples public="1" set="method" line="147"><f a="len">
+		<skipSamples public="1" set="method" line="152"><f a="len">
 	<x path="Int"/>
 	<x path="Int"/>
 </f></skipSamples>
-		<setupSampleNumber public="1" set="method" line="166"><f a="seekFunc:inputLength">
+		<setupSampleNumber public="1" set="method" line="171"><f a="seekFunc:inputLength">
 	<f a="">
 		<x path="Int"/>
 		<x path="Void"/>
@@ -18541,7 +18602,7 @@
 	<x path="Int"/>
 	<x path="Void"/>
 </f></setupSampleNumber>
-		<seek public="1" set="method" line="173"><f a="seekFunc:inputLength:sampleNumber">
+		<seek public="1" set="method" line="178"><f a="seekFunc:inputLength:sampleNumber">
 	<f a="">
 		<x path="Int"/>
 		<x path="Void"/>
@@ -18550,7 +18611,7 @@
 	<x path="Int"/>
 	<x path="Void"/>
 </f></seek>
-		<seekFrameFromPage public="1" set="method" line="275"><f a="seekFunc:pageStart:firstSample:targetSample">
+		<seekFrameFromPage public="1" set="method" line="280"><f a="seekFunc:pageStart:firstSample:targetSample">
 	<f a="">
 		<x path="Int"/>
 		<x path="Void"/>
@@ -18560,44 +18621,44 @@
 	<x path="Int"/>
 	<x path="Void"/>
 </f></seekFrameFromPage>
-		<clone public="1" set="method" line="338"><f a="seekFunc">
+		<clone public="1" set="method" line="343"><f a="seekFunc">
 	<f a="">
 		<x path="Int"/>
 		<x path="Void"/>
 	</f>
 	<c path="kha.audio2.ogg.vorbis.VorbisDecoder"/>
 </f></clone>
-		<ensurePosition public="1" set="method" line="370"><f a="seekFunc">
+		<ensurePosition public="1" set="method" line="375"><f a="seekFunc">
 	<f a="">
 		<x path="Int"/>
 		<x path="Void"/>
 	</f>
 	<x path="Void"/>
 </f></ensurePosition>
-		<getFrameFloat set="method" line="374"><f a=""><x path="Int"/></f></getFrameFloat>
-		<pumpFirstFrame set="method" line="389"><f a=""><x path="Void"/></f></pumpFirstFrame>
-		<finishFrame set="method" line="393"><f a="r">
+		<getFrameFloat set="method" line="379"><f a=""><x path="Int"/></f></getFrameFloat>
+		<pumpFirstFrame set="method" line="394"><f a=""><x path="Void"/></f></pumpFirstFrame>
+		<finishFrame set="method" line="398"><f a="r">
 	<t path="kha.audio2.ogg.vorbis.DecodePacketResult"/>
 	<x path="Int"/>
 </f></finishFrame>
-		<getWindow set="method" line="453"><f a="len">
+		<getWindow set="method" line="458"><f a="len">
 	<x path="Int"/>
 	<x path="haxe.ds.Vector"><x path="Float"/></x>
 </f></getWindow>
-		<initBlocksize set="method" line="466"><f a="bs:n">
+		<initBlocksize set="method" line="471"><f a="bs:n">
 	<x path="Int"/>
 	<x path="Int"/>
 	<x path="Void"/>
 </f></initBlocksize>
-		<inverseMdct set="method" line="480"><f a="buffer:n:blocktype">
+		<inverseMdct set="method" line="485"><f a="buffer:n:blocktype">
 	<x path="haxe.ds.Vector"><x path="Float"/></x>
 	<x path="Int"/>
 	<x path="Bool"/>
 	<x path="Void"/>
 </f></inverseMdct>
-		<decodePacket set="method" line="485"><f a=""><t path="kha.audio2.ogg.vorbis.DecodePacketResult"/></f></decodePacket>
-		<decodeInitial set="method" line="495"><f a=""><t path="kha.audio2.ogg.vorbis.DecodeInitialResult"/></f></decodeInitial>
-		<decodePacketRest set="method" line="552"><f a="r">
+		<decodePacket set="method" line="490"><f a=""><t path="kha.audio2.ogg.vorbis.DecodePacketResult"/></f></decodePacket>
+		<decodeInitial set="method" line="500"><f a=""><t path="kha.audio2.ogg.vorbis.DecodeInitialResult"/></f></decodeInitial>
+		<decodePacketRest set="method" line="557"><f a="r">
 	<t path="kha.audio2.ogg.vorbis.DecodeInitialResult"/>
 	<t path="kha.audio2.ogg.vorbis.DecodePacketResult"/>
 </f></decodePacketRest>
@@ -19326,6 +19387,57 @@
 </f></new>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
+	<class path="kha.graphics2.GraphicsExtension" params="" file="Kha/Sources/kha/graphics2/GraphicsExtension.hx">
+		<drawCircle public="1" set="method" line="17" static="1">
+			<f a="g2:cx:cy:radius:?strength:?segments">
+				<c path="kha.graphics2.Graphics"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Draws a circle.
+	 * @param	segments (optional) The amount of lines that should be used to draw the circle.</haxe_doc>
+		</drawCircle>
+		<fillCircle public="1" set="method" line="46" static="1">
+			<f a="g2:cx:cy:radius:?segments">
+				<c path="kha.graphics2.Graphics"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Draws a filled circle.
+	 * @param	segments (optional) The amount of lines that should be used to draw the circle.</haxe_doc>
+		</fillCircle>
+		<drawPolygon public="1" set="method" line="74" static="1">
+			<f a="g2:x:y:vertices:?strength">
+				<c path="kha.graphics2.Graphics"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<c path="Array"><c path="kha.math.Vector2"/></c>
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Draws a convex polygon.</haxe_doc>
+		</drawPolygon>
+		<fillPolygon public="1" set="method" line="92" static="1">
+			<f a="g2:x:y:vertices">
+				<c path="kha.graphics2.Graphics"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<c path="Array"><c path="kha.math.Vector2"/></c>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Draws a filled convex polygon.</haxe_doc>
+		</fillPolygon>
+		<haxe_doc>* Static extension functions for Graphics2.
+ * Usage: "using kha.graphics2.GraphicsExtension;"</haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
 	<enum path="kha.graphics4.BlendingOperation" params="" file="Kha/Sources/kha/graphics4/BlendingOperation.hx">
 		<Undefined/>
 		<BlendOne/>
@@ -19838,7 +19950,7 @@
 	<x path="Float"/>
 	<x path="Void"/>
 </f></drawImage>
-		<drawScaledSubImage public="1" set="method" line="814" override="1"><f a="img:sx:sy:sw:sh:dx:dy:dw:dh">
+		<drawScaledSubImage public="1" set="method" line="816" override="1"><f a="img:sx:sy:sw:sh:dx:dy:dw:dh">
 	<c path="kha.Image"/>
 	<x path="Float"/>
 	<x path="Float"/>
@@ -19850,12 +19962,12 @@
 	<x path="Float"/>
 	<x path="Void"/>
 </f></drawScaledSubImage>
-		<get_color public="1" set="method" line="824" override="1"><f a=""><x path="kha.Color"/></f></get_color>
-		<set_color public="1" set="method" line="828" override="1"><f a="color">
+		<get_color public="1" set="method" line="826" override="1"><f a=""><x path="kha.Color"/></f></get_color>
+		<set_color public="1" set="method" line="830" override="1"><f a="color">
 	<x path="kha.Color"/>
 	<x path="kha.Color"/>
 </f></set_color>
-		<drawRect public="1" set="method" line="832" override="1"><f a="x:y:width:height:?strength">
+		<drawRect public="1" set="method" line="834" override="1"><f a="x:y:width:height:?strength">
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Float"/>
@@ -19863,25 +19975,25 @@
 	<x path="Float"/>
 	<x path="Void"/>
 </f></drawRect>
-		<fillRect public="1" set="method" line="859" override="1"><f a="x:y:width:height">
+		<fillRect public="1" set="method" line="861" override="1"><f a="x:y:width:height">
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Void"/>
 </f></fillRect>
-		<drawString public="1" set="method" line="870" override="1"><f a="text:x:y">
+		<drawString public="1" set="method" line="872" override="1"><f a="text:x:y">
 	<c path="String"/>
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Void"/>
 </f></drawString>
-		<get_font public="1" set="method" line="877" override="1"><f a=""><c path="kha.Font"/></f></get_font>
-		<set_font public="1" set="method" line="881" override="1"><f a="font">
+		<get_font public="1" set="method" line="879" override="1"><f a=""><c path="kha.Font"/></f></get_font>
+		<set_font public="1" set="method" line="883" override="1"><f a="font">
 	<c path="kha.Font"/>
 	<c path="kha.Font"/>
 </f></set_font>
-		<drawLine public="1" set="method" line="886" override="1"><f a="x1:y1:x2:y2:?strength">
+		<drawLine public="1" set="method" line="888" override="1"><f a="x1:y1:x2:y2:?strength">
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Float"/>
@@ -19889,7 +20001,7 @@
 	<x path="Float"/>
 	<x path="Void"/>
 </f></drawLine>
-		<fillTriangle public="1" set="method" line="908" override="1"><f a="x1:y1:x2:y2:x3:y3">
+		<fillTriangle public="1" set="method" line="910" override="1"><f a="x1:y1:x2:y2:x3:y3">
 	<x path="Float"/>
 	<x path="Float"/>
 	<x path="Float"/>
@@ -19898,31 +20010,31 @@
 	<x path="Float"/>
 	<x path="Void"/>
 </f></fillTriangle>
-		<setBilinearFiltering public="1" set="method" line="918"><f a="bilinear">
+		<setBilinearFiltering public="1" set="method" line="920"><f a="bilinear">
 	<x path="Bool"/>
 	<x path="Void"/>
 </f></setBilinearFiltering>
-		<setProgram set="method" line="922" override="1"><f a="program">
+		<setProgram set="method" line="924" override="1"><f a="program">
 	<c path="kha.graphics4.Program"/>
 	<x path="Void"/>
 </f></setProgram>
-		<setBlendingMode public="1" set="method" line="930" override="1"><f a="source:destination">
+		<setBlendingMode public="1" set="method" line="932" override="1"><f a="source:destination">
 	<e path="kha.graphics4.BlendingOperation"/>
 	<e path="kha.graphics4.BlendingOperation"/>
 	<x path="Void"/>
 </f></setBlendingMode>
-		<begin public="1" set="method" line="940" override="1"><f a="?clear:?clearColor">
+		<begin public="1" set="method" line="942" override="1"><f a="?clear:?clearColor">
 	<x path="Bool"/>
 	<x path="kha.Color"/>
 	<x path="Void"/>
 </f></begin>
-		<clear public="1" set="method" line="946" override="1"><f a="?color">
+		<clear public="1" set="method" line="948" override="1"><f a="?color">
 	<x path="kha.Color"/>
 	<x path="Void"/>
 </f></clear>
-		<endDrawing set="method" line="950"><f a=""><x path="Void"/></f></endDrawing>
-		<end public="1" set="method" line="956" override="1"><f a=""><x path="Void"/></f></end>
-		<drawVideoInternal set="method" line="961"><f a="video:x:y:width:height">
+		<endDrawing set="method" line="952"><f a=""><x path="Void"/></f></endDrawing>
+		<end public="1" set="method" line="958" override="1"><f a=""><x path="Void"/></f></end>
+		<drawVideoInternal set="method" line="963"><f a="video:x:y:width:height">
 	<c path="kha.Video"/>
 	<x path="Float"/>
 	<x path="Float"/>
@@ -19930,7 +20042,7 @@
 	<x path="Float"/>
 	<x path="Void"/>
 </f></drawVideoInternal>
-		<drawVideo public="1" set="method" line="965" override="1"><f a="video:x:y:width:height">
+		<drawVideo public="1" set="method" line="967" override="1"><f a="video:x:y:width:height">
 	<c path="kha.Video"/>
 	<x path="Float"/>
 	<x path="Float"/>
@@ -21053,22 +21165,6 @@
 	<class path="kha.math.Matrix3" params="" file="Kha/Sources/kha/math/Matrix3.hx">
 		<width get="inline" set="null" line="4" static="1"><x path="Int"/></width>
 		<height get="inline" set="null" line="5" static="1"><x path="Int"/></height>
-		<translation public="1" get="inline" set="null" line="32" static="1"><f a="x:y">
-	<x path="Float"/>
-	<x path="Float"/>
-	<c path="kha.math.Matrix3"/>
-</f></translation>
-		<empty public="1" get="inline" set="null" line="40" static="1"><f a=""><c path="kha.math.Matrix3"/></f></empty>
-		<identity public="1" get="inline" set="null" line="48" static="1"><f a=""><c path="kha.math.Matrix3"/></f></identity>
-		<scale public="1" get="inline" set="null" line="56" static="1"><f a="x:y">
-	<x path="Float"/>
-	<x path="Float"/>
-	<c path="kha.math.Matrix3"/>
-</f></scale>
-		<rotation public="1" set="method" line="64" static="1"><f a="alpha">
-	<x path="Float"/>
-	<c path="kha.math.Matrix3"/>
-</f></rotation>
 		<_00 public="1"><x path="Float"/></_00>
 		<_10 public="1"><x path="Float"/></_10>
 		<_20 public="1"><x path="Float"/></_20>
@@ -21078,28 +21174,6 @@
 		<_02 public="1"><x path="Float"/></_02>
 		<_12 public="1"><x path="Float"/></_12>
 		<_22 public="1"><x path="Float"/></_22>
-		<add public="1" get="inline" set="null" line="72"><f a="m">
-	<c path="kha.math.Matrix3"/>
-	<c path="kha.math.Matrix3"/>
-</f></add>
-		<sub public="1" get="inline" set="null" line="80"><f a="m">
-	<c path="kha.math.Matrix3"/>
-	<c path="kha.math.Matrix3"/>
-</f></sub>
-		<mult public="1" get="inline" set="null" line="88"><f a="value">
-	<x path="Float"/>
-	<c path="kha.math.Matrix3"/>
-</f></mult>
-		<transpose public="1" get="inline" set="null" line="96"><f a=""><c path="kha.math.Matrix3"/></f></transpose>
-		<trace public="1" get="inline" set="null" line="104"><f a=""><x path="Float"/></f></trace>
-		<multmat public="1" get="inline" set="null" line="108"><f a="m">
-	<c path="kha.math.Matrix3"/>
-	<c path="kha.math.Matrix3"/>
-</f></multmat>
-		<multvec public="1" get="inline" set="null" line="116"><f a="value">
-	<c path="kha.math.Vector2"/>
-	<c path="kha.math.Vector2"/>
-</f></multvec>
 		<new public="1" get="inline" set="null" line="11"><f a="_00:_10:_20:_01:_11:_21:_02:_12:_22">
 	<x path="Float"/>
 	<x path="Float"/>
@@ -21241,27 +21315,6 @@
 	<x path="Float"/>
 	<x path="Float"/>
 </f></set_length>
-		<add public="1" set="method" line="25"><f a="vec">
-	<c path="kha.math.Vector2"/>
-	<c path="kha.math.Vector2"/>
-</f></add>
-		<sub public="1" set="method" line="29"><f a="vec">
-	<c path="kha.math.Vector2"/>
-	<c path="kha.math.Vector2"/>
-</f></sub>
-		<mult public="1" set="method" line="33"><f a="value">
-	<x path="Float"/>
-	<c path="kha.math.Vector2"/>
-</f></mult>
-		<div public="1" set="method" line="37"><f a="value">
-	<x path="Float"/>
-	<c path="kha.math.Vector2"/>
-</f></div>
-		<dot public="1" set="method" line="41"><f a="v">
-	<c path="kha.math.Vector2"/>
-	<x path="Float"/>
-</f></dot>
-		<normalize public="1" set="method" line="45"><f a=""><x path="Void"/></f></normalize>
 		<new public="1" get="inline" set="null" line="4"><f a="?x:?y">
 	<x path="Float"/>
 	<x path="Float"/>
@@ -21389,7 +21442,7 @@
  * v1.0 Initial version<br>
  * <br>
  * @version 1.0 - 18/04/2015
- * @author ratalaika / ratalaikaGames]]></haxe_doc>
+ * @author ratalaika / Ratalaika Games]]></haxe_doc>
 	</class>
 	<class path="spiller.SpiBasic" params="" file="Libs/spiller/SpiBasic.hx">
 		<implements path="spiller.util.interfaces.ISpiDestroyable"/>
@@ -21441,34 +21494,38 @@
 	 * removed from a World, and for World this is when the active World is switched.</haxe_doc>
 		</autoClear>
 		<_tween>
-			<c path="spiller.plugin.tweens.SpiTween"/>
+			<c path="spiller.tweens.SpiTween"/>
 			<haxe_doc>* The SpiTween reference.</haxe_doc>
 		</_tween>
-		<destroy public="1" set="method" line="92">
+		<type public="1" set="null">
+			<x path="spiller.SpiType"/>
+			<haxe_doc>* Enum that informs the collision system which type of object this is (to avoid expensive type casting).</haxe_doc>
+		</type>
+		<destroy public="1" set="method" line="96">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc><![CDATA[* Override this function to null out variables or manually call
 	 * <code>destroy():Void</code> on class members if necessary.
 	 * Don't forget to call <code>super.destroy():Void</code>!]]></haxe_doc>
 		</destroy>
-		<preUpdate public="1" set="method" line="104">
+		<preUpdate public="1" set="method" line="108">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc><![CDATA[* Pre-update is called right before <code>update():Void</code> on each object in the game loop.]]></haxe_doc>
 		</preUpdate>
-		<update public="1" set="method" line="113">
+		<update public="1" set="method" line="117">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc>* Override this function to update your class's position and appearance.
 	 * This is where most of your game rules and behavioral code will go.</haxe_doc>
 		</update>
-		<postUpdate public="1" set="method" line="121">
+		<postUpdate public="1" set="method" line="125">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc><![CDATA[* Post-update is called right after <code>update():Void</code> on each object in the game loop.]]></haxe_doc>
 		</postUpdate>
-		<draw public="1" set="method" line="130">
+		<draw public="1" set="method" line="134">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc><![CDATA[* Override this function to control how the object is drawn.
 	 * Overriding <code>draw():Void</code> is rarely necessary, but can be very useful.]]></haxe_doc>
 		</draw>
-		<drawDebug public="1" set="method" line="150">
+		<drawDebug public="1" set="method" line="154">
 			<f a="?Camera">
 				<c path="spiller.SpiCamera"/>
 				<x path="Void"/>
@@ -21478,7 +21535,7 @@
 	 * 
 	 * @param	Camera	Which camera to draw the debug visuals to.</haxe_doc>
 		</drawDebug>
-		<kill public="1" set="method" line="162">
+		<kill public="1" set="method" line="166">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc>* Handy function for "killing" game objects.
 	 * Default behavior is to flag them as nonexistent AND dead.
@@ -21486,20 +21543,20 @@
 	 * like to animate an effect or whatever, you should override this,
 	 * setting only alive to false, and leaving exists true.</haxe_doc>
 		</kill>
-		<revive public="1" set="method" line="172">
+		<revive public="1" set="method" line="176">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc><![CDATA[* Handy function for bringing game objects "back to life". Just sets alive and exists back to true.
 	 * In practice, this function is most often called by <code>SpiObject.reset():Void</code>.]]></haxe_doc>
 		</revive>
-		<toString public="1" set="method" line="181">
+		<toString public="1" set="method" line="185">
 			<f a=""><c path="String"/></f>
 			<haxe_doc>* Convert object to readable string name.  Useful for debugging, save games, etc.</haxe_doc>
 		</toString>
-		<addTween public="1" set="method" line="197">
+		<addTween public="1" set="method" line="201">
 			<f a="t:start">
-				<c path="spiller.plugin.tweens.SpiTween"/>
+				<c path="spiller.tweens.SpiTween"/>
 				<x path="Bool"/>
-				<c path="spiller.plugin.tweens.SpiTween"/>
+				<c path="spiller.tweens.SpiTween"/>
 			</f>
 			<haxe_doc>* Add a new SpiTween instance to this object.
 	 * 
@@ -21507,11 +21564,11 @@
 	 * @param start		True if it should start.
 	 * @return			The t instance.</haxe_doc>
 		</addTween>
-		<removeTween public="1" set="method" line="224">
+		<removeTween public="1" set="method" line="228">
 			<f a="t:?destroy">
-				<c path="spiller.plugin.tweens.SpiTween"/>
+				<c path="spiller.tweens.SpiTween"/>
 				<x path="Bool"/>
-				<c path="spiller.plugin.tweens.SpiTween"/>
+				<c path="spiller.tweens.SpiTween"/>
 			</f>
 			<haxe_doc>* Remove a new SpiTween instance to this object.
 	 * 
@@ -21519,7 +21576,7 @@
 	 * @param destroy	True if it should be destroyed.
 	 * @return			The t instance.</haxe_doc>
 		</removeTween>
-		<clearTweens public="1" set="method" line="251">
+		<clearTweens public="1" set="method" line="255">
 			<f a="?destroy">
 				<x path="Bool"/>
 				<x path="Void"/>
@@ -21528,17 +21585,17 @@
 	 * 
 	 * @param destroy		True if they should be destroyed.</haxe_doc>
 		</clearTweens>
-		<updateTweens public="1" set="method" line="266">
+		<updateTweens public="1" set="method" line="270">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc>* Update the SpiBasic tweens.</haxe_doc>
 		</updateTweens>
-		<hasTween public="1" set="method" line="288">
+		<hasTween public="1" set="method" line="292">
 			<f a=""><x path="Bool"/></f>
 			<haxe_doc>* Return true if the SpiBasic has a tween.
 	 * 
 	 * @return		True if the SpiBasic has a tween.</haxe_doc>
 		</hasTween>
-		<new public="1" set="method" line="75">
+		<new public="1" set="method" line="79">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc>* Instantiate the basic spiller object.</haxe_doc>
 		</new>
@@ -21549,9 +21606,35 @@
  * v1.0 Initial version
  * 
  * @version 1.0 - 27/03/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Ka Wing Chin]]></haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<abstract path="spiller.SpiType" params="" file="Libs/spiller/SpiBasic.hx" module="spiller.SpiBasic">
+		<from>
+			<icast><x path="UInt"/></icast>
+			<icast><x path="Int"/></icast>
+		</from>
+		<this><x path="Int"/></this>
+		<to>
+			<icast><x path="UInt"/></icast>
+			<icast><x path="Int"/></icast>
+		</to>
+		<haxe_doc>* Types of spiller objects - mainly for collisions.</haxe_doc>
+		<impl><class path="spiller._SpiBasic.SpiType_Impl_" params="" file="Libs/spiller/SpiBasic.hx" private="1" module="spiller.SpiBasic">
+	<NONE public="1" get="inline" set="null" line="309" static="1"><x path="spiller.SpiType"/></NONE>
+	<BASIC public="1" get="inline" set="null" line="310" static="1"><x path="spiller.SpiType"/></BASIC>
+	<OBJECT public="1" get="inline" set="null" line="311" static="1"><x path="spiller.SpiType"/></OBJECT>
+	<GROUP public="1" get="inline" set="null" line="312" static="1"><x path="spiller.SpiType"/></GROUP>
+	<TILEMAP public="1" get="inline" set="null" line="313" static="1"><x path="spiller.SpiType"/></TILEMAP>
+</class></impl>
+	</abstract>
+	<class path="spiller._SpiBasic.SpiType_Impl_" params="" file="Libs/spiller/SpiBasic.hx" private="1" module="spiller.SpiBasic">
+		<NONE public="1" get="inline" set="null" line="309" static="1"><x path="spiller.SpiType"/></NONE>
+		<BASIC public="1" get="inline" set="null" line="310" static="1"><x path="spiller.SpiType"/></BASIC>
+		<OBJECT public="1" get="inline" set="null" line="311" static="1"><x path="spiller.SpiType"/></OBJECT>
+		<GROUP public="1" get="inline" set="null" line="312" static="1"><x path="spiller.SpiType"/></GROUP>
+		<TILEMAP public="1" get="inline" set="null" line="313" static="1"><x path="spiller.SpiType"/></TILEMAP>
 	</class>
 	<class path="spiller.SpiCamera" params="" file="Libs/spiller/SpiCamera.hx">
 		<extends path="spiller.SpiBasic"/>
@@ -21563,14 +21646,536 @@
  * v1.0 Initial version
  * 
  * @version 1.0 - 17/07/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Ka Wing Chin]]></haxe_doc>
+	</class>
+	<class path="spiller.math.SpiRandom" params="" file="Libs/spiller/math/SpiRandom.hx">
+		<rangeBound get="inline" set="null" line="424" static="1">
+			<f a="Value">
+				<x path="Int"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* Internal shared function to ensure an arbitrary value is in the valid range of seed values.</haxe_doc>
+		</rangeBound>
+		<_arrayFloatHelper line="432" static="1">
+			<c path="Array"><x path="Float"/></c>
+			<haxe_doc>* Internal shared helper variable. Used by getObject().</haxe_doc>
+		</_arrayFloatHelper>
+		<MULTIPLIER get="inline" set="null" line="443" static="1">
+			<x path="Float"/>
+			<haxe_doc>* Constants used in the pseudorandom number generation equation.
+	 * These are the constants suggested by the revised MINSTD pseudorandom number generator,
+	 * and they use the full range of possible integer values.
+	 * 
+	 * @see http://en.wikipedia.org/wiki/Linear_congruential_generator
+	 * @see Stephen K. Park and Keith W. Miller and Paul K. Stockmeyer (1988).
+	 *      "Technical Correspondence". Communications of the ACM 36 (7): 105–110.</haxe_doc>
+		</MULTIPLIER>
+		<MODULUS get="inline" set="null" line="444" static="1"><x path="Int"/></MODULUS>
+		<initialSeed public="1" set="accessor">
+			<x path="Int"/>
+			<haxe_doc>* The global base random number generator seed (for deterministic behavior in recordings and saves).
+	 * If you want, you can set the seed with an integer between 1 and 2,147,483,647 inclusive.
+	 * Altering this yourself may break recording functionality!</haxe_doc>
+		</initialSeed>
+		<currentSeed public="1" get="accessor" set="accessor">
+			<x path="Int"/>
+			<haxe_doc>* Current seed used to generate new random numbers. You can retrieve this value if,
+	 * for example, you want to store the seed that was used to randomly generate a level.</haxe_doc>
+		</currentSeed>
+		<resetInitialSeed public="1" get="inline" set="null" line="49">
+			<f a=""><x path="Int"/></f>
+			<haxe_doc>* Function to easily set the global seed to a new random number.
+	 * Please note that this function is not deterministic!
+	 * If you call it in your game, recording may not function as expected.
+	 * 
+	 * @return  The new initial seed.</haxe_doc>
+		</resetInitialSeed>
+		<int public="1" set="method" line="63">
+			<f a="?Min:?Max:?Excludes">
+				<x path="Int"/>
+				<x path="Int"/>
+				<c path="Array"><x path="Int"/></c>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* Returns a pseudorandom integer between Min and Max, inclusive.
+	 * Will not return a number in the Excludes array, if provided.
+	 * Please note that large Excludes arrays can slow calculations.
+	 * 
+	 * @param   Min        The minimum value that should be returned. 0 by default.
+	 * @param   Max        The maximum value that should be returned. 2,147,483,647 by default.
+	 * @param   Excludes   Optional array of values that should not be returned.</haxe_doc>
+		</int>
+		<float public="1" set="method" line="112">
+			<f a="?Min:?Max:?Excludes">
+				<x path="Float"/>
+				<x path="Float"/>
+				<c path="Array"><x path="Float"/></c>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* Returns a pseudorandom float value between Min and Max, inclusive.
+	 * Will not return a number in the Excludes array, if provided.
+	 * Please note that large Excludes arrays can slow calculations.
+	 * 
+	 * @param   Min        The minimum value that should be returned. 0 by default.
+	 * @param   Max        The maximum value that should be returned. 1 by default.
+	 * @param   Excludes   Optional array of values that should not be returned.</haxe_doc>
+		</float>
+		<_hasFloatNormalSpare><x path="Bool"/></_hasFloatNormalSpare>
+		<_floatNormalRand1><x path="Float"/></_floatNormalRand1>
+		<_floatNormalRand2><x path="Float"/></_floatNormalRand2>
+		<_twoPI><x path="Float"/></_twoPI>
+		<_floatNormalRho><x path="Float"/></_floatNormalRho>
+		<floatNormal public="1" set="method" line="169">
+			<f a="?Mean:?StdDev">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* Returns a pseudorandom float value in a statistical normal distribution centered on Mean with a standard deviation size of StdDev.
+	 * (This uses the Box-Muller transform algorithm for guassian pseudorandom numbers)
+	 * 
+	 * Normal distribution: 68% values are within 1 standard deviation, 95% are in 2 StdDevs, 99% in 3 StdDevs.
+	 * See this image: https://github.com/HaxeFlixel/spiller-demos/blob/dev/Performance/SpiRandom/normaldistribution.png
+	 * 
+	 * @param	Mean		The Mean around which the normal distribution is centered
+	 * @param	StdDev		Size of the standard deviation</haxe_doc>
+		</floatNormal>
+		<bool public="1" get="inline" set="null" line="199">
+			<f a="?Chance">
+				<x path="Float"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>* Returns true or false based on the chance value (default 50%). 
+	 * For example if you wanted a player to have a 30.5% chance of getting a bonus,
+	 * call bool(30.5) - true means the chance passed, false means it failed.
+	 * 
+	 * @param   Chance   The chance of receiving the value.
+	 *                   Should be given as a number between 0 and 100 (effectively 0% to 100%)
+	 * @return  Whether the roll passed or not.</haxe_doc>
+		</bool>
+		<sign public="1" get="inline" set="null" line="211">
+			<f a="?Chance">
+				<x path="Float"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* Returns either a 1 or -1. 
+	 * 
+	 * @param   Chance   The chance of receiving a positive value.
+	 *                   Should be given as a number between 0 and 100 (effectively 0% to 100%)
+	 * @return  1 or -1</haxe_doc>
+		</sign>
+		<weightedPick public="1" set="method" line="225">
+			<f a="WeightsArray">
+				<c path="Array"><x path="Float"/></c>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* Pseudorandomly select from an array of weighted options. For example, if you passed in an array of [50, 30, 20]
+	 * there would be a 50% chance of returning a 0, a 30% chance of returning a 1, and a 20% chance of returning a 2.
+	 * Note that the values in the array do not have to add to 100 or any other number.
+	 * The percent chance will be equal to a given value in the array divided by the total of all values in the array.
+	 * 
+	 * @param   WeightsArray   An array of weights.
+	 * @return  A value between 0 and (SelectionArray.length - 1), with a probability equivalent to the values in SelectionArray.</haxe_doc>
+		</weightedPick>
+		<color public="1" set="method" line="340">
+			<f a="?Min:?Max:?Alpha:?GreyScale">
+				<x path="spiller.util.SpiColor"/>
+				<x path="spiller.util.SpiColor"/>
+				<x path="Int"/>
+				<x path="Bool"/>
+				<x path="spiller.util.SpiColor"/>
+			</f>
+			<haxe_doc>* Returns a random color.
+	 * 
+	 * @param   Min        An optional SpiColor representing the lower bounds for the generated color.
+	 * @param   Max        An optional SpiColor representing the upper bounds for the generated color.
+	 * @param 	Alpha      An optional value for the alpha channel of the generated color.
+	 * @param   GreyScale  Whether or not to create a color that is strictly a shade of grey. False by default.
+	 * @return  A color value as a SpiColor.</haxe_doc>
+		</color>
+		<generate get="inline" set="null" line="385">
+			<f a=""><x path="Float"/></f>
+			<haxe_doc>* Internal method to quickly generate a pseudorandom number. Used only by other functions of this class.
+	 * Also updates the internal seed, which will then be used to generate the next pseudorandom number.
+	 * 
+	 * @return  A new pseudorandom number.</haxe_doc>
+		</generate>
+		<internalSeed>
+			<x path="Float"/>
+			<haxe_doc>* The actual internal seed. Stored as a Float value to prevent inaccuracies due to
+	 * integer overflow in the generate() equation.</haxe_doc>
+		</internalSeed>
+		<set_initialSeed get="inline" set="null" line="400">
+			<f a="NewSeed">
+				<x path="Int"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* Internal function to update the current seed whenever the initial seed is reset,
+	 * and keep the initial seed's value in range.</haxe_doc>
+		</set_initialSeed>
+		<get_currentSeed get="inline" set="null" line="408">
+			<f a=""><x path="Int"/></f>
+			<haxe_doc>* Returns the internal seed as an integer.</haxe_doc>
+		</get_currentSeed>
+		<set_currentSeed get="inline" set="null" line="416">
+			<f a="NewSeed">
+				<x path="Int"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* Sets the internal seed to an integer value.</haxe_doc>
+		</set_currentSeed>
+		<new public="1" set="method" line="30">
+			<f a="?InitialSeed">
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Create a new SpiRandom object.
+	 * 
+	 * @param	InitialSeed  The first seed of this SpiRandom object. If ignored, a random seed will be generated.</haxe_doc>
+		</new>
+		<haxe_doc>* A class containing a set of functions for random generation.</haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="spiller.math.SpiMath" params="" file="Libs/spiller/math/SpiMath.hx">
+		<MIN_VALUE_FLOAT public="1" get="inline" set="null" line="26" static="1">
+			<x path="Float"/>
+			<haxe_doc>* Minimum value of a floating point number.</haxe_doc>
+		</MIN_VALUE_FLOAT>
+		<MAX_VALUE_FLOAT public="1" get="inline" set="null" line="36" static="1">
+			<x path="Float"/>
+			<haxe_doc>* Maximum value of a floating point number.</haxe_doc>
+		</MAX_VALUE_FLOAT>
+		<MIN_VALUE_INT public="1" get="inline" set="null" line="40" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Minimum value of an integer.</haxe_doc>
+		</MIN_VALUE_INT>
+		<MAX_VALUE_INT public="1" get="inline" set="null" line="44" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Maximum value of an integer.</haxe_doc>
+		</MAX_VALUE_INT>
+		<SQUARE_ROOT_OF_TWO public="1" get="inline" set="null" line="48" static="1">
+			<x path="Float"/>
+			<haxe_doc>* Approximation of Math.sqrt(2).</haxe_doc>
+		</SQUARE_ROOT_OF_TWO>
+		<EPSILON public="1" get="inline" set="null" line="52" static="1">
+			<x path="Float"/>
+			<haxe_doc>* Used to account for floating-point inaccuracies.</haxe_doc>
+		</EPSILON>
+		<roundDecimal public="1" set="method" line="90" static="1">
+			<f a="num:dec">
+				<x path="Float"/>
+				<x path="Int"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* Round to the closes number with the number of decimals given. E.g round(2.954165, 2) == 2.95
+	 * 
+	 * @param num	The number to round.
+	 * @param dec 	The number of decimals wanted.
+	 * @return The rounded value of that number.</haxe_doc>
+		</roundDecimal>
+		<bound public="1" get="inline" set="null" line="108" static="1">
+			<f a="Value:?Min:?Max">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* Bound a number by a minimum and maximum. Ensures that this number is 
+	 * no smaller than the minimum, and no larger than the maximum.
+	 * Leaving a bound null means that side is unbounded.
+	 * 
+	 * @param	Value	Any number.
+	 * @param	Min		Any number.
+	 * @param	Max		Any number.
+	 * @return	The bounded value of the number.</haxe_doc>
+		</bound>
+		<pointInCoordinates public="1" set="method" line="126" static="1">
+			<f a="pointX:pointY:rectX:rectY:rectWidth:rectHeight">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>* Returns true if the given x/y coordinate is within the given rectangular block
+	 * 
+	 * @param	pointX		The X value to test
+	 * @param	pointY		The Y value to test
+	 * @param	rectX		The X value of the region to test within
+	 * @param	rectY		The Y value of the region to test within
+	 * @param	rectWidth	The width of the region to test within
+	 * @param	rectHeight	The height of the region to test within
+	 * 
+	 * @return	true if pointX/pointY is within the region, otherwise false</haxe_doc>
+		</pointInCoordinates>
+		<pointInSpiRect public="1" set="method" line="145" static="1">
+			<f a="pointX:pointY:rect">
+				<x path="Float"/>
+				<x path="Float"/>
+				<c path="spiller.math.SpiRect"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>* Returns true if the given x/y coordinate is within the given rectangular block
+	 * 
+	 * @param	pointX		The X value to test
+	 * @param	pointY		The Y value to test
+	 * @param	rect		The SpiRect to test within
+	 * @return	true if pointX/pointY is within the SpiRect, otherwise false</haxe_doc>
+		</pointInSpiRect>
+		<wrapValue public="1" set="method" line="632" static="1">
+			<f a="value:amount:max">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc><![CDATA[* Adds value to amount and ensures that the result always stays between 0 and max, by wrapping the value around.
+	 * <p>Values must be positive integers, and are passed through Math.abs</p>
+	 * 
+	 * @param value The value to add the amount to
+	 * @param amount The amount to add to the value
+	 * @param max The maximum the value is allowed to be
+	 * @return The wrapped value]]></haxe_doc>
+		</wrapValue>
+		<vectorLength public="1" set="method" line="653" static="1">
+			<f a="dx:dy">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* Finds the length of the given vector
+	 * 
+	 * @param	dx
+	 * @param	dy
+	 * 
+	 * @return</haxe_doc>
+		</vectorLength>
+		<add public="1" set="method" line="786" static="1">
+			<f a="v1:v2">
+				<c path="spiller.math.SpiPoint"/>
+				<c path="spiller.math.SpiPoint"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Add the first vector the second one.
+	 * 
+	 * @param	v1	The SpiPoint in question
+	 * @param	v2	The SpiPoint to be added to v1</haxe_doc>
+		</add>
+		<subtract public="1" set="method" line="795" static="1">
+			<f a="v1:v2">
+				<c path="spiller.math.SpiPoint"/>
+				<c path="spiller.math.SpiPoint"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Subtract the first vector the second one.</haxe_doc>
+		</subtract>
+		<multiplyByValue public="1" set="method" line="807" static="1">
+			<f a="v:value">
+				<c path="spiller.math.SpiPoint"/>
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Multiplies the two vectors by a value.
+	 * 
+	 * @param v 		A SpiPoint instance.
+	 * @param value 	The value to multiply the vector instance by.</haxe_doc>
+		</multiplyByValue>
+		<multiply public="1" set="method" line="819" static="1">
+			<f a="v1:v2">
+				<c path="spiller.math.SpiPoint"/>
+				<c path="spiller.math.SpiPoint"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Multiplies the two vectors by a value.
+	 * 
+	 * @param v1 		A SpiPoint instance.
+	 * @param v2	 	Another SpiPoint instance.</haxe_doc>
+		</multiply>
+		<divide public="1" set="method" line="831" static="1">
+			<f a="v:value">
+				<c path="spiller.math.SpiPoint"/>
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Divides this vector by a value.
+	 * 
+	 * @param v			A SpiPoint instance.
+	 * @param value 	The value to multiply the vector instance by.</haxe_doc>
+		</divide>
+		<normalize public="1" set="method" line="842" static="1">
+			<f a="v">
+				<c path="spiller.math.SpiPoint"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Brings the given vector's magnitude down to a 0-1 value so it can be used to constrain other vectors.
+	 * 
+	 * @param	v		A SpiPoint instance.</haxe_doc>
+		</normalize>
+		<getDistance public="1" set="method" line="912" static="1">
+			<f a="Point1:Point2">
+				<c path="spiller.math.SpiPoint"/>
+				<c path="spiller.math.SpiPoint"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* Calculate the distance between two points.
+	 * 
+	 * @param 	Point1		A SpiPoint object referring to the first location.
+	 * @param 	Point2		A SpiPoint object referring to the second location.
+	 * @return	The distance between the two points as a floating point Number object.</haxe_doc>
+		</getDistance>
+		<rotatePoint public="1" set="method" line="959" static="1">
+			<f a="X:Y:PivotX:PivotY:Angle:?Point">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<c path="spiller.math.SpiPoint"/>
+				<c path="spiller.math.SpiPoint"/>
+			</f>
+			<haxe_doc><![CDATA[* Rotates a point in 2D space around another point by the given angle.
+	 * 
+	 * @param X The X coordinate of the point you want to rotate.
+	 * @param Y The Y coordinate of the point you want to rotate.
+	 * @param PivotX The X coordinate of the point you want to rotate around.
+	 * @param PivotY The Y coordinate of the point you want to rotate around.
+	 * @param Angle Rotate the point by this many degrees.
+	 * @param Point Optional <code>SpiPoint</code> to store the results in.
+	 * 
+	 * @return A <code>SpiPoint</code> containing the coordinates of the rotated point.]]></haxe_doc>
+		</rotatePoint>
+		<getAngle public="1" set="method" line="1017" static="1">
+			<f a="Point1:Point2">
+				<c path="spiller.math.SpiPoint"/>
+				<c path="spiller.math.SpiPoint"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* Calculates the angle between two points. 0 degrees points straight up.
+	 * 
+	 * @param Point1 The X coordinate of the point.
+	 * @param Point2 The Y coordinate of the point.
+	 * 
+	 * @return The angle in degrees, between -180 and 180.</haxe_doc>
+		</getAngle>
+		<abs public="1" set="method" line="1046" static="1">
+			<f a="N">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* Calculate the absolute value of a number.
+	 * 
+	 * @param Value Any number.
+	 * 
+	 * @return The absolute value of that number.</haxe_doc>
+		</abs>
+		<floor public="1" set="method" line="1058" static="1">
+			<f a="N">
+				<x path="Float"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* Round down to the next whole number. E.g. floor(1.7) == 1, and floor(-2.7) == -2.
+	 * 
+	 * @param Value Any number.
+	 * 
+	 * @return The rounded value of that number.</haxe_doc>
+		</floor>
+		<ceil public="1" set="method" line="1071" static="1">
+			<f a="N">
+				<x path="Float"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* Round up to the next whole number. E.g. ceil(1.3) == 2, and ceil(-2.3) == -3.
+	 * 
+	 * @param Value Any number.
+	 * 
+	 * @return The rounded value of that number.</haxe_doc>
+		</ceil>
+		<round public="1" set="method" line="1084" static="1">
+			<f a="value">
+				<x path="Float"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* Round to the closest whole number. E.g. round(1.7) == 2, and round(-2.3) == -2.
+	 * 
+	 * @param Value Any number.
+	 * 
+	 * @return The rounded value of that number.</haxe_doc>
+		</round>
+		<min public="1" set="method" line="1101" static="1">
+			<f a="Number1:Number2">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* Figure out which number is smaller.
+	 * 
+	 * @param Number1 Any number.
+	 * @param Number2 Any number.
+	 * 
+	 * @return The smaller of the two numbers.</haxe_doc>
+		</min>
+		<max public="1" set="method" line="1114" static="1">
+			<f a="Number1:Number2">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* Figure out which number is larger.
+	 * 
+	 * @param Number1 Any number.
+	 * @param Number2 Any number.
+	 * 
+	 * @return The larger of the two numbers.</haxe_doc>
+		</max>
+		<haxe_doc>* Adds a set of fast Math functions and extends a few commonly used ones.
+ * 
+ * v1.1 Updated some references and commented 
+ * v1.0 Initial version
+ * 
+ * @version 1.1 - 27/02/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Richard Davey / Photon Storm</haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
 	</class>
 	<class path="spiller.SpiG" params="" file="Libs/spiller/SpiG.hx">
 		<elapsed public="1" static="1">
 			<x path="Float"/>
 			<haxe_doc>* Represents the amount of time in seconds that passed since last frame.</haxe_doc>
 		</elapsed>
+		<timeScale public="1" static="1">
+			<x path="Float"/>
+			<haxe_doc>* How fast or slow time should pass in the game; default is 1.0.</haxe_doc>
+		</timeScale>
+		<width public="1" static="1">
+			<x path="Int"/>
+			<haxe_doc>* The width of the screen in game pixels.</haxe_doc>
+		</width>
+		<height public="1" static="1">
+			<x path="Int"/>
+			<haxe_doc>* The height of the screen in game pixels.</haxe_doc>
+		</height>
+		<worldBounds public="1" static="1">
+			<c path="spiller.math.SpiRect"/>
+			<haxe_doc>* The dimensions of the game world, used by the quad tree for collisions and overlap checks.</haxe_doc>
+		</worldBounds>
+		<worldDivisions public="1" static="1">
+			<x path="Int"/>
+			<haxe_doc>* How many times the quad tree should divide the world on each axis.
+	 * Generally, sparse collisions can have fewer divisons,
+	 * while denser collision activity usually profits from more.
+	 * Default value is 6.</haxe_doc>
+		</worldDivisions>
+		<screenWidth public="1" static="1">
+			<x path="Int"/>
+			<haxe_doc>* The width in pixels of the display surface.</haxe_doc>
+		</screenWidth>
+		<screenHeight public="1" static="1">
+			<x path="Int"/>
+			<haxe_doc>* The height in pixels of the display surface.</haxe_doc>
+		</screenHeight>
 		<visualDebug public="1" static="1">
 			<x path="Bool"/>
 			<haxe_doc>* Whether to show visual debug displays or not.
@@ -21595,7 +22200,11 @@
 			<c path="spiller.SpiCamera"/>
 			<haxe_doc>* The camera currently being drawn.</haxe_doc>
 		</activeCamera>
-		<log public="1" set="method" line="471" static="1">
+		<random public="1" set="null" line="399" static="1">
+			<c path="spiller.math.SpiRandom"/>
+			<haxe_doc>* A SpiRandom object used internally by flixel to generate random numbers.</haxe_doc>
+		</random>
+		<log public="1" set="method" line="481" static="1">
 			<f a="?tag:?data:?showThreadName">
 				<c path="String"/>
 				<a><toString set="null"><f a=""><c path="String"/></f></toString></a>
@@ -21608,14 +22217,411 @@
 	 * @param data					Anything you want to log to the console.
 	 * @param showThreadName		If the log prints the Thread name or not.</haxe_doc>
 		</log>
-		<getActiveCamera public="1" set="method" line="1835" static="1">
+		<getActiveCamera public="1" set="method" line="1845" static="1">
 			<f a=""><c path="spiller.SpiCamera"/></f>
 			<haxe_doc>* Read-only: gets the current SpiCamera.</haxe_doc>
 		</getActiveCamera>
+		<collide public="1" set="method" line="2330" static="1">
+			<f a="?ObjectOrGroup1:?ObjectOrGroup2:?NotifyCallback">
+				<c path="spiller.SpiBasic"/>
+				<c path="spiller.SpiBasic"/>
+				<f a=":">
+					<c path="spiller.SpiObject"/>
+					<c path="spiller.SpiObject"/>
+					<x path="Void"/>
+				</f>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc><![CDATA[* Call this method to see if one <code>SpiObject</code> collides with another.
+	 * Can be called with one object and one group, or two groups, or two objects,
+	 * whatever floats your boat! For maximum performance try bundling a lot of objects
+	 * together using a <code>SpiGroup</code> (or even bundling groups together!).
+	 * 
+	 * <p>This method just calls overlap and presets the ProcessCallback parameter to SpiObject.separate.
+	 * To create your own collision logic, write your own ProcessCallback and use overlap to set it up.</p>
+	 * 
+	 * <p>NOTE: does NOT take objects' scrollfactor into account, all overlaps are checked in world space.</p>
+	 * 
+	 * @param	ObjectOrGroup1	The first object or group you want to check.
+	 * @param	ObjectOrGroup2	The second object or group you want to check.  If it is the same as the first, spiller knows to just do a comparison within that group.
+	 * @param	NotifyCallback	A method with two <code>SpiObject</code> parameters - e.g. <code>myOverlapFunction(Object1:SpiObject,Object2:SpiObject)</code> - that is called if those two objects overlap.
+	 * 
+	 * @return	Whether any objects were successfully collided/separated.]]></haxe_doc>
+		</collide>
+		<haxe_doc><![CDATA[* This is a global helper class full of useful methods for audio,<br>
+ * input, basic info, and the camera system among other things.<br>
+ * Utilities for maths and color and things can be found in <code>SpiU</code>.<br>
+ * <code>SpiG</code> is specifically for spiller-specific properties.<br>
+ * <br>
+ * v1.3 Updated reflection stuff.<br>
+ * v1.2 Added the tween method and the inOUYA method.<br>
+ * v1.1 Ported to Java.<br>
+ * v1.0 Initial version (?).<br>
+ * 
+ * @version 1.4 - 02/07/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Ka Wing Chin
+ * @author Thomas Weston]]></haxe_doc>
 		<meta>
 			<m n=":directlyUsed"/>
 			<m n=":allow"><e>spiller</e></m>
 		</meta>
+	</class>
+	<class path="spiller.SpiGroup" params="" file="Libs/spiller/SpiGroup.hx">
+		<extends path="spiller.SpiBasic"/>
+		<ASCENDING public="1" get="inline" set="null" line="26" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Use with <code>sort()</code> to sort in ascending order.]]></haxe_doc>
+		</ASCENDING>
+		<DESCENDING public="1" get="inline" set="null" line="30" static="1">
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Use with <code>sort()</code> to sort in descending order.]]></haxe_doc>
+		</DESCENDING>
+		<byY public="1" get="inline" set="null" line="691" static="1">
+			<f a="Order:Obj1:Obj2">
+				<x path="Int"/>
+				<c path="spiller.SpiBasic"/>
+				<c path="spiller.SpiBasic"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* Helper function for the sort process.
+	 * 
+	 * @param Obj1 The first object being sorted.
+	 * @param Obj2 The second object being sorted.
+	 * 
+	 * @return An integer value: -1 (Obj1 before Obj2), 0 (same), or 1 (Obj1 after Obj2).
+	/**
+	 * You can use this function in SpiGroup.sort() to sort SpiObjects by their y values.</haxe_doc>
+		</byY>
+		<byValues public="1" get="inline" set="null" line="701" static="1">
+			<f a="Order:Value1:Value2">
+				<x path="Int"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* You can use this function as a backend to write a custom sorting function (see byY() for an example).</haxe_doc>
+		</byValues>
+		<members public="1">
+			<c path="Array"><c path="spiller.SpiBasic"/></c>
+			<haxe_doc><![CDATA[* Array of all the <code>T</code>s that exist in this group.]]></haxe_doc>
+		</members>
+		<_maxSize>
+			<x path="Int"/>
+			<haxe_doc>* Internal tracker for the maximum capacity of the group. Default is 0, or no max capacity.</haxe_doc>
+		</_maxSize>
+		<_marker>
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Internal helper variable for recycling objects a la <code>SpiEmitter</code>.]]></haxe_doc>
+		</_marker>
+		<_sortIndex>
+			<c path="String"/>
+			<haxe_doc>* Helper for sort.</haxe_doc>
+		</_sortIndex>
+		<_sortOrder>
+			<x path="Int"/>
+			<haxe_doc>* Helper for sort.</haxe_doc>
+		</_sortOrder>
+		<sortHandler>
+			<f a="::">
+				<x path="Int"/>
+				<c path="spiller.SpiBasic"/>
+				<c path="spiller.SpiBasic"/>
+				<x path="Int"/>
+			</f>
+			<haxe_doc>* The sort handler.</haxe_doc>
+		</sortHandler>
+		<destroy public="1" set="method" line="75" override="1">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Override this function to handle any deleting or "shutdown" type operations you might need, such as removing traditional Flash children like Sprite objects.</haxe_doc>
+		</destroy>
+		<preUpdate public="1" set="method" line="94" override="1">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Just making sure we don't increment the active objects count.</haxe_doc>
+		</preUpdate>
+		<update public="1" set="method" line="102" override="1">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Automatically goes through and calls update on everything you added.</haxe_doc>
+		</update>
+		<destroyDead public="1" set="method" line="129">
+			<f a="?splice">
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Destroy the dead objects.
+	 * 
+	 * @param splice Whether the object should be cut from the array entirely or not.</haxe_doc>
+		</destroyDead>
+		<secureClear public="1" set="method" line="146">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc><![CDATA[* Remove all instances of <code>T</code> subclass (SpiSprite, SpiBlock, etc) from the list. The secureClear() destroy() and kill() the objects!]]></haxe_doc>
+		</secureClear>
+		<draw public="1" set="method" line="170" override="1">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Automatically goes through and calls render on everything you added.</haxe_doc>
+		</draw>
+		<getMaxSize public="1" set="method" line="184">
+			<f a=""><x path="Int"/></f>
+			<haxe_doc>* The maximum capacity of this group. Default is 0, meaning no max capacity, and the group can just grow.</haxe_doc>
+		</getMaxSize>
+		<setMaxSize public="1" set="method" line="192">
+			<f a="Size">
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* @private</haxe_doc>
+		</setMaxSize>
+		<add public="1" set="method" line="225">
+			<f a="Object">
+				<c path="spiller.SpiBasic"/>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc><![CDATA[* Adds a new <code>T</code> subclass (SpiBasic , SpiSprite, Enemy, etc) to the group. SpiGroup will try to replace a null member of the array first. Failing that,
+	 * SpiGroup will add it to the end of the member array, assuming there is room for it, and doubling the size of the array if necessary.
+	 * 
+	 * <p>
+	 * WARNING: If the group has a maxSize that has already been met, the object will NOT be added to the group!
+	 * </p>
+	 * 
+	 * @param Object The object you want to add to the group.
+	 * 
+	 * @return The same <code>T</code> object that was passed in.]]></haxe_doc>
+		</add>
+		<recycle public="1" set="method" line="276">
+			<f a="?ObjectType">
+				<x path="spiller.SpiType"/>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc><![CDATA[* Recycling is designed to help you reuse game objects without always re-allocating or "newing" them.
+	 * 
+	 * <p>
+	 * If you specified a maximum size for this group (like in SpiEmitter), then recycle will employ what we're calling "rotating" recycling. Recycle() will first check to see if
+	 * the group is at capacity yet. If group is not yet at capacity, recycle() returns a new object. If the group IS at capacity, then recycle() just returns the next object in
+	 * line.
+	 * </p>
+	 * 
+	 * <p>
+	 * If you did NOT specify a maximum size for this group, then recycle() will employ what we're calling "grow-style" recycling. Recycle() will return either the first object
+	 * with exists == false, or, finding none, add a new object to the array, doubling the size of the array if necessary.
+	 * </p>
+	 * 
+	 * <p>
+	 * WARNING: If this function needs to create a new object, and no object class was provided, it will return null instead of a valid object!
+	 * </p>
+	 * 
+	 * @param ObjectClass The class type you want to recycle (e.g. SpiSprite, EvilRobot, etc). Do NOT "new" the class in the parameter!
+	 * 
+	 * @return A reference to the object that was created. Don't forget to cast it back to the Class you want (e.g. myObject = myGroup.recycle(myObjectClass) as myObjectClass;).]]></haxe_doc>
+		</recycle>
+		<recycleByClass public="1" set="method" line="323">
+			<f a="?ObjectClass">
+				<x path="Class"><c path="spiller.SpiBasic"/></x>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc><![CDATA[* Recycling is designed to help you reuse game objects without always re-allocating or "newing" them.
+	 * 
+	 * <p>
+	 * If you specified a maximum size for this group (like in SpiEmitter), then recycle will employ what we're calling "rotating" recycling. Recycle() will first check to see if
+	 * the group is at capacity yet. If group is not yet at capacity, recycle() returns a new object. If the group IS at capacity, then recycle() just returns the next object in
+	 * line.
+	 * </p>
+	 * 
+	 * <p>
+	 * If you did NOT specify a maximum size for this group, then recycle() will employ what we're calling "grow-style" recycling. Recycle() will return either the first object
+	 * with exists == false, or, finding none, add a new object to the array, doubling the size of the array if necessary.
+	 * </p>
+	 * 
+	 * <p>
+	 * WARNING: If this function needs to create a new object, and no object class was provided, it will return null instead of a valid object!
+	 * </p>
+	 * 
+	 * @param ObjectClass The class type you want to recycle (e.g. SpiSprite, EvilRobot, etc). Do NOT "new" the class in the parameter!
+	 * 
+	 * @return A reference to the object that was created. Don't forget to cast it back to the Class you want (e.g. myObject = myGroup.recycle(myObjectClass) as myObjectClass;).]]></haxe_doc>
+		</recycleByClass>
+		<remove public="1" set="method" line="356">
+			<f a="Object:?Splice">
+				<c path="spiller.SpiBasic"/>
+				<x path="Bool"/>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc><![CDATA[* Removes an object from the group.
+	 * 
+	 * @param Object The <code>T</code> you want to remove.
+	 * @param Splice Whether the object should be cut from the array entirely or not.
+	 * 
+	 * @return The removed object.]]></haxe_doc>
+		</remove>
+		<replace public="1" set="method" line="376">
+			<f a="OldObject:NewObject">
+				<c path="spiller.SpiBasic"/>
+				<c path="spiller.SpiBasic"/>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc><![CDATA[* Replaces an existing <code>T</code> with a new one.
+	 * 
+	 * @param OldObject The object you want to replace.
+	 * @param NewObject The new object you want to use instead.
+	 * 
+	 * @return The new object.]]></haxe_doc>
+		</replace>
+		<sort public="1" set="method" line="394">
+			<f a="?Index:?Order">
+				<c path="String"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Call this function to sort the group according to a particular value and order. For example, to sort game objects for Zelda-style overlaps you might call
+	 * <code>myGroup.sort("y",ASCENDING)</code> at the bottom of your <code>SpiState.update()</code> override. To sort all existing objects after a big explosion or bomb attack,
+	 * you might call <code>myGroup.sort("exists",DESCENDING)</code>.
+	 * 
+	 * @param Index The <code>String</code> name of the member variable you want to sort on. Default value is "y".
+	 * @param Order A <code>SpiGroup</code> constant that defines the sort order. Possible values are <code>ASCENDING</code> and <code>DESCENDING</code>. Default value is
+	 *            <code>ASCENDING</code>.]]></haxe_doc>
+		</sort>
+		<setAll public="1" set="method" line="410">
+			<f a="VariableName:Value:?Recurse">
+				<c path="String"/>
+				<d/>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Go through and set the specified variable to the specified value on all members of the group.
+	 * 
+	 * @param VariableName The string representation of the variable name you want to modify, for example "visible" or "scrollFactor".
+	 * @param Value The value you want to assign to that variable.
+	 * @param Recurse Default value is true, meaning if <code>setAll()</code> encounters a member that is a group, it will call <code>setAll()</code> on that group rather than
+	 *            modifying its variable.]]></haxe_doc>
+		</setAll>
+		<callAll public="1" set="method" line="433">
+			<f a="FunctionName:?Recurse">
+				<c path="String"/>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Go through and call the specified function on all members of the group. Currently only works on functions that have no required parameters.
+	 * 
+	 * @param FunctionName The string representation of the function you want to call on each object, for example "kill()" or "init()".
+	 * @param Recurse Default value is true, meaning if <code>callAll()</code> encounters a member that is a group, it will call <code>callAll()</code> on that group rather than
+	 *            calling the group's function.]]></haxe_doc>
+		</callAll>
+		<getFirstAvailableByClass public="1" set="method" line="456">
+			<f a="?objectClass">
+				<x path="Class"><c path="spiller.SpiBasic"/></x>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc><![CDATA[* Call this function to retrieve the first object with exists == false in the group. This is handy for recycling in general, e.g. respawning enemies.
+	 * 
+	 * @param objectClass An optional parameter that lets you narrow the results to instances of this particular class.
+	 * 
+	 * @return A <code>T</code> currently flagged as not existing.]]></haxe_doc>
+		</getFirstAvailableByClass>
+		<getFirstAvailable public="1" set="method" line="476">
+			<f a="?objectType">
+				<x path="spiller.SpiType"/>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc><![CDATA[* Call this function to retrieve the first object with exists == false in the group. This is handy for recycling in general, e.g. respawning enemies.
+	 * 
+	 * @param objectClass An optional parameter that lets you narrow the results to instances of this particular class.
+	 * 
+	 * @return A <code>T</code> currently flagged as not existing.]]></haxe_doc>
+		</getFirstAvailable>
+		<getFirstNull public="1" set="method" line="493">
+			<f a=""><x path="Int"/></f>
+			<haxe_doc><![CDATA[* Call this function to retrieve the first index set to 'null'. Returns -1 if no index stores a null object.
+	 * 
+	 * @return An <code>int</code> indicating the first null slot in the group.]]></haxe_doc>
+		</getFirstNull>
+		<getFirstExtant public="1" set="method" line="511">
+			<f a=""><c path="spiller.SpiBasic"/></f>
+			<haxe_doc><![CDATA[* Call this function to retrieve the first object with exists == true in the group. This is handy for checking if everything's wiped out, or choosing a squad leader, etc.
+	 * 
+	 * @return A <code>T</code> currently flagged as existing.]]></haxe_doc>
+		</getFirstExtant>
+		<getFirstAlive public="1" set="method" line="528">
+			<f a=""><c path="spiller.SpiBasic"/></f>
+			<haxe_doc><![CDATA[* Call this function to retrieve the first object with dead == false in the group. This is handy for checking if everything's wiped out, or choosing a squad leader, etc.
+	 * 
+	 * @return A <code>T</code> currently flagged as not dead.]]></haxe_doc>
+		</getFirstAlive>
+		<getFirstDead public="1" set="method" line="545">
+			<f a="?objectType">
+				<x path="spiller.SpiType"/>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc><![CDATA[* Call this function to retrieve the first object with dead == true in the group. This is handy for checking if everything's wiped out, or choosing a squad leader, etc.
+	 * 
+	 * @return A <code>T</code> currently flagged as dead.]]></haxe_doc>
+		</getFirstDead>
+		<getFirstDeadByClass public="1" set="method" line="563">
+			<f a="?objectClass">
+				<x path="Class"><c path="spiller.SpiBasic"/></x>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc><![CDATA[* Call this function to retrieve the first object with dead == true in the group. This is handy for checking if everything's wiped out, or choosing a squad leader, etc.
+	 * 
+	 * @return A <code>T</code> currently flagged as dead.]]></haxe_doc>
+		</getFirstDeadByClass>
+		<countLiving public="1" set="method" line="581">
+			<f a=""><x path="Int"/></f>
+			<haxe_doc><![CDATA[* Call this function to find out how many members of the group are not dead.
+	 * 
+	 * @return The number of <code>T</code>s flagged as not dead. Returns -1 if group is empty.]]></haxe_doc>
+		</countLiving>
+		<countDead public="1" set="method" line="609">
+			<f a=""><x path="Int"/></f>
+			<haxe_doc><![CDATA[* Call this function to find out how many members of the group are dead.
+	 * 
+	 * @return The number of <code>T</code>s flagged as dead. Returns -1 if group is empty.]]></haxe_doc>
+		</countDead>
+		<getRandom public="1" set="method" line="640">
+			<f a="?StartIndex:?length">
+				<x path="Int"/>
+				<x path="Int"/>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc><![CDATA[* Returns a member at random from the group.
+	 * 
+	 * @param StartIndex Optional offset off the front of the array. Default value is 0, or the beginning of the array.
+	 * @param length Optional restriction on the number of values you want to randomly select from.
+	 * 
+	 * @return A <code>T</code> from the members list.]]></haxe_doc>
+		</getRandom>
+		<clear public="1" set="method" line="650">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc><![CDATA[* Remove all instances of <code>T</code> subclass (SpiSprite, SpiBlock, etc) from the list. WARNING: does not destroy() or kill() any of these objects!]]></haxe_doc>
+		</clear>
+		<kill public="1" set="method" line="659" override="1">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Calls kill on the group's members and then on the group itself.</haxe_doc>
+		</kill>
+		<size public="1" set="method" line="676">
+			<f a=""><x path="Int"/></f>
+			<haxe_doc>* Returns the members.length of the group.
+	 * 
+	 * @return The members.length of the group.</haxe_doc>
+		</size>
+		<new public="1" set="method" line="61">
+			<f a="?MaxSize">
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Initialize a new group with the given size.
+	 * 
+	 * @param MaxSize		The maximum size of the group.</haxe_doc>
+		</new>
+		<haxe_doc><![CDATA[* This is an organizational class that can update and render a bunch of <code>SpiBasic</code>s. NOTE: Although <code>SpiGroup</code> extends <code>SpiBasic</code>, it will not
+ * automatically add itself to the global collisions quad tree, it will only add its members.
+ * 
+ * v1.2 Updated reflection stuff
+ * v1.1 Added parameterization to the class
+ * v1.0 Initial version
+ * 
+ * @version 1.2 - 02/07/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Ka Wing Chin]]></haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
 	</class>
 	<class path="spiller.util.interfaces.ISpiPoolable" params="" file="Libs/spiller/util/interfaces/ISpiPoolable.hx" interface="1">
 		<extends path="spiller.util.interfaces.ISpiDestroyable"/>
@@ -21628,7 +22634,7 @@
  * v1.0 Initial version<br>
  * <br>
  * @version 1.0 - 18/04/2015
- * @author ratalaika / ratalaikaGames]]></haxe_doc>
+ * @author ratalaika / Ratalaika Games]]></haxe_doc>
 	</class>
 	<class path="spiller.util.SpiPool" params="T" file="Libs/spiller/util/SpiPool.hx">
 		<_pool>
@@ -21695,7 +22701,7 @@
  * v1.0 Initial version<br>
  * 
  * @version 1.0 - 25/04/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Thomas Weston]]></haxe_doc>
 	</class>
 	<class path="spiller.math.SpiPointPool" params="" file="Libs/spiller/math/SpiPoint.hx" module="spiller.math.SpiPoint">
@@ -22135,89 +23141,89 @@
  * v1.0 Initial version<br>
  * <br>
  * @version 1.2 - 28/03/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Ka Wing Chin]]></haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
 	<class path="spiller.SpiObject" params="" file="Libs/spiller/SpiObject.hx">
 		<extends path="spiller.SpiBasic"/>
-		<LEFT public="1" get="inline" set="null" line="30" static="1">
+		<LEFT public="1" get="inline" set="null" line="32" static="1">
 			<x path="Int"/>
 			<haxe_doc><![CDATA[* Generic value for "left" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.]]></haxe_doc>
 		</LEFT>
-		<RIGHT public="1" get="inline" set="null" line="34" static="1">
+		<RIGHT public="1" get="inline" set="null" line="36" static="1">
 			<x path="Int"/>
 			<haxe_doc><![CDATA[* Generic value for "right" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.]]></haxe_doc>
 		</RIGHT>
-		<UP public="1" get="inline" set="null" line="38" static="1">
+		<UP public="1" get="inline" set="null" line="40" static="1">
 			<x path="Int"/>
 			<haxe_doc><![CDATA[* Generic value for "up" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.]]></haxe_doc>
 		</UP>
-		<DOWN public="1" get="inline" set="null" line="42" static="1">
+		<DOWN public="1" get="inline" set="null" line="44" static="1">
 			<x path="Int"/>
 			<haxe_doc><![CDATA[* Generic value for "down" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.]]></haxe_doc>
 		</DOWN>
-		<NONE public="1" get="inline" set="null" line="46" static="1">
+		<NONE public="1" get="inline" set="null" line="48" static="1">
 			<x path="Int"/>
 			<haxe_doc><![CDATA[* Special-case const meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.]]></haxe_doc>
 		</NONE>
-		<CEILING public="1" get="inline" set="null" line="50" static="1">
+		<CEILING public="1" get="inline" set="null" line="52" static="1">
 			<x path="Int"/>
 			<haxe_doc><![CDATA[* Special-case const meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.]]></haxe_doc>
 		</CEILING>
-		<FLOOR public="1" get="inline" set="null" line="54" static="1">
+		<FLOOR public="1" get="inline" set="null" line="56" static="1">
 			<x path="Int"/>
 			<haxe_doc><![CDATA[* Special-case const meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.]]></haxe_doc>
 		</FLOOR>
-		<WALL public="1" get="inline" set="null" line="58" static="1">
+		<WALL public="1" get="inline" set="null" line="60" static="1">
 			<x path="Int"/>
 			<haxe_doc><![CDATA[* Special-case const meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.]]></haxe_doc>
 		</WALL>
-		<ANY public="1" get="inline" set="null" line="62" static="1">
+		<ANY public="1" get="inline" set="null" line="64" static="1">
 			<x path="Int"/>
 			<haxe_doc><![CDATA[* Special-case const meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.]]></haxe_doc>
 		</ANY>
-		<OVERLAP_BIAS public="1" line="69" static="1">
+		<OVERLAP_BIAS public="1" line="71" static="1">
 			<x path="Float"/>
 			<haxe_doc><![CDATA[* The number of pixels the overlap can have before it won't count.<br>
 	 * Default value is 4, should be enough for normal games 16x16 or so<br>
 	 * for bigger game you may need to increase this to avoid entering on the map.<br>
 	 * (Used in <code>separateX()</code> and <code>separateY()</code>).]]></haxe_doc>
 		</OVERLAP_BIAS>
-		<PREVENT_OVERLAP public="1" line="74" static="1">
+		<PREVENT_OVERLAP public="1" line="76" static="1">
 			<x path="Bool"/>
 			<haxe_doc><![CDATA[* If we want to prevent overlapping of colliding objects.<br>
 	 * This is useful to prevent that one objects move inside another a few pixels.]]></haxe_doc>
 		</PREVENT_OVERLAP>
-		<PATH_FORWARD public="1" get="inline" set="null" line="78" static="1">
+		<PATH_FORWARD public="1" get="inline" set="null" line="80" static="1">
 			<x path="Int"/>
 			<haxe_doc>* Path behavior controls: move from the start of the path to the end then stop.</haxe_doc>
 		</PATH_FORWARD>
-		<PATH_BACKWARD public="1" get="inline" set="null" line="82" static="1">
+		<PATH_BACKWARD public="1" get="inline" set="null" line="84" static="1">
 			<x path="Int"/>
 			<haxe_doc>* Path behavior controls: move from the end of the path to the start then stop.</haxe_doc>
 		</PATH_BACKWARD>
-		<PATH_LOOP_FORWARD public="1" get="inline" set="null" line="86" static="1">
+		<PATH_LOOP_FORWARD public="1" get="inline" set="null" line="88" static="1">
 			<x path="Int"/>
 			<haxe_doc>* Path behavior controls: move from the start of the path to the end then directly back to the start, and start over.</haxe_doc>
 		</PATH_LOOP_FORWARD>
-		<PATH_LOOP_BACKWARD public="1" get="inline" set="null" line="90" static="1">
+		<PATH_LOOP_BACKWARD public="1" get="inline" set="null" line="92" static="1">
 			<x path="Int"/>
 			<haxe_doc>* Path behavior controls: move from the end of the path to the start then directly back to the end, and start over.</haxe_doc>
 		</PATH_LOOP_BACKWARD>
-		<PATH_YOYO public="1" get="inline" set="null" line="94" static="1">
+		<PATH_YOYO public="1" get="inline" set="null" line="96" static="1">
 			<x path="Int"/>
 			<haxe_doc>* Path behavior controls: move from the start of the path to the end then turn around and go back to the start, over and over.</haxe_doc>
 		</PATH_YOYO>
-		<PATH_HORIZONTAL_ONLY public="1" get="inline" set="null" line="98" static="1">
+		<PATH_HORIZONTAL_ONLY public="1" get="inline" set="null" line="100" static="1">
 			<x path="Int"/>
 			<haxe_doc>* Path behavior controls: ignores any vertical component to the path data, only follows side to side.</haxe_doc>
 		</PATH_HORIZONTAL_ONLY>
-		<PATH_VERTICAL_ONLY public="1" get="inline" set="null" line="102" static="1">
+		<PATH_VERTICAL_ONLY public="1" get="inline" set="null" line="104" static="1">
 			<x path="Int"/>
 			<haxe_doc>* Path behavior controls: ignores any horizontal component to the path data, only follows up and down.</haxe_doc>
 		</PATH_VERTICAL_ONLY>
-		<_pZero set="null" line="189" static="1">
+		<_pZero set="null" line="191" static="1">
 			<c path="spiller.math.SpiPoint"/>
 			<haxe_doc><![CDATA[* Should always represent (0,0) - useful for different things, for avoiding unnecessary <code>new</code> calls.]]></haxe_doc>
 		</_pZero>
@@ -22415,13 +23421,113 @@
 			<haxe_doc><![CDATA[* The information about the last collision.<br>
 	 * You can use it on the postCollision method.]]></haxe_doc>
 		</_lastTouching>
-		<destroy public="1" set="method" line="368" override="1">
+		<destroy public="1" set="method" line="371" override="1">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc>* Override this method to null out variables or
 	 * manually call destroy() on class members if necessary.
 	 * Don't forget to call super.destroy()!</haxe_doc>
 		</destroy>
-		<new public="1" set="method" line="314">
+		<preUpdate public="1" set="method" line="399" override="1">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc><![CDATA[* Pre-update is called right before <code>update()</code> on each object in the game loop.
+	 * In <code>SpiObject</code> it controls the flicker timer,
+	 * tracking the last coordinates for collision purposes,
+	 * and checking if the object is moving along a path or not.]]></haxe_doc>
+		</preUpdate>
+		<postUpdate public="1" set="method" line="433" override="1">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc><![CDATA[* Post-update is called right after <code>update()</code> on each object in the game loop.
+	 * In <code>SpiObject</code> this method handles integrating the objects motion
+	 * based on the velocity and acceleration settings, and tracking/clearing the <code>touching</code> flags.]]></haxe_doc>
+		</postUpdate>
+		<updateMotion set="method" line="447">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Internal method for updating the position and speed of this object.
+	 * Useful for cases when you need to update this but are buried down in too many supers.
+	 * Does a slightly fancier-than-normal integration to help with higher fidelity framerate-independenct motion.</haxe_doc>
+		</updateMotion>
+		<followPath public="1" set="method" line="538">
+			<f a="Path:?Speed:?Mode:?AutoRotate">
+				<c path="spiller.util.SpiPath"/>
+				<x path="Float"/>
+				<x path="Int"/>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Call this method to give this object a path to follow.
+	 * If the path does not have at least one node in it, this method
+	 * will log a warning message and return.
+	 * 
+	 * @param	Path		The <code>SpiPath</code> you want this object to follow.
+	 * @param	Speed		How fast to travel along the path in pixels per second.
+	 * @param	Mode		Optional, controls the behavior of the object following the path using the path behavior constants.  Can use multiple flags at once, for example PATH_YOYO|PATH_HORIZONTAL_ONLY will make an object move back and forth along the X axis of the path only.
+	 * @param	AutoRotate	Automatically point the object toward the next node.  Assumes the graphic is pointing upward.  Default behavior is false, or no automatic rotation.]]></haxe_doc>
+		</followPath>
+		<stopFollowingPath public="1" set="method" line="565">
+			<f a="?DestroyPath">
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Tells this object to stop following the path its on.
+	 * 
+	 * @param	DestroyPath		Tells this method whether to call destroy on the path object.  Default value is false.</haxe_doc>
+		</stopFollowingPath>
+		<advancePath set="method" line="583">
+			<f a="?Snap">
+				<x path="Bool"/>
+				<c path="spiller.math.SpiPoint"/>
+			</f>
+			<haxe_doc><![CDATA[* Internal method that decides what node in the path to aim for next based on the behavior flags.
+	 * 
+	 * @param Snap		True if you want to update the X or Y positions for PATH_VERTICAL_ONLY and PATH_HORIZONTAL_ONLY, false otherwise.
+	 * @return			The node (a <code>SpiPoint</code> object) we are aiming for next.]]></haxe_doc>
+		</advancePath>
+		<updatePathMotion set="method" line="645">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc><![CDATA[* Internal method for moving the object along the path.
+	 * Generally this method is called automatically by <code>preUpdate()</code>.
+	 * The first half of the method decides if the object can advance to the next node in the path,
+	 * while the second half handles actually picking a velocity toward the next node.]]></haxe_doc>
+		</updatePathMotion>
+		<updateSeekMotion set="method" line="713">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Update your current speed in order to seek an object.</haxe_doc>
+		</updateSeekMotion>
+		<seek public="1" set="method" line="727">
+			<f a="o">
+				<c path="spiller.SpiObject"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Start seeking an object</haxe_doc>
+		</seek>
+		<stopSeek public="1" set="method" line="735">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Stop seeking an object.</haxe_doc>
+		</stopSeek>
+		<preCollision set="method" line="745">
+			<f a="otherObject">
+				<c path="spiller.SpiObject"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Override this method if you want to store something before the separate method.
+	 * 
+	 * @param otherObject	The object we are colliding with!</haxe_doc>
+		</preCollision>
+		<postCollision set="method" line="758">
+			<f a="otherObject:separatedX:separatedY">
+				<c path="spiller.SpiObject"/>
+				<x path="Bool"/>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Override this method if you want to store something before the separate method.<br>
+	 * You can check the <b>_lastTouching</b> value to get the collision info.
+	 * 
+	 * @param otherObject	The object we are colliding with!
+	 * @param separatedX	Whether the objects in fact touched and were separated along the X axis.
+	 * @param separatedY	Whether the objects in fact touched and were separated along the Y axis.]]></haxe_doc>
+		</postCollision>
+		<new public="1" set="method" line="316">
 			<f a="?X:?Y:?Width:?Height">
 				<x path="Float"/>
 				<x path="Float"/>
@@ -22445,124 +23551,251 @@
  * v1.0 Initial version
  * 
  * @version 1.0 - 17/07/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Ka Wing Chin
  * @author Thomas Weston]]></haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="spiller.math.SpiMath" params="" file="Libs/spiller/math/SpiMath.hx">
-		<roundDecimal public="1" set="method" line="58" static="1">
-			<f a="num:dec">
-				<x path="Float"/>
-				<x path="Int"/>
-				<x path="Float"/>
-			</f>
-			<haxe_doc>* Round to the closes number with the number of decimals given. E.g round(2.954165, 2) == 2.95
-	 * 
-	 * @param num	The number to round.
-	 * @param dec 	The number of decimals wanted.
-	 * @return The rounded value of that number.</haxe_doc>
-		</roundDecimal>
-		<bound public="1" get="inline" set="null" line="76" static="1">
-			<f a="Value:?Min:?Max">
-				<x path="Float"/>
-				<x path="Float"/>
-				<x path="Float"/>
-				<x path="Float"/>
-			</f>
-			<haxe_doc>* Bound a number by a minimum and maximum. Ensures that this number is 
-	 * no smaller than the minimum, and no larger than the maximum.
-	 * Leaving a bound null means that side is unbounded.
-	 * 
-	 * @param	Value	Any number.
-	 * @param	Min		Any number.
-	 * @param	Max		Any number.
-	 * @return	The bounded value of the number.</haxe_doc>
-		</bound>
-		<pointInCoordinates public="1" set="method" line="94" static="1">
-			<f a="pointX:pointY:rectX:rectY:rectWidth:rectHeight">
-				<x path="Float"/>
-				<x path="Float"/>
-				<x path="Float"/>
-				<x path="Float"/>
-				<x path="Float"/>
-				<x path="Float"/>
-				<x path="Bool"/>
-			</f>
-			<haxe_doc>* Returns true if the given x/y coordinate is within the given rectangular block
-	 * 
-	 * @param	pointX		The X value to test
-	 * @param	pointY		The Y value to test
-	 * @param	rectX		The X value of the region to test within
-	 * @param	rectY		The Y value of the region to test within
-	 * @param	rectWidth	The width of the region to test within
-	 * @param	rectHeight	The height of the region to test within
-	 * 
-	 * @return	true if pointX/pointY is within the region, otherwise false</haxe_doc>
-		</pointInCoordinates>
-		<pointInSpiRect public="1" set="method" line="113" static="1">
-			<f a="pointX:pointY:rect">
-				<x path="Float"/>
-				<x path="Float"/>
-				<c path="spiller.math.SpiRect"/>
-				<x path="Bool"/>
-			</f>
-			<haxe_doc>* Returns true if the given x/y coordinate is within the given rectangular block
-	 * 
-	 * @param	pointX		The X value to test
-	 * @param	pointY		The Y value to test
-	 * @param	rect		The SpiRect to test within
-	 * @return	true if pointX/pointY is within the SpiRect, otherwise false</haxe_doc>
-		</pointInSpiRect>
-		<wrapValue public="1" set="method" line="600" static="1">
-			<f a="value:amount:max">
-				<x path="Float"/>
-				<x path="Float"/>
-				<x path="Float"/>
-				<x path="Int"/>
-			</f>
-			<haxe_doc><![CDATA[* Adds value to amount and ensures that the result always stays between 0 and max, by wrapping the value around.
-	 * <p>Values must be positive integers, and are passed through Math.abs</p>
-	 * 
-	 * @param value The value to add the amount to
-	 * @param amount The amount to add to the value
-	 * @param max The maximum the value is allowed to be
-	 * @return The wrapped value]]></haxe_doc>
-		</wrapValue>
-		<vectorLength public="1" set="method" line="621" static="1">
-			<f a="dx:dy">
-				<x path="Float"/>
-				<x path="Float"/>
-				<x path="Float"/>
-			</f>
-			<haxe_doc>* Finds the length of the given vector
-	 * 
-	 * @param	dx
-	 * @param	dy
-	 * 
-	 * @return</haxe_doc>
-		</vectorLength>
-		<getDistance public="1" set="method" line="879" static="1">
-			<f a="Point1:Point2">
-				<c path="spiller.math.SpiPoint"/>
-				<c path="spiller.math.SpiPoint"/>
-				<x path="Float"/>
-			</f>
-			<haxe_doc>* Calculate the distance between two points.
-	 * 
-	 * @param 	Point1		A SpiPoint object referring to the first location.
-	 * @param 	Point2		A SpiPoint object referring to the second location.
-	 * @return	The distance between the two points as a floating point Number object.</haxe_doc>
-		</getDistance>
-		<haxe_doc>* Adds a set of fast Math functions and extends a few commonly used ones.
- * 
- * v1.1 Updated some references and commented 
+	<class path="spiller.SpiState" params="" file="Libs/spiller/SpiState.hx">
+		<extends path="spiller.SpiGroup"/>
+		<create public="1" set="method" line="29">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Override this function to set up your game state.
+	 * This is where you create your groups and game objects and all that good stuff.</haxe_doc>
+		</create>
+		<preProcess public="1" set="method" line="39">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc><![CDATA[* Override this function to do special pre-processing FX like motion blur.
+	 * You can use scaling or blending modes or whatever you want against
+	 * <code>SpiState.screen</code> to achieve all sorts of cool FX.]]></haxe_doc>
+		</preProcess>
+		<collide public="1" set="method" line="48">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc><![CDATA[* This function collides <code>defaultGroup</code> against <code>defaultGroup</code>
+	 * (basically everything you added to this state).]]></haxe_doc>
+		</collide>
+		<postProcess public="1" set="method" line="58">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc><![CDATA[* Override this function to do special post-processing FX like light bloom.
+	 * You can use scaling or blending modes or whatever you want against
+	 * <code>SpiState.screen</code> to achieve all sorts of cool FX.]]></haxe_doc>
+		</postProcess>
+		<new public="1" set="method" line="20">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc><![CDATA[* Creates a new <code>SpiState</code> object.]]></haxe_doc>
+		</new>
+		<haxe_doc><![CDATA[* This is the basic game "state" object - e.g. in a simple game
+ * you might have a menu state and a play state.<br>
+ * It is for all intents and purpose a fancy SpiGroup.<br>
+ * And really, it's not even that fancy.<br>
+ * <br>
  * v1.0 Initial version
  * 
- * @version 1.1 - 27/02/2013
- * @author ratalaika / ratalaikaGames
- * @author Richard Davey / Photon Storm</haxe_doc>
+ * @version 1.0 - 17/07/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Ka Wing Chin]]></haxe_doc>
+	</class>
+	<class path="spiller.animation.SpiAnim" params="" file="Libs/spiller/animation/SpiAnim.hx">
+		<_objectId static="1">
+			<x path="Int"/>
+			<haxe_doc>* The id generator.</haxe_doc>
+		</_objectId>
+		<ID public="1">
+			<x path="Int"/>
+			<haxe_doc>* The animation id.</haxe_doc>
+		</ID>
+		<name public="1">
+			<c path="String"/>
+			<haxe_doc>* String name of the animation (e.g. "walk")</haxe_doc>
+		</name>
+		<delay public="1">
+			<x path="Float"/>
+			<haxe_doc>* Seconds between frames (basically the framerate)</haxe_doc>
+		</delay>
+		<frames public="1">
+			<c path="Array"><x path="Int"/></c>
+			<haxe_doc><![CDATA[* A list of frames stored as <code>uint</code> objects]]></haxe_doc>
+		</frames>
+		<frameDelays public="1">
+			<c path="Array"><x path="Float"/></c>
+			<haxe_doc>* The frame rates for variable frame value.</haxe_doc>
+		</frameDelays>
+		<looped public="1">
+			<x path="Bool"/>
+			<haxe_doc>* Whether or not the animation is looped</haxe_doc>
+		</looped>
+		<destroy public="1" set="method" line="83">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Clean up memory.</haxe_doc>
+		</destroy>
+		<new public="1" set="method" line="53">
+			<f a="name:frames:?frameRate:?frameRateArray:?looped:?id">
+				<c path="String"/>
+				<c path="Array"><x path="Int"/></c>
+				<x path="Float"/>
+				<c path="Array"><x path="Int"/></c>
+				<x path="Bool"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Initializes a new animation.
+	 * 
+	 * @param name				What this animation should be called (e.g. "run")
+	 * @param frames			An array of numbers indicating what frames to play in what order (e.g. 1, 2, 3)
+	 * @param frameRate			The speed in frames per second that the animation should play at (e.g. 40)
+	 * @param frameRateArray	The time each frame should last, in seconds.
+	 * @param looped			Whether or not the animation is looped or just plays once
+	 * @param id				The animation id.</haxe_doc>
+		</new>
+		<haxe_doc>* Just a helper structure for the SpiSprite animation system.
+ * 
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 06/08/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Ka Wing Chin</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="spiller.data.SpiSystemAsset" params="" file="Libs/spiller/data/SpiSystemAsset.hx">
+		<systemFont public="1" get="inline" set="null" line="17" static="1">
+			<c path="String"/>
+			<haxe_doc>* The file handler.</haxe_doc>
+		</systemFont>
+		<ImgDefault public="1" get="inline" set="null" line="21" static="1">
+			<c path="String"/>
+			<haxe_doc>* The default image, used when creating an empty {@link SpiSprite}.</haxe_doc>
+		</ImgDefault>
+		<ImgDefaultButton public="1" get="inline" set="null" line="25" static="1">
+			<c path="String"/>
+			<haxe_doc>* The default image for an {@link SpiButton}.</haxe_doc>
+		</ImgDefaultButton>
+		<ImgControlBase public="1" get="inline" set="null" line="29" static="1">
+			<c path="String"/>
+			<haxe_doc>* The {@link SpiAnalog} base image.</haxe_doc>
+		</ImgControlBase>
+		<ImgControlKnob public="1" get="inline" set="null" line="33" static="1">
+			<c path="String"/>
+			<haxe_doc>* The {@link SpiAnalog} stick image.</haxe_doc>
+		</ImgControlKnob>
+		<dpad public="1" line="38" static="1">
+			<c path="Array"><c path="String"/></c>
+			<haxe_doc>* The {@link SpiDigitalPad} images.</haxe_doc>
+		</dpad>
+		<gpad public="1" line="46" static="1">
+			<c path="Array"><c path="String"/></c>
+			<haxe_doc>* The {@link SpiGamePad} images.</haxe_doc>
+		</gpad>
+		<poweredBy public="1" get="inline" set="null" line="53" static="1">
+			<c path="String"/>
+			<haxe_doc>* The powered by image.</haxe_doc>
+		</poweredBy>
+		<pauseinSound public="1" get="inline" set="null" line="57" static="1">
+			<c path="String"/>
+			<haxe_doc>* The pause in sound.</haxe_doc>
+		</pauseinSound>
+		<pauseoutSound public="1" get="inline" set="null" line="61" static="1">
+			<c path="String"/>
+			<haxe_doc>* The pause out sound.</haxe_doc>
+		</pauseoutSound>
+		<spillerSound public="1" get="inline" set="null" line="65" static="1">
+			<c path="String"/>
+			<haxe_doc>* The spiller splasg screen sound.</haxe_doc>
+		</spillerSound>
+		<ImgButtonA public="1" get="inline" set="null" line="69" static="1">
+			<c path="String"/>
+			<haxe_doc>* The image for the A button.</haxe_doc>
+		</ImgButtonA>
+		<ImgButtonB public="1" get="inline" set="null" line="73" static="1">
+			<c path="String"/>
+			<haxe_doc>* The image for the B button.</haxe_doc>
+		</ImgButtonB>
+		<ImgButtonC public="1" get="inline" set="null" line="77" static="1">
+			<c path="String"/>
+			<haxe_doc>* The image for the C button.</haxe_doc>
+		</ImgButtonC>
+		<ImgButtonY public="1" get="inline" set="null" line="81" static="1">
+			<c path="String"/>
+			<haxe_doc>* The image for the Y button.</haxe_doc>
+		</ImgButtonY>
+		<ImgButtonX public="1" get="inline" set="null" line="85" static="1">
+			<c path="String"/>
+			<haxe_doc>* The image for the X button.</haxe_doc>
+		</ImgButtonX>
+		<ImgButtonLeft public="1" get="inline" set="null" line="89" static="1">
+			<c path="String"/>
+			<haxe_doc>* The image for the LEFT button.</haxe_doc>
+		</ImgButtonLeft>
+		<ImgButtonUp public="1" get="inline" set="null" line="93" static="1">
+			<c path="String"/>
+			<haxe_doc>* The image for the UP button.</haxe_doc>
+		</ImgButtonUp>
+		<ImgButtonRight public="1" get="inline" set="null" line="97" static="1">
+			<c path="String"/>
+			<haxe_doc>* The image for the RIGHT button.</haxe_doc>
+		</ImgButtonRight>
+		<ImgButtonDown public="1" get="inline" set="null" line="101" static="1">
+			<c path="String"/>
+			<haxe_doc>* The image for the DOWN button.</haxe_doc>
+		</ImgButtonDown>
+		<ImgCenter public="1" get="inline" set="null" line="105" static="1">
+			<c path="String"/>
+			<haxe_doc>* The image for the center button.</haxe_doc>
+		</ImgCenter>
+		<ImgAuto public="1" get="inline" set="null" line="110" static="1">
+			<c path="String"/>
+			<haxe_doc>* Tile map default images.</haxe_doc>
+		</ImgAuto>
+		<ImgAutoAlt public="1" get="inline" set="null" line="114" static="1">
+			<c path="String"/>
+			<haxe_doc>* Tile map alternative default images.</haxe_doc>
+		</ImgAutoAlt>
+		<ImgAutoBig public="1" get="inline" set="null" line="118" static="1">
+			<c path="String"/>
+			<haxe_doc>* Tile map default images in 16x16.</haxe_doc>
+		</ImgAutoBig>
+		<ImgTab public="1" get="inline" set="null" line="123" static="1">
+			<c path="String"/>
+			<haxe_doc>* Spiller UI stuff</haxe_doc>
+		</ImgTab>
+		<ImgRadioButton public="1" get="inline" set="null" line="124" static="1"><c path="String"/></ImgRadioButton>
+		<ImgSwitch public="1" get="inline" set="null" line="125" static="1"><c path="String"/></ImgSwitch>
+		<ImgDivider public="1" get="inline" set="null" line="126" static="1"><c path="String"/></ImgDivider>
+		<ImgDividerVertical public="1" get="inline" set="null" line="127" static="1"><c path="String"/></ImgDividerVertical>
+		<ImgTopLeft public="1" get="inline" set="null" line="128" static="1"><c path="String"/></ImgTopLeft>
+		<ImgTopCenter public="1" get="inline" set="null" line="129" static="1"><c path="String"/></ImgTopCenter>
+		<ImgTopRight public="1" get="inline" set="null" line="130" static="1"><c path="String"/></ImgTopRight>
+		<ImgBottomLeft public="1" get="inline" set="null" line="131" static="1"><c path="String"/></ImgBottomLeft>
+		<ImgBottomCenter public="1" get="inline" set="null" line="132" static="1"><c path="String"/></ImgBottomCenter>
+		<ImgBottomRight public="1" get="inline" set="null" line="133" static="1"><c path="String"/></ImgBottomRight>
+		<ImgMiddleLeft public="1" get="inline" set="null" line="134" static="1"><c path="String"/></ImgMiddleLeft>
+		<ImgMiddleCenter public="1" get="inline" set="null" line="135" static="1"><c path="String"/></ImgMiddleCenter>
+		<ImgMiddleRight public="1" get="inline" set="null" line="136" static="1"><c path="String"/></ImgMiddleRight>
+		<ImgCheckBox public="1" get="inline" set="null" line="137" static="1"><c path="String"/></ImgCheckBox>
+		<ImgLabelTopLeft public="1" get="inline" set="null" line="138" static="1"><c path="String"/></ImgLabelTopLeft>
+		<ImgLabelTopCenter public="1" get="inline" set="null" line="139" static="1"><c path="String"/></ImgLabelTopCenter>
+		<ImgLabelTopRight public="1" get="inline" set="null" line="140" static="1"><c path="String"/></ImgLabelTopRight>
+		<ImgLabelMiddleLeft public="1" get="inline" set="null" line="141" static="1"><c path="String"/></ImgLabelMiddleLeft>
+		<ImgLabelMiddleCenter public="1" get="inline" set="null" line="142" static="1"><c path="String"/></ImgLabelMiddleCenter>
+		<ImgLabelMiddleRight public="1" get="inline" set="null" line="143" static="1"><c path="String"/></ImgLabelMiddleRight>
+		<ImgLabelBottomLeft public="1" get="inline" set="null" line="144" static="1"><c path="String"/></ImgLabelBottomLeft>
+		<ImgLabelBottomCenter public="1" get="inline" set="null" line="145" static="1"><c path="String"/></ImgLabelBottomCenter>
+		<ImgLabelBottomRight public="1" get="inline" set="null" line="146" static="1"><c path="String"/></ImgLabelBottomRight>
+		<ImgTextAreaTopLeft public="1" get="inline" set="null" line="147" static="1"><c path="String"/></ImgTextAreaTopLeft>
+		<ImgTextAreaTopCenter public="1" get="inline" set="null" line="148" static="1"><c path="String"/></ImgTextAreaTopCenter>
+		<ImgTextAreaTopRight public="1" get="inline" set="null" line="149" static="1"><c path="String"/></ImgTextAreaTopRight>
+		<ImgTextAreaMiddleLeft public="1" get="inline" set="null" line="150" static="1"><c path="String"/></ImgTextAreaMiddleLeft>
+		<ImgTextAreaMiddleCenter public="1" get="inline" set="null" line="151" static="1"><c path="String"/></ImgTextAreaMiddleCenter>
+		<ImgTextAreaMiddleRight public="1" get="inline" set="null" line="152" static="1"><c path="String"/></ImgTextAreaMiddleRight>
+		<ImgTextAreaBottomLeft public="1" get="inline" set="null" line="153" static="1"><c path="String"/></ImgTextAreaBottomLeft>
+		<ImgTextAreaBottomCenter public="1" get="inline" set="null" line="154" static="1"><c path="String"/></ImgTextAreaBottomCenter>
+		<ImgTextAreaBottomRight public="1" get="inline" set="null" line="155" static="1"><c path="String"/></ImgTextAreaBottomRight>
+		<haxe_doc><![CDATA[* This class is only for internal use for spiller self.<br>
+ * <br>
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 17/07/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Ka Wing Chin]]></haxe_doc>
 	</class>
 	<class path="spiller.math.SpiRect" params="" file="Libs/spiller/math/SpiRect.hx">
 		<x public="1">
@@ -22759,11 +23992,891 @@
  * v1.0 Initial version
  * 
  * @version 1.0 - 17/07/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author	Ka Wing Chin]]></haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="spiller.plugin.tweens.SpiTween" params="" file="Libs/spiller/plugin/tweens/SpiTween.hx">
+	<class path="spiller.math.SpiVelocity" params="" file="Libs/spiller/math/SpiVelocity.hx">
+		<computeVelocity public="1" set="method" line="482" static="1">
+			<f a="Velocity:?Acceleration:?Drag:?Max:?elapsed">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>* A tween-like function that takes a starting velocity and some other factors and returns an altered velocity.
+	 * 
+	 * @param Velocity Any component of velocity (e.g. 20).
+	 * @param Acceleration Rate at which the velocity is changing.
+	 * @param Drag Really kind of a deceleration, this is how much the velocity changes if Acceleration is not set.
+	 * @param Max An absolute value cap for the velocity.
+	 * @param elapsed The elapsed time in seconds that happen.
+	 * 
+	 * @return The altered Velocity value.</haxe_doc>
+		</computeVelocity>
+		<haxe_doc>* Sweet class to work with speed, points and angles!
+ * 
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 25/04/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Richard Davey / Photon Storm</haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<typedef path="spiller.physics.ProcessCollisionCallback" params="" file="Libs/spiller/physics/SpiQuadTree.hx" module="spiller.physics.SpiQuadTree"><f a=":">
+	<c path="spiller.SpiObject"/>
+	<c path="spiller.SpiObject"/>
+	<x path="Bool"/>
+</f></typedef>
+	<typedef path="spiller.physics.NotifyCollisionCallback" params="" file="Libs/spiller/physics/SpiQuadTree.hx" module="spiller.physics.SpiQuadTree"><f a=":">
+	<c path="spiller.SpiObject"/>
+	<c path="spiller.SpiObject"/>
+	<x path="Void"/>
+</f></typedef>
+	<class path="spiller.physics.SpiQuadTreePool" params="" file="Libs/spiller/physics/SpiQuadTree.hx" module="spiller.physics.SpiQuadTree">
+		<extends path="spiller.util.SpiPool"><c path="spiller.physics.SpiQuadTree"/></extends>
+		<create public="1" set="method" line="642" override="1"><f a=""><c path="spiller.physics.SpiQuadTree"/></f></create>
+		<new public="1" set="method" line="639"><f a="?StartSize">
+	<x path="Int"/>
+	<x path="Void"/>
+</f></new>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="spiller.physics.SpiQuadTree" params="" file="Libs/spiller/physics/SpiQuadTree.hx">
+		<extends path="spiller.math.SpiRect"/>
+		<A_LIST public="1" get="inline" set="null" line="33" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Flag for specifying that you want to add an object to the A list.</haxe_doc>
+		</A_LIST>
+		<B_LIST public="1" get="inline" set="null" line="37" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Flag for specifying that you want to add an object to the B list.</haxe_doc>
+		</B_LIST>
+		<divisions public="1" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Controls the granularity of the quad tree.  Default is 6 (decent performance on large and small worlds).</haxe_doc>
+		</divisions>
+		<_min static="1">
+			<x path="Int"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_min>
+		<_object static="1">
+			<c path="spiller.SpiObject"/>
+			<haxe_doc>* Internal, used to reduce recursive method parameters during object placement and tree formation.</haxe_doc>
+		</_object>
+		<_objectLeftEdge static="1">
+			<x path="Float"/>
+			<haxe_doc>* Internal, used to reduce recursive method parameters during object placement and tree formation.</haxe_doc>
+		</_objectLeftEdge>
+		<_objectTopEdge static="1">
+			<x path="Float"/>
+			<haxe_doc>* Internal, used to reduce recursive method parameters during object placement and tree formation.</haxe_doc>
+		</_objectTopEdge>
+		<_objectRightEdge static="1">
+			<x path="Float"/>
+			<haxe_doc>* Internal, used to reduce recursive method parameters during object placement and tree formation.</haxe_doc>
+		</_objectRightEdge>
+		<_objectBottomEdge static="1">
+			<x path="Float"/>
+			<haxe_doc>* Internal, used to reduce recursive method parameters during object placement and tree formation.</haxe_doc>
+		</_objectBottomEdge>
+		<_list static="1">
+			<x path="Int"/>
+			<haxe_doc>* Internal, used during tree processing and overlap checks.</haxe_doc>
+		</_list>
+		<_useBothLists static="1">
+			<x path="Bool"/>
+			<haxe_doc>* Internal, used during tree processing and overlap checks.</haxe_doc>
+		</_useBothLists>
+		<_processingCallback static="1">
+			<t path="spiller.physics.ProcessCollisionCallback"/>
+			<haxe_doc>* Internal, used during tree processing and overlap checks.</haxe_doc>
+		</_processingCallback>
+		<_notifyCallback static="1">
+			<t path="spiller.physics.NotifyCollisionCallback"/>
+			<haxe_doc>* Internal, used during tree processing and overlap checks.</haxe_doc>
+		</_notifyCallback>
+		<_iterator static="1">
+			<c path="spiller.util.SpiList"/>
+			<haxe_doc>* Internal, used during tree processing and overlap checks.</haxe_doc>
+		</_iterator>
+		<_objectHullX static="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* Internal, helpers for comparing actual object-to-object overlap - see <code>overlapNode()</code>.]]></haxe_doc>
+		</_objectHullX>
+		<_objectHullY static="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* Internal, helpers for comparing actual object-to-object overlap - see <code>overlapNode()</code>.]]></haxe_doc>
+		</_objectHullY>
+		<_objectHullWidth static="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* Internal, helpers for comparing actual object-to-object overlap - see <code>overlapNode()</code>.]]></haxe_doc>
+		</_objectHullWidth>
+		<_objectHullHeight static="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* Internal, helpers for comparing actual object-to-object overlap - see <code>overlapNode()</code>.]]></haxe_doc>
+		</_objectHullHeight>
+		<_checkObjectHullX static="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* Internal, helpers for comparing actual object-to-object overlap - see <code>overlapNode()</code>.]]></haxe_doc>
+		</_checkObjectHullX>
+		<_checkObjectHullY static="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* Internal, helpers for comparing actual object-to-object overlap - see <code>overlapNode()</code>.]]></haxe_doc>
+		</_checkObjectHullY>
+		<_checkObjectHullWidth static="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* Internal, helpers for comparing actual object-to-object overlap - see <code>overlapNode()</code>.]]></haxe_doc>
+		</_checkObjectHullWidth>
+		<_checkObjectHullHeight static="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* Internal, helpers for comparing actual object-to-object overlap - see <code>overlapNode()</code>.]]></haxe_doc>
+		</_checkObjectHullHeight>
+		<_pool line="202" static="1">
+			<c path="spiller.physics.SpiQuadTreePool"/>
+			<haxe_doc><![CDATA[* Internal, a pool of <code>SpiQuadTree</code>s to prevent constant <code>new</code> calls.]]></haxe_doc>
+		</_pool>
+		<getNew public="1" set="method" line="215" static="1">
+			<f a="X:Y:Width:Height:Parent">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<c path="spiller.physics.SpiQuadTree"/>
+				<c path="spiller.physics.SpiQuadTree"/>
+			</f>
+			<haxe_doc><![CDATA[* Get a new Quad Tree node from the pool.
+	 * 
+	 * @param	X			The X-coordinate of the point in space.
+	 * @param	Y			The Y-coordinate of the point in space.
+	 * @param	Width		Desired width of this node.
+	 * @param	Height		Desired height of this node.
+	 * @param	Parent		The parent branch or node.  Pass null to create a root.
+	 * 
+	 * @return	A new <code>SpiQuadTree</code>.]]></haxe_doc>
+		</getNew>
+		<_canSubdivide>
+			<x path="Bool"/>
+			<haxe_doc>* Whether this branch of the tree can be subdivided or not.</haxe_doc>
+		</_canSubdivide>
+		<_headA>
+			<c path="spiller.util.SpiList"/>
+			<haxe_doc>* Refers to the internal A and B linked lists,
+	 * which are used to store objects in the leaves.</haxe_doc>
+		</_headA>
+		<_tailA>
+			<c path="spiller.util.SpiList"/>
+			<haxe_doc>* Refers to the internal A and B linked lists,
+	 * which are used to store objects in the leaves.</haxe_doc>
+		</_tailA>
+		<_headB>
+			<c path="spiller.util.SpiList"/>
+			<haxe_doc>* Refers to the internal A and B linked lists,
+	 * which are used to store objects in the leaves.</haxe_doc>
+		</_headB>
+		<_tailB>
+			<c path="spiller.util.SpiList"/>
+			<haxe_doc>* Refers to the internal A and B linked lists,
+	 * which are used to store objects in the leaves.</haxe_doc>
+		</_tailB>
+		<_northWestTree>
+			<c path="spiller.physics.SpiQuadTree"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_northWestTree>
+		<_northEastTree>
+			<c path="spiller.physics.SpiQuadTree"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_northEastTree>
+		<_southEastTree>
+			<c path="spiller.physics.SpiQuadTree"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_southEastTree>
+		<_southWestTree>
+			<c path="spiller.physics.SpiQuadTree"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_southWestTree>
+		<_leftEdge>
+			<x path="Float"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_leftEdge>
+		<_rightEdge>
+			<x path="Float"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_rightEdge>
+		<_topEdge>
+			<x path="Float"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_topEdge>
+		<_bottomEdge>
+			<x path="Float"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_bottomEdge>
+		<_halfWidth>
+			<x path="Float"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_halfWidth>
+		<_halfHeight>
+			<x path="Float"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_halfHeight>
+		<_midpointX>
+			<x path="Float"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_midpointX>
+		<_midpointY>
+			<x path="Float"/>
+			<haxe_doc>* Internal, governs and assists with the formation of the tree.</haxe_doc>
+		</_midpointY>
+		<init set="method" line="239">
+			<f a="X:Y:Width:Height:?Parent">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<c path="spiller.physics.SpiQuadTree"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Instantiate a new Quad Tree node.
+	 * 
+	 * @param	X			The X-coordinate of the point in space.
+	 * @param	Y			The Y-coordinate of the point in space.
+	 * @param	Width		Desired width of this node.
+	 * @param	Height		Desired height of this node.
+	 * @param	Parent		The parent branch or node.  Pass null to create a root.</haxe_doc>
+		</init>
+		<destroy public="1" set="method" line="303">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Clean up memory.</haxe_doc>
+		</destroy>
+		<load public="1" set="method" line="342">
+			<f a="ObjectOrGroup1:ObjectOrGroup2:?NotifyCallback:?ProcessCallback">
+				<c path="spiller.SpiBasic"/>
+				<c path="spiller.SpiBasic"/>
+				<t path="spiller.physics.NotifyCollisionCallback"/>
+				<t path="spiller.physics.ProcessCollisionCallback"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Load objects and/or groups into the quad tree, and register notify and processing callbacks.
+	 * 
+	 * @param ObjectOrGroup1	Any object that is or extends SpiObject or SpiGroup.
+	 * @param ObjectOrGroup2	Any object that is or extends SpiObject or SpiGroup.  If null, the first parameter will be checked against itself.
+	 * @param NotifyCallback	A function with the form <code>myFunction(Object1:SpiObject,Object2:SpiObject):void</code> that is called whenever two objects are found to overlap in world space, and either no ProcessCallback is specified, or the ProcessCallback returns true. 
+	 * @param ProcessCallback	A function with the form <code>myFunction(Object1:SpiObject,Object2:SpiObject):Boolean</code> that is called whenever two objects are found to overlap in world space.  The NotifyCallback is only called if this function returns true.  See SpiObject.separate().]]></haxe_doc>
+		</load>
+		<add public="1" set="method" line="364">
+			<f a="ObjectOrGroup:List">
+				<c path="spiller.SpiBasic"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Call this function to add an object to the root of the tree.
+	 * This function will recursively add all group members, but
+	 * not the groups themselves.
+	 * 
+	 * @param	ObjectOrGroup	SpiObjects are just added, SpiGroups are recursed and their applicable members added accordingly.
+	 * @param	List			A <code>int</code> flag indicating the list to which you want to add the objects.  Options are <code>A_LIST</code> and <code>B_LIST</code>.]]></haxe_doc>
+		</add>
+		<addObject set="method" line="413">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Internal function for recursively navigating and creating the tree
+	 * while adding objects to the appropriate nodes.</haxe_doc>
+		</addObject>
+		<addToList set="method" line="488">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Internal function for recursively adding objects to leaf lists.</haxe_doc>
+		</addToList>
+		<execute public="1" set="method" line="529">
+			<f a=""><x path="Bool"/></f>
+			<haxe_doc><![CDATA[* <code>SpiQuadTree</code>'s other main function.  Call this after adding objects
+	 * using <code>SpiQuadTree.load()</code> to compare the objects that you loaded.
+	 *
+	 * @return	Whether or not any overlaps were found.]]></haxe_doc>
+		</execute>
+		<overlapNode set="method" line="571">
+			<f a=""><x path="Bool"/></f>
+			<haxe_doc>* An internal function for comparing an object against the contents of a node.
+	 * 
+	 * @return	Whether or not any overlaps were found.</haxe_doc>
+		</overlapNode>
+		<new set="method" line="225">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Private constructor.</haxe_doc>
+		</new>
+		<haxe_doc><![CDATA[* A fairly generic quad tree structure for rapid overlap checks.<br>
+ * SpiQuadTree is also configured for single or dual list operation.<br>
+ * You can add items either to its A list or its B list.<br>
+ * When you do an overlap check, you can compare the A list to itself,<br>
+ * or the A list against the B list.  Handy for different things!<br>
+ * <br>
+ * v1.0 Initial version<br>
+ * 
+ * @version 1.0 - 25/04/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Ka Wing Chin]]></haxe_doc>
+		<meta>
+			<m n=":directlyUsed"/>
+			<m n=":allow"><e>spiller.physics.SpiQuadTreePool</e></m>
+		</meta>
+	</class>
+	<class path="spiller.system.flash.Graphics" params="" file="Libs/spiller/system/flash/Graphics.hx">
+		<_shapeRenderer static="1">
+			<c path="kha.graphics2.Graphics"/>
+			<haxe_doc>* The shape renderer instance.</haxe_doc>
+		</_shapeRenderer>
+		<_graphics static="1">
+			<c path="spiller.system.flash.Graphics"/>
+			<haxe_doc>* The graphics instance.</haxe_doc>
+		</_graphics>
+		<initGraphics public="1" set="method" line="67" static="1">
+			<f a=""><c path="spiller.system.flash.Graphics"/></f>
+			<haxe_doc>* Initialize the graphics</haxe_doc>
+		</initGraphics>
+		<_filled>
+			<x path="Bool"/>
+			<haxe_doc>* Indicates if we are drawing filled shapes or not.</haxe_doc>
+		</_filled>
+		<_drawingPosition>
+			<c path="spiller.math.SpiPoint"/>
+			<haxe_doc>* The drawing position.</haxe_doc>
+		</_drawingPosition>
+		<_lineStrength>
+			<x path="Float"/>
+			<haxe_doc>* The drawing line strngth.</haxe_doc>
+		</_lineStrength>
+		<_ended>
+			<x path="Bool"/>
+			<haxe_doc>* Indicates if we call end or not.</haxe_doc>
+		</_ended>
+		<clear public="1" set="method" line="81">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Clears the graphics, and resets fill and line style settings.</haxe_doc>
+		</clear>
+		<moveTo public="1" set="method" line="92">
+			<f a="x:y">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Moves the current drawing position to (x, y).
+	 * 
+	 * @param x		The X position.
+	 * @param y		The Y position.</haxe_doc>
+		</moveTo>
+		<lineTo public="1" set="method" line="104">
+			<f a="x:y">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Draws a line using the current line style from the current drawing position to (x, y);
+	 * The current drawing position is then set to (x, y).
+	 * 
+	 * @param x			The X position of end.
+	 * @param y			The Y position of end.</haxe_doc>
+		</lineTo>
+		<drawRect public="1" set="method" line="124">
+			<f a="x:y:width:height">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Draws a rectangle.
+	 * 
+	 * @param x				The X position.
+	 * @param y				The Y position.
+	 * @param width			The width of the rectangle.
+	 * @param height		The height of the rectangle.</haxe_doc>
+		</drawRect>
+		<drawCircle public="1" set="method" line="149">
+			<f a="x:y:radius">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Draws a circle.
+	 * 
+	 * @param x				The center X position.
+	 * @param y				The center Y position.
+	 * @param radius		The circle radius.</haxe_doc>
+		</drawCircle>
+		<lineStyle public="1" set="method" line="162">
+			<f a="?thickness:?color:?alpha">
+				<x path="Float"/>
+				<x path="spiller.util.SpiColor"/>
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Specifies a line style used for subsequent calls to Graphics methods such as the lineTo() method or the drawCircle() method.
+	 * 
+	 * @param thickness		The line thickness.
+	 * @param color			The line color.
+	 * @param alpha			The line alpha value.</haxe_doc>
+		</lineStyle>
+		<begin public="1" set="method" line="174">
+			<f a="?filled">
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Start the drawing.
+	 * 
+	 * @param filled		True if we want to draw filled figures.</haxe_doc>
+		</begin>
+		<end public="1" set="method" line="184">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Terminate the drawing.</haxe_doc>
+		</end>
+		<polygon public="1" set="method" line="196">
+			<f a="vertices">
+				<c path="Array"><x path="Float"/></c>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Draw a polygon.
+	 * 
+	 * @param poitns		The polygon points.</haxe_doc>
+		</polygon>
+		<dispose public="1" set="method" line="232">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Clean up memory.</haxe_doc>
+		</dispose>
+		<new set="method" line="58">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Private constructor.</haxe_doc>
+		</new>
+		<haxe_doc><![CDATA[* This class just wraps the libgdx <code>ShapeRenderer</code>
+ * to make it look more like the Flash graphics API.
+ * If you need access to the actual <code>ShapeRenderer</code>,
+ * use the <code>getShapeRenderer</code> method.
+ * It has a Singleton structure.
+ * 
+ * v1.2 Added Singleton structure, and added not called end() errors prevention.
+ * v1.1 New methods and code commented
+ * v1.0 Initial version
+ * 
+ * @version 1.2 - 05/03/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Thomas Weston]]></haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="spiller.system.flash.events.IEventDispatcher" params="" file="Libs/spiller/system/flash/events/IEventDispatcher.hx" interface="1">
+		<addEventListener public="1" set="method">
+			<f a="type:listener:?useCapture:?priority:?useWeakReference">
+				<c path="String"/>
+				<f a="">
+					<d/>
+					<x path="Void"/>
+				</f>
+				<x path="Bool"/>
+				<x path="Int"/>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
+     *
+     * @param type              The type of event.
+     * @param listener          The listener function that processes the event. This function must accept an Event object as its only parameter and must return nothing.
+     * @param useCapture        Determines whether the listener works in the capture phase or the target and bubbling phases.
+     * @param priority          The priority level of the event listener.
+     * @param useWeakReference	Determines whether the reference to the listener is strong or weak.</haxe_doc>
+		</addEventListener>
+		<dispatchEvent public="1" set="method">
+			<f a="event">
+				<c path="spiller.system.flash.events.Event"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>* Dispatches an event into the event flow.
+     *
+     * @param event	The Event object that is dispatched into the event flow.
+     * @return      A value of true if the event was successfully dispatched.</haxe_doc>
+		</dispatchEvent>
+		<hasEventListener public="1" set="method">
+			<f a="type">
+				<c path="String"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>* Checks whether the EventDispatcher object has any listeners registered for a specific type of event.
+	 * @param type	The type of event.</haxe_doc>
+		</hasEventListener>
+		<removeEventListener public="1" set="method">
+			<f a="type:listener:?useCapture">
+				<c path="String"/>
+				<f a="">
+					<d/>
+					<x path="Void"/>
+				</f>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
+     *
+     * @param type         	The type of event.
+     * @param listener     	The listener object to remove.
+     * @param useCapture	Specifies whether the listener was registered for the capture phase or the target and bubbling phases.</haxe_doc>
+		</removeEventListener>
+		<haxe_doc>* This interface replicates some of the IEventDispatcher functionality from Flash.
+ * 
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 25/04/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Ka Wing Chin</haxe_doc>
+	</class>
+	<class path="spiller.system.flash.events.EventDispatcher" params="" file="Libs/spiller/system/flash/events/EventDispatcher.hx">
+		<implements path="spiller.system.flash.events.IEventDispatcher"/>
+		<_listeners>
+			<c path="Array"><c path="spiller.system.flash.events.Listener"/></c>
+			<haxe_doc>* A collection of Event Listeners.</haxe_doc>
+		</_listeners>
+		<addEventListener public="1" set="method" line="34">
+			<f a="type:listener:?useCapture:?priority:?useWeakReference">
+				<c path="String"/>
+				<f a="">
+					<d/>
+					<x path="Void"/>
+				</f>
+				<x path="Bool"/>
+				<x path="Int"/>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* {@inheritDoc}</haxe_doc>
+		</addEventListener>
+		<dispatchEvent public="1" set="method" line="42">
+			<f a="event">
+				<c path="spiller.system.flash.events.Event"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>* {@inheritDoc}</haxe_doc>
+		</dispatchEvent>
+		<hasEventListener public="1" set="method" line="62">
+			<f a="type">
+				<c path="String"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>* {@inheritDoc}</haxe_doc>
+		</hasEventListener>
+		<removeEventListener public="1" set="method" line="81">
+			<f a="type:listenerToRemove:?useCapture">
+				<c path="String"/>
+				<f a="">
+					<d/>
+					<x path="Void"/>
+				</f>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* {@inheritDoc}</haxe_doc>
+		</removeEventListener>
+		<new public="1" set="method" line="26">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Constructor</haxe_doc>
+		</new>
+		<haxe_doc>* This class replicates some of the EventDispatcher functionality from Flash.
+ * 
+ * v1.1 Fixed event dispatching problems
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 25/04/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Ka Wing Chin</haxe_doc>
+	</class>
+	<class path="spiller.system.flash.SpiGameStage" params="" file="Libs/spiller/system/flash/SpiGameStage.hx">
+		<extends path="spiller.system.flash.events.EventDispatcher"/>
+		<stageHeight public="1">
+			<x path="Int"/>
+			<haxe_doc>* The current height, in pixels, of the Stage.</haxe_doc>
+		</stageHeight>
+		<stageWidth public="1">
+			<x path="Int"/>
+			<haxe_doc>* The current width, in pixels, of the Stage.</haxe_doc>
+		</stageWidth>
+		<new public="1" set="method" line="31">
+			<f a="width:height">
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Creates a new stage with the specified width and height.
+	 * 
+	 * @param	width	The width of the stage in pixels.
+	 * @param	height	The height of the stage in pixels.</haxe_doc>
+		</new>
+		<haxe_doc>* This class replicates some of the Stage functionality from Flash.
+ * 
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 25/04/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Thomas Weston</haxe_doc>
+	</class>
+	<class path="spiller.system.flash.events.Event" params="" file="Libs/spiller/system/flash/events/Event.hx">
+		<ACTIVATE public="1" get="inline" set="null" line="18" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>ACTIVATE</code> constant defines the value of the type property
+	 * of an activate event object.]]></haxe_doc>
+		</ACTIVATE>
+		<ADDED_TO_STAGE public="1" get="inline" set="null" line="23" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.ADDED_TO_STAGE</code> constant defines the value of the
+	 * type property of an addedToStage event object.]]></haxe_doc>
+		</ADDED_TO_STAGE>
+		<DEACTIVATE public="1" get="inline" set="null" line="28" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.DEACTIVATE</code> constant defines the value of the type
+	 * property of a deactivate event object.]]></haxe_doc>
+		</DEACTIVATE>
+		<ENTER_FRAME public="1" get="inline" set="null" line="33" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.ENTER_FRAME</code> constant defines the value of the type
+	 * property of an enterFrame event object.]]></haxe_doc>
+		</ENTER_FRAME>
+		<REMOVED_FROM_STAGE public="1" get="inline" set="null" line="38" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.REMOVED_FROM_STAGE</code> constant defines the value of
+	 * the type property of a removedFromStage event object.]]></haxe_doc>
+		</REMOVED_FROM_STAGE>
+		<RESIZE public="1" get="inline" set="null" line="43" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.RESIZE</code> constant defines the value of the type
+	 * property of a resize event object.]]></haxe_doc>
+		</RESIZE>
+		<SOUND_COMPLETE public="1" get="inline" set="null" line="48" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.SOUND_COMPLETE</code> constant defines the value of the
+	 * type property of a soundComplete event object.]]></haxe_doc>
+		</SOUND_COMPLETE>
+		<type public="1">
+			<c path="String"/>
+			<haxe_doc>* The event type.</haxe_doc>
+		</type>
+		<new public="1" set="method" line="60">
+			<f a="type">
+				<c path="String"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Class constructor.
+	 * 
+	 * @param type		The event type.</haxe_doc>
+		</new>
+		<haxe_doc><![CDATA[* A generic kind of event.<br>
+ * <br>
+ * v1.1 Commented all the code.<br>
+ * v1.0 Initial version.<br>
+ * 
+ * @version 1.1 - 27/02/2013
+ * @author ratalaika / Ratalaika Games]]></haxe_doc>
+	</class>
+	<class path="spiller.system.flash.events.KeyboardEvent" params="" file="Libs/spiller/system/flash/events/KeyboardEvent.hx">
+		<extends path="spiller.system.flash.events.Event"/>
+		<KEY_DOWN public="1" get="inline" set="null" line="13" static="1"><c path="String"/></KEY_DOWN>
+		<KEY_UP public="1" get="inline" set="null" line="14" static="1"><c path="String"/></KEY_UP>
+		<PAD_DOWN public="1" get="inline" set="null" line="15" static="1"><c path="String"/></PAD_DOWN>
+		<PAD_UP public="1" get="inline" set="null" line="16" static="1"><c path="String"/></PAD_UP>
+		<KEY_TYPED public="1" get="inline" set="null" line="17" static="1"><c path="String"/></KEY_TYPED>
+		<charCode public="1"><x path="Int"/></charCode>
+		<keyCode public="1"><x path="Int"/></keyCode>
+		<new public="1" set="method" line="27">
+			<f a="type:?keyCode:?charCode">
+				<c path="String"/>
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Creates an Event object that contains specific information about keyboard events.
+	 * Event objects are passed as parameters to event listeners.
+	 * 
+	 * @param type			The event type.</haxe_doc>
+		</new>
+		<haxe_doc><![CDATA[* Keyboard event.<br>
+ * <br>
+ * v1.0 Initial version<br>
+ * 
+ * @version 1.0 - 06/08/2013
+ * @author ratalaika / Ratalaika Games]]></haxe_doc>
+	</class>
+	<class path="spiller.system.flash.events.Listener" params="" file="Libs/spiller/system/flash/events/Listener.hx">
+		<type public="1">
+			<c path="String"/>
+			<haxe_doc>* The type of event.</haxe_doc>
+		</type>
+		<onEvent public="1">
+			<f a="">
+				<d/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* The method called when dispatched event.
+	 * 
+	 * @param e			The type of event.</haxe_doc>
+		</onEvent>
+		<new public="1" set="method" line="28">
+			<f a="type:callback">
+				<c path="String"/>
+				<f a="">
+					<d/>
+					<x path="Void"/>
+				</f>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Instantiate a new lisntener.</haxe_doc>
+		</new>
+		<haxe_doc>* A listener for all the dispatched events in the game.
+ * 
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 13/03/2013
+ * @author ratalaika / Ratalaika Games</haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="spiller.system.flash.events.MouseEvent" params="" file="Libs/spiller/system/flash/events/MouseEvent.hx">
+		<extends path="spiller.system.flash.events.Event"/>
+		<MOUSE_UP public="1" get="inline" set="null" line="14" static="1"><c path="String"/></MOUSE_UP>
+		<MOUSE_DOWN public="1" get="inline" set="null" line="15" static="1"><c path="String"/></MOUSE_DOWN>
+		<stageX public="1"><x path="Int"/></stageX>
+		<stageY public="1"><x path="Int"/></stageY>
+		<new public="1" set="method" line="27">
+			<f a="type:stageX:stageY">
+				<c path="String"/>
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Creates an Event object that contains specific information about keyboard events.
+	 * Event objects are passed as parameters to event listeners.
+	 * 
+	 * @param type			The event type.
+	 * @param stageX		The X position of the mouse.
+	 * @param stageY		The Y position of the mouse.</haxe_doc>
+		</new>
+		<haxe_doc>* A simple listener for mouse events.
+ * 
+ * v1.1 Class commented
+ * v1.0 Initial version
+ * 
+ * @version 1.1 - 13/02/2013
+ * @author ratalaika / Ratalaika Games</haxe_doc>
+	</class>
+	<class path="spiller.system.flash.media.Sound" params="" file="Libs/spiller/system/flash/media/Sound.hx" interface="1">
+		<play public="1" set="method">
+			<f a="startTime:loops:sndTransform">
+				<x path="Float"/>
+				<x path="Int"/>
+				<c path="spiller.system.flash.media.SoundTransform"/>
+				<c path="spiller.system.flash.media.SoundChannel"/>
+			</f>
+			<haxe_doc><![CDATA[* Generates a new <code>SoundChannel</code> object to play back the sound.
+	 * 
+	 * @param startTime The initial position in milliseconds at which playback
+	 *        should start.
+	 * @param loops Defines the number of times a sound loops back to the
+	 *        <code>startTime</code> value before the sound channel stops
+	 *        playback.
+	 * @param sndTransform The initial <code>SoundTransform</code> object
+	 *        assigned to the sound channel.
+	 * @return A <code>SoundChannel</code> object, which you use to control the
+	 *         sound. This method returns null if you have no sound card or if
+	 *         you run out of available sound channels. The maximum number of
+	 *         sound channels available at once is 32.]]></haxe_doc>
+		</play>
+		<getType public="1" set="method">
+			<f a=""><x path="Int"/></f>
+			<haxe_doc>* Return the type of sound we have Music or Sound.</haxe_doc>
+		</getType>
+		<haxe_doc><![CDATA[* This provides a single interface to libgdx's <code>Sound</code> and
+ * <code>Music</code> classes.
+ * 
+ * v1.0 Initial version<br>
+ * <br>
+ * @version 1.0 - 11/09/2014
+ * @author ratalaika / Ratalaika Games
+ * @author Thomas Weston]]></haxe_doc>
+	</class>
+	<class path="spiller.system.flash.media.SoundChannel" params="" file="Libs/spiller/system/flash/media/SoundChannel.hx" interface="1">
+		<extends path="spiller.system.flash.events.IEventDispatcher"/>
+		<setSoundTransform public="1" set="method">
+			<f a="soundTransform">
+				<c path="spiller.system.flash.media.SoundTransform"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* The <code>SoundTransform</code> object assigned to the sound channel. A
+	 * <code>SoundTransform</code> object includes properties for setting
+	 * volume, panning, left speaker assignment, and right speaker assignment.
+	 * 
+	 * @param soundTransform The <code>SoundTransform</code> to set.]]></haxe_doc>
+		</setSoundTransform>
+		<getSoundTransform public="1" set="method">
+			<f a=""><c path="spiller.system.flash.media.SoundTransform"/></f>
+			<haxe_doc><![CDATA[* The <code>SoundTransform</code> object assigned to the sound channel. A
+	 * <code>SoundTransform</code> object includes properties for setting
+	 * volume, panning, left speaker assignment, and right speaker assignment.
+	 * 
+	 * @return The <SoundTransform</code> object assigned to the sound channel.]]></haxe_doc>
+		</getSoundTransform>
+		<stop public="1" set="method">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Stops the sound playing in the channel.</haxe_doc>
+		</stop>
+		<pause public="1" set="method">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Pauses the sound playing in the channel.</haxe_doc>
+		</pause>
+		<resume public="1" set="method">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Resumes playing the sound in the channel.</haxe_doc>
+		</resume>
+		<haxe_doc><![CDATA[* A single interface for sound channels.
+ * 
+ * v1.0 Initial version<br>
+ * <br>
+ * @version 1.0 - 11/09/2014
+ * @author ratalaika / Ratalaika Games
+ * @author Thomas Weston]]></haxe_doc>
+	</class>
+	<class path="spiller.system.flash.media.SoundTransform" params="" file="Libs/spiller/system/flash/media/SoundTransform.hx">
+		<pan public="1">
+			<x path="Float"/>
+			<haxe_doc>* The left-to-right panning of the sound, ranging from -1 (full pan left)
+	 * to 1 (full pan right). A value of 0 represents no panning (balanced
+	 * center between right and left)</haxe_doc>
+		</pan>
+		<volume public="1">
+			<x path="Float"/>
+			<haxe_doc>* The volume, ranging from 0 (silent) to 1 (full volume).</haxe_doc>
+		</volume>
+		<pitch public="1">
+			<x path="Float"/>
+			<haxe_doc><![CDATA[* The pitch multiplier, 1 == default, >1 == faster, <1 == slower, the value
+	 * has to be between 0.5 and 2.0.]]></haxe_doc>
+		</pitch>
+		<new public="1" set="method" line="40">
+			<f a="?vol:?panning:?pitching">
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Creates a <code>SoundTransform</code> object.
+	 * 
+	 * @param vol			The volume, ranging from 0 (silent) to 1 (full volume).
+	 * @param panning		The left-to-right panning of the sound, ranging from -1 (full pan left) to 1 (full pan right).
+	 * 						A value of 0 represents no panning (balanced center between right and left).
+	 * @param pitching		The pitch multiplier, 1 == default, >1 == faster, <1 == slower,
+	 * 						the value has to be between 0.5and 2.0.]]></haxe_doc>
+		</new>
+		<haxe_doc><![CDATA[* The <code>SoundTransform</code> class contains properties for volume and
+ * panning.
+ * 
+ * v1.0 Initial version<br>
+ * <br>
+ * @version 1.0 - 11/09/2014
+ * @author ratalaika / Ratalaika Games
+ * @author Thomas Weston]]></haxe_doc>
+	</class>
+	<class path="spiller.system.macros.SpiMacroUtil" params="" file="Libs/spiller/system/macros/SpiMacroUtil.hx"/>
+	<class path="spiller.tweens.SpiTween" params="" file="Libs/spiller/tweens/SpiTween.hx">
 		<implements path="spiller.util.interfaces.ISpiDestroyable"/>
 		<PERSIST public="1" get="inline" set="null" line="21" static="1">
 			<x path="Int"/>
@@ -22833,11 +24946,11 @@
 			<haxe_doc>* The parent object.</haxe_doc>
 		</parent>
 		<prev public="1">
-			<c path="spiller.plugin.tweens.SpiTween"/>
+			<c path="spiller.tweens.SpiTween"/>
 			<haxe_doc>* The previous tween.</haxe_doc>
 		</prev>
 		<next public="1">
-			<c path="spiller.plugin.tweens.SpiTween"/>
+			<c path="spiller.tweens.SpiTween"/>
 			<haxe_doc>* The next tween.</haxe_doc>
 		</next>
 		<_backward>
@@ -22907,9 +25020,279 @@
  * v1.0 Initial version (?)
  * 
  * @version 1.1 - January 24th 2013
- * @author ratalaika / ratalaikaGames</haxe_doc>
+ * @author ratalaika / Ratalaika Games</haxe_doc>
 	</class>
-	<class path="spiller.system.macros.SpiMacroUtil" params="" file="Libs/spiller/system/macros/SpiMacroUtil.hx"/>
+	<class path="spiller.tweens.util.SpiEase" params="" file="Libs/spiller/tweens/util/SpiEase.hx">
+		<quadIn public="1" get="inline" set="null" line="15" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Quadratic in.</haxe_doc>
+		</quadIn>
+		<quadOut public="1" get="inline" set="null" line="21" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Quadratic out.</haxe_doc>
+		</quadOut>
+		<quadInOut public="1" get="inline" set="null" line="28" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Quadratic in and out.</haxe_doc>
+		</quadInOut>
+		<cubeIn public="1" get="inline" set="null" line="35" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Cubic in.</haxe_doc>
+		</cubeIn>
+		<cubeOut public="1" get="inline" set="null" line="42" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Cubic out.</haxe_doc>
+		</cubeOut>
+		<cubeInOut public="1" get="inline" set="null" line="49" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Cubic in and out.</haxe_doc>
+		</cubeInOut>
+		<quartIn public="1" get="inline" set="null" line="56" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Quart in.</haxe_doc>
+		</quartIn>
+		<quartOut public="1" get="inline" set="null" line="63" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Quart out.</haxe_doc>
+		</quartOut>
+		<quartInOut public="1" get="inline" set="null" line="71" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Quart in and out.</haxe_doc>
+		</quartInOut>
+		<quintIn public="1" get="inline" set="null" line="79" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Quint in.</haxe_doc>
+		</quintIn>
+		<quintOut public="1" get="inline" set="null" line="87" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Quint out.</haxe_doc>
+		</quintOut>
+		<quintInOut public="1" get="inline" set="null" line="95" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Quint in and out.</haxe_doc>
+		</quintInOut>
+		<sineIn public="1" get="inline" set="null" line="103" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Sine in.</haxe_doc>
+		</sineIn>
+		<sineOut public="1" get="inline" set="null" line="111" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Sine out.</haxe_doc>
+		</sineOut>
+		<sineInOut public="1" get="inline" set="null" line="119" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Sine in and out.</haxe_doc>
+		</sineInOut>
+		<bounceIn public="1" get="inline" set="null" line="127" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Bounce in.</haxe_doc>
+		</bounceIn>
+		<bounceOut public="1" get="inline" set="null" line="139" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Bounce out.</haxe_doc>
+		</bounceOut>
+		<bounceInOut public="1" get="inline" set="null" line="149" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Bounce in and out.</haxe_doc>
+		</bounceInOut>
+		<circIn public="1" get="inline" set="null" line="168" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Circle in.</haxe_doc>
+		</circIn>
+		<circOut public="1" get="inline" set="null" line="175" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Circle out.</haxe_doc>
+		</circOut>
+		<circInOut public="1" get="inline" set="null" line="182" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Circle in and out.</haxe_doc>
+		</circInOut>
+		<expoIn public="1" get="inline" set="null" line="189" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Exponential in.</haxe_doc>
+		</expoIn>
+		<expoOut public="1" get="inline" set="null" line="196" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Exponential out.</haxe_doc>
+		</expoOut>
+		<expoInOut public="1" get="inline" set="null" line="203" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Exponential in and out.</haxe_doc>
+		</expoInOut>
+		<backIn public="1" get="inline" set="null" line="210" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Back in.</haxe_doc>
+		</backIn>
+		<backOut public="1" get="inline" set="null" line="217" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Back out.</haxe_doc>
+		</backOut>
+		<backInOut public="1" get="inline" set="null" line="224" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<x path="Float"/>
+			</f>
+			<haxe_doc>Back in and out.</haxe_doc>
+		</backInOut>
+		<PI get="inline" set="null" line="234" static="1"><x path="Float"/></PI>
+		<PI2 get="inline" set="null" line="235" static="1"><x path="Float"/></PI2>
+		<B1 get="inline" set="null" line="237" static="1"><x path="Float"/></B1>
+		<B2 get="inline" set="null" line="238" static="1"><x path="Float"/></B2>
+		<B3 get="inline" set="null" line="239" static="1"><x path="Float"/></B3>
+		<B4 get="inline" set="null" line="240" static="1"><x path="Float"/></B4>
+		<B5 get="inline" set="null" line="241" static="1"><x path="Float"/></B5>
+		<B6 get="inline" set="null" line="242" static="1"><x path="Float"/></B6>
+		<haxe_doc>* Static class with useful easer floats that can be used by Tweens.
+ * 
+ * v1.1 Ported to Java
+ * v1.0 Initial version (?)
+ * 
+ * @version 1.1 - January 24th 2013
+ * @author ratalaika / Ratalaika Games</haxe_doc>
+	</class>
+	<typedef path="spiller.tweens.util.TweenCallback" params="" file="Libs/spiller/tweens/util/TweenOptions.hx" module="spiller.tweens.util.TweenOptions"><f a=""><x path="Void"/></f></typedef>
+	<typedef path="spiller.tweens.util.EaseFunction" params="" file="Libs/spiller/tweens/util/TweenOptions.hx" module="spiller.tweens.util.TweenOptions"><f a="">
+	<x path="Float"/>
+	<x path="Float"/>
+</f></typedef>
+	<typedef path="spiller.tweens.util.TweenOptions" params="" file="Libs/spiller/tweens/util/TweenOptions.hx">
+		<a>
+			<type>
+				<t path="Null"><x path="Int"/></t>
+				<meta><m n=":optional"/></meta>
+			</type>
+			<tweener>
+				<t path="Null"><t path="Null"><c path="spiller.SpiBasic"/></t></t>
+				<meta><m n=":optional"/></meta>
+			</tweener>
+			<ease>
+				<t path="Null"><t path="spiller.tweens.util.EaseFunction"/></t>
+				<meta><m n=":optional"/></meta>
+			</ease>
+			<complete>
+				<t path="Null"><t path="spiller.tweens.util.TweenCallback"/></t>
+				<meta><m n=":optional"/></meta>
+			</complete>
+		</a>
+		<haxe_doc>* Holder for a group of tween options.
+ * Used for calls to SpiG.tween.
+ * 
+ * v1.0 Initial version
+ * 
+ * @version 1.o - January 28th 2013
+ * @author ratalaika / Ratalaika Games</haxe_doc>
+	</typedef>
+	<class path="spiller.util.SpiArrayUtil" params="" file="Libs/spiller/util/SpiArrayUtil.hx">
+		<clearArray public="1" params="T" set="method" line="89" static="1">
+			<f a="array:?recursive">
+				<c path="Array"><c path="clearArray.T"/></c>
+				<x path="Bool"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Clears an array structure, but leaves the object data untouched
+	 * Useful for cleaning up temporary references to data you want to preserve
+	 * WARNING: Can lead to memory leaks. Use destroyArray() instead for data you truly want GONE.
+	 *
+	 * @param	array		The array to clear out
+	 * @param	Recursive	Whether to search for arrays inside of arr and clear them out, too (false by default)</haxe_doc>
+		</clearArray>
+		<equals public="1" params="T" set="method" line="135" static="1">
+			<f a="array1:array2">
+				<c path="Array"><c path="equals.T"/></c>
+				<c path="Array"><c path="equals.T"/></c>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>* Compares the contents with == to see if the two arrays are the same.
+	 * Also takes null arrays and the length of the arrays into account.</haxe_doc>
+		</equals>
+		<last public="1" params="T" set="method" line="159" static="1">
+			<f a="array">
+				<c path="Array"><c path="last.T"/></c>
+				<t path="Null"><c path="last.T"/></t>
+			</f>
+			<haxe_doc>* Returns the last element of an array or null if the array is null / empty.</haxe_doc>
+		</last>
+		<haxe_doc>* A set of functions for array manipulation.</haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
 	<abstract path="spiller.util.SpiColor" params="" file="Libs/spiller/util/SpiColor.hx">
 		<from>
 			<icast><x path="UInt"/></icast>
@@ -24531,8 +26914,83 @@
  * v1.0 Initial version<br>
  * <br>
  * @version 1.0 - 18/04/2015
+ * @author ratalaika / Ratalaika Games]]></haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="spiller.util.SpiFactory" params="" file="Libs/spiller/util/SpiFactory.hx">
+		<extendedFactory public="1" line="22" static="1">
+			<f a="">
+				<x path="spiller.SpiType"/>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc>* Use this to extend the functionallity with your own types and objects.</haxe_doc>
+		</extendedFactory>
+		<create public="1" set="method" line="29" static="1">
+			<f a="objectType">
+				<x path="spiller.SpiType"/>
+				<c path="spiller.SpiBasic"/>
+			</f>
+			<haxe_doc>* Create a new instance of an object.
+	 *
+	 * @param objectType	The type of object we want to create.</haxe_doc>
+		</create>
+		<haxe_doc><![CDATA[* Factory class that creates all types of Spiller objects by it's type.
+ * It has an extension method you can use to add your own types!
+ * <br>
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 17/07/2013
  * @author ratalaika / ratalaikaGames]]></haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="spiller.util.SpiListPool" params="" file="Libs/spiller/util/SpiList.hx" module="spiller.util.SpiList">
+		<extends path="spiller.util.SpiPool"><c path="spiller.util.SpiList"/></extends>
+		<create public="1" set="method" line="69" override="1"><f a=""><c path="spiller.util.SpiList"/></f></create>
+		<new public="1" set="method" line="66"><f a="?StartSize">
+	<x path="Int"/>
+	<x path="Void"/>
+</f></new>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="spiller.util.SpiList" params="" file="Libs/spiller/util/SpiList.hx">
+		<_pool line="32" static="1">
+			<c path="spiller.util.SpiListPool"/>
+			<haxe_doc><![CDATA[* Internal, a pool of <code>SpiQuadTree</code>s to prevent constant <code>new</code> calls.]]></haxe_doc>
+		</_pool>
+		<getNew public="1" set="method" line="38" static="1">
+			<f a=""><c path="spiller.util.SpiList"/></f>
+			<haxe_doc><![CDATA[* Gets a new <code>SpiList</code> from the pool.
+	 * @return]]></haxe_doc>
+		</getNew>
+		<object public="1">
+			<c path="spiller.SpiObject"/>
+			<haxe_doc><![CDATA[* Stores a reference to a <code>SpiObject</code>.]]></haxe_doc>
+		</object>
+		<next public="1">
+			<c path="spiller.util.SpiList"/>
+			<haxe_doc>* Stores a reference to the next link in the list.</haxe_doc>
+		</next>
+		<destroy public="1" set="method" line="55">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Clean up memory.</haxe_doc>
+		</destroy>
+		<new set="method" line="46">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc><![CDATA[* Creates a new link, and sets <code>object</code> and <code>next</code> to <code>null</code>.]]></haxe_doc>
+		</new>
+		<haxe_doc><![CDATA[* A miniature linked list class.<br>
+ * Useful for optimizing time-critical or highly repetitive tasks!<br>
+ * See <code>SpiQuadTree</code> for how to use it, IF YOU DARE.<br>
+ * <br>
+ * v1.0 Initial version<br>
+ * 
+ * @version 1.0 - 25/04/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Ka Wing Chin]]></haxe_doc>
+		<meta>
+			<m n=":directlyUsed"/>
+			<m n=":allow"><e>spiller.util.SpiListPool</e></m>
+		</meta>
 	</class>
 	<class path="spiller.util.SpiPath" params="" file="Libs/spiller/util/SpiPath.hx">
 		<nodes public="1">
@@ -24679,7 +27137,7 @@
  * v1.0 Initial version
  * 
  * @version 1.0 - 17/07/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author	Thomas Weston
  * @author	Ka Wing Chin]]></haxe_doc>
 	</class>
@@ -24698,8 +27156,9 @@
 	 * @return	A String containing the formatted time elapsed information.</haxe_doc>
 		</formatTicks>
 		<formatTime public="1" get="inline" set="null" line="38" static="1">
-			<f a="Seconds:?ShowMS">
+			<f a="Seconds:?ShowMS:?usePeriods">
 				<x path="Float"/>
+				<x path="Bool"/>
 				<x path="Bool"/>
 				<c path="String"/>
 			</f>
@@ -24709,7 +27168,7 @@
 	 * @param	ShowMS		Whether to show milliseconds after a "." as well.  Default value is false.
 	 * @return	A nicely formatted String, like "1:03".</haxe_doc>
 		</formatTime>
-		<formatArray public="1" get="inline" set="null" line="68" static="1">
+		<formatArray public="1" get="inline" set="null" line="83" static="1">
 			<f a="AnyArray">
 				<c path="Array"><d/></c>
 				<c path="String"/>
@@ -24720,7 +27179,7 @@
 	 * @param	AnyArray	Any Array object.
 	 * @return	A comma-separated String containing the .toString() output of each element in the array.</haxe_doc>
 		</formatArray>
-		<formatStringMap public="1" get="inline" set="null" line="90" static="1">
+		<formatStringMap public="1" get="inline" set="null" line="105" static="1">
 			<f a="AnyMap">
 				<x path="Map">
 					<c path="String"/>
@@ -24733,7 +27192,7 @@
 	 * @param  AnyMap    A StringMap object.
 	 * @return  A String formatted like this: key1, key2, ..., keyX</haxe_doc>
 		</formatStringMap>
-		<formatMoney public="1" get="inline" set="null" line="112" static="1">
+		<formatMoney public="1" get="inline" set="null" line="127" static="1">
 			<f a="Amount:?ShowDecimal:?EnglishStyle">
 				<x path="Float"/>
 				<x path="Bool"/>
@@ -24750,7 +27209,7 @@
 	 * @param	EnglishStyle	Major quantities (thousands, millions, etc) separated by commas, and decimal by a period.  Default value is true.
 	 * @return	A nicely formatted String.  Does not include a dollar sign or anything!</haxe_doc>
 		</formatMoney>
-		<formatBytes public="1" set="method" line="164" static="1">
+		<formatBytes public="1" set="method" line="182" static="1">
 			<f a="Bytes:?Precision">
 				<x path="Float"/>
 				<x path="Int"/>
@@ -24759,7 +27218,7 @@
 			<haxe_doc><![CDATA[* Takes an amount of bytes and finds the fitting unit. Makes sure that the 
 	 * value is below 1024. Example: formatBytes(123456789); -> 117.74MB]]></haxe_doc>
 		</formatBytes>
-		<filterDigits public="1" set="method" line="182" static="1">
+		<filterDigits public="1" set="method" line="200" static="1">
 			<f a="Input">
 				<c path="String"/>
 				<c path="String"/>
@@ -24769,7 +27228,30 @@
 	 * @param 	Input	The input string
 	 * @return 	The output string, digits-only</haxe_doc>
 		</filterDigits>
-		<htmlFormat public="1" set="method" line="206" static="1">
+		<formatScore public="1" set="method" line="219" static="1">
+			<f a="num:?dig:?withCommas">
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Bool"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>* Returns the number as a String in score format.
+	 * 
+	 * @param num The score number.
+	 * @param dig The number of digits.
+	 * @param withCommas Add commas each 3 numbers.</haxe_doc>
+		</formatScore>
+		<formatEveryThirdPower public="1" set="method" line="235" static="1">
+			<f a="value">
+				<x path="Int"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>* Beautify and number-formatting.
+	 * 
+	 * @param value
+	 * @return</haxe_doc>
+		</formatEveryThirdPower>
+		<htmlFormat public="1" set="method" line="286" static="1">
 			<f a="Text:?Size:?Color:?Bold:?Italic:?Underlined">
 				<c path="String"/>
 				<x path="Int"/>
@@ -24790,14 +27272,14 @@
 	 * @param	Underlined 	Whether the text should be underlined (u-tag)
 	 * @return	The html-formatted text.</haxe_doc>
 		</htmlFormat>
-		<getDomain public="1" set="method" line="265" static="1">
+		<getDomain public="1" set="method" line="345" static="1">
 			<f a="url">
 				<c path="String"/>
 				<c path="String"/>
 			</f>
 			<haxe_doc>* Returns the domain of a URL.</haxe_doc>
 		</getDomain>
-		<sameClassName public="1" get="inline" set="null" line="285" static="1">
+		<sameClassName public="1" get="inline" set="null" line="365" static="1">
 			<f a="Obj1:Obj2:?Simple">
 				<d/>
 				<d/>
@@ -24811,7 +27293,7 @@
 	 * @param	Simple 	Only uses the class name, not the package or packages.
 	 * @return	Whether they have the same class name or not</haxe_doc>
 		</sameClassName>
-		<toIntArray public="1" set="method" line="297" static="1">
+		<toIntArray public="1" set="method" line="377" static="1">
 			<f a="Data">
 				<c path="String"/>
 				<c path="Array"><x path="Int"/></c>
@@ -24821,7 +27303,7 @@
 	 * @param	Data 	String formatted like this: "1, 2, 5, -10, 120, 27"
 	 * @return	An array of ints</haxe_doc>
 		</toIntArray>
-		<toFloatArray public="1" set="method" line="318" static="1">
+		<toFloatArray public="1" set="method" line="398" static="1">
 			<f a="Data">
 				<c path="String"/>
 				<c path="Array"><x path="Float"/></c>
@@ -24831,7 +27313,7 @@
 	 * @param	Data string formatted like this: "1.0,2.1,5.6,1245587.9, -0.00354"
 	 * @return	An array of floats</haxe_doc>
 		</toFloatArray>
-		<arrayToCSV public="1" set="method" line="341" static="1">
+		<arrayToCSV public="1" set="method" line="421" static="1">
 			<f a="Data:Width:?Invert">
 				<c path="Array"><x path="Int"/></c>
 				<x path="Int"/>
@@ -24845,7 +27327,7 @@
 	 * @param	Invert		Recommended only for 1-bit arrays - changes 0s to 1s and vice versa.
 	 * @return	A comma-separated string containing the level data in a SpiTilemap-friendly format.</haxe_doc>
 		</arrayToCSV>
-		<getDebugString public="1" set="method" line="542" static="1">
+		<getDebugString public="1" set="method" line="622" static="1">
 			<f a="LabelValuePairs">
 				<c path="Array"><c path="spiller.util.LabelValuePair"/></c>
 				<c path="String"/>
@@ -24855,7 +27337,7 @@
 	 * 
 	 * @param	LabelValuePairs		Array with the data for the string</haxe_doc>
 		</getDebugString>
-		<contains public="1" get="inline" set="null" line="561" static="1"><f a="s:str">
+		<contains public="1" get="inline" set="null" line="641" static="1"><f a="s:str">
 	<c path="String"/>
 	<c path="String"/>
 	<x path="Bool"/>
@@ -24866,8 +27348,8 @@
 	</class>
 	<class path="spiller.util.LabelValuePairPool" params="" file="Libs/spiller/util/SpiStringUtil.hx" module="spiller.util.SpiStringUtil">
 		<extends path="spiller.util.SpiPool"><c path="spiller.util.LabelValuePair"/></extends>
-		<create public="1" set="method" line="606" override="1"><f a=""><c path="spiller.util.LabelValuePair"/></f></create>
-		<new public="1" set="method" line="603"><f a="?StartSize">
+		<create public="1" set="method" line="686" override="1"><f a=""><c path="spiller.util.LabelValuePair"/></f></create>
+		<new public="1" set="method" line="683"><f a="?StartSize">
 	<x path="Int"/>
 	<x path="Void"/>
 </f></new>
@@ -24875,22 +27357,22 @@
 	</class>
 	<class path="spiller.util.LabelValuePair" params="" file="Libs/spiller/util/SpiStringUtil.hx" module="spiller.util.SpiStringUtil">
 		<implements path="spiller.util.interfaces.ISpiDestroyable"/>
-		<_pool line="571" static="1"><c path="spiller.util.LabelValuePairPool"/></_pool>
-		<weak public="1" get="inline" set="null" line="573" static="1"><f a="label:value">
+		<_pool line="651" static="1"><c path="spiller.util.LabelValuePairPool"/></_pool>
+		<weak public="1" get="inline" set="null" line="653" static="1"><f a="label:value">
 	<c path="String"/>
 	<d/>
 	<c path="spiller.util.LabelValuePair"/>
 </f></weak>
 		<label public="1"><c path="String"/></label>
 		<value public="1"><d/></value>
-		<create public="1" get="inline" set="null" line="581"><f a="label:value">
+		<create public="1" get="inline" set="null" line="661"><f a="label:value">
 	<c path="String"/>
 	<d/>
 	<c path="spiller.util.LabelValuePair"/>
 </f></create>
-		<put public="1" get="inline" set="null" line="588"><f a=""><x path="Void"/></f></put>
-		<destroy public="1" get="inline" set="null" line="593"><f a=""><x path="Void"/></f></destroy>
-		<new set="method" line="600"><f a=""><x path="Void"/></f></new>
+		<put public="1" get="inline" set="null" line="668"><f a=""><x path="Void"/></f></put>
+		<destroy public="1" get="inline" set="null" line="673"><f a=""><x path="Void"/></f></destroy>
+		<new set="method" line="680"><f a=""><x path="Void"/></f></new>
 		<meta>
 			<m n=":directlyUsed"/>
 			<m n=":allow"><e>spiller.util.LabelValuePairPool</e></m>

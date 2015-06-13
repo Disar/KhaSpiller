@@ -65,7 +65,12 @@ import spiller.system.input.SpiExternalInput;
 import spiller.system.input.SpiKeyboard;
 import spiller.system.input.SpiMouse;
 import spiller.system.replay.SpiReplay;
-/*
+*/
+
+import spiller.math.SpiRandom;
+import spiller.math.SpiPoint;
+import spiller.math.SpiRect;
+
 /**
  * This is a global helper class full of useful methods for audio,<br>
  * input, basic info, and the camera system among other things.<br>
@@ -78,7 +83,7 @@ import spiller.system.replay.SpiReplay;
  * v1.0 Initial version (?).<br>
  * 
  * @version 1.4 - 02/07/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Ka Wing Chin
  * @author Thomas Weston
  */
@@ -201,37 +206,37 @@ class SpiG
 	 * Represents the amount of time in seconds that passed since last frame.
 	 */
 	public static var elapsed:Float;
-	// /**
-	//  * How fast or slow time should pass in the game; default is 1.0.
-	//  */
-	// public static float timeScale;
-	// /**
-	//  * The width of the screen in game pixels.
-	//  */
-	// public static int width;
-	// /**
-	//  * The height of the screen in game pixels.
-	//  */
-	// public static int height;
-	// /**
-	//  * The dimensions of the game world, used by the quad tree for collisions and overlap checks.
-	//  */
-	// public static SpiRect worldBounds;
-	// /**
-	//  * How many times the quad tree should divide the world on each axis.
-	//  * Generally, sparse collisions can have fewer divisons,
-	//  * while denser collision activity usually profits from more.
-	//  * Default value is 6.
-	//  */
-	// public static int worldDivisions;
-	// /**
-	//  * The width in pixels of the display surface.
-	//  */
-	// public static int screenWidth; 
-	// /**
-	//  * The height in pixels of the display surface.
-	//  */
-	// public static int screenHeight;
+	/**
+	 * How fast or slow time should pass in the game; default is 1.0.
+	 */
+	public static var timeScale:Float;
+	/**
+	 * The width of the screen in game pixels.
+	 */
+	public static var width:Int;
+	/**
+	 * The height of the screen in game pixels.
+	 */
+	public static var height:Int;
+	/**
+	 * The dimensions of the game world, used by the quad tree for collisions and overlap checks.
+	 */
+	public static var worldBounds:SpiRect;
+	/**
+	 * How many times the quad tree should divide the world on each axis.
+	 * Generally, sparse collisions can have fewer divisons,
+	 * while denser collision activity usually profits from more.
+	 * Default value is 6.
+	 */
+	public static var worldDivisions:Int;
+	/**
+	 * The width in pixels of the display surface.
+	 */
+	public static var screenWidth:Int; 
+	/**
+	 * The height in pixels of the display surface.
+	 */
+	public static var screenHeight:Int;
 	/**
 	 * Whether to show visual debug displays or not.
 	 * Default = false.
@@ -387,6 +392,11 @@ class SpiG
 	//  * Helper to refer a (1, 1) SpiPoint.
 	//  */
 	// public static final SpiPoint basicPoint = SpiPoint.get(1, 1);
+
+	/**
+	 * A SpiRandom object used internally by flixel to generate random numbers.
+	 */
+	public static var random(default, null):SpiRandom = new SpiRandom();
 
 	// //==========================================================================//
 	// //							INTERFACED PLUGINS								//
@@ -2300,106 +2310,28 @@ class SpiG
 	// 	return overlap(null, null, null, null);
 	// }
 	
-	// /**
-	//  * Call this method to see if one <code>SpiObject</code> collides with another.
-	//  * Can be called with one object and one group, or two groups, or two objects,
-	//  * whatever floats your boat! For maximum performance try bundling a lot of objects
-	//  * together using a <code>SpiGroup</code> (or even bundling groups together!).
-	//  * 
-	//  * <p>This method just calls overlap and presets the ProcessCallback parameter to SpiObject.separate.
-	//  * To create your own collision logic, write your own ProcessCallback and use overlap to set it up.</p>
-	//  * 
-	//  * <p>NOTE: does NOT take objects' scrollfactor into account, all overlaps are checked in world space.</p>
-	//  * 
-	//  * @param	ObjectOrGroup1	The first object or group you want to check.
-	//  * @param	ObjectOrGroup2	The second object or group you want to check.  If it is the same as the first, spiller knows to just do a comparison within that group.
-	//  * @param	NotifyCallback	A method with two <code>SpiObject</code> parameters - e.g. <code>myOverlapFunction(Object1:SpiObject,Object2:SpiObject)</code> - that is called if those two objects overlap.
-	//  * 
-	//  * @return	Whether any objects were successfully collided/separated.
-	//  */
-	// public static boolean collide(SpiBasic ObjectOrGroup1, SpiBasic ObjectOrGroup2, ISpiCollision NotifyCallback)
-	// {		
-	// 	return overlap(ObjectOrGroup1, ObjectOrGroup2, NotifyCallback, separate);
-	// }
-	
-	// /**
-	//  * Call this method to see if one <code>SpiObject</code> collides with another.
-	//  * Can be called with one object and one group, or two groups, or two objects,
-	//  * whatever floats your boat! For maximum performance try bundling a lot of objects
-	//  * together using a <code>SpiGroup</code> (or even bundling groups together!).
-	//  * 
-	//  * <p>This method just calls overlap and presets the ProcessCallback parameter to SpiObject.separate.
-	//  * To create your own collision logic, write your own ProcessCallback and use overlap to set it up.</p>
-	//  * 
-	//  * <p>NOTE: does NOT take objects' scrollfactor into account, all overlaps are checked in world space.</p>
-	//  * 
-	//  * @param	ObjectOrGroup1	The first object or group you want to check.
-	//  * @param	ObjectOrGroup2	The second object or group you want to check.  If it is the same as the first, spiller knows to just do a comparison within that group.
-	//  * 
-	//  * @return	Whether any objects were successfully collided/separated.
-	//  */
-	// public static boolean collide(SpiBasic ObjectOrGroup1, SpiBasic ObjectOrGroup2)
-	// {		
-	// 	return collide(ObjectOrGroup1, ObjectOrGroup2, null);
-	// }
-	
-	// /**
-	//  * Call this method to see if one <code>SpiObject</code> collides with another.
-	//  * Can be called with one object and one group, or two groups, or two objects,
-	//  * whatever floats your boat! For maximum performance try bundling a lot of objects
-	//  * together using a <code>SpiGroup</code> (or even bundling groups together!).
-	//  * 
-	//  * <p>This method just calls overlap and presets the ProcessCallback parameter to SpiObject.separate.
-	//  * To create your own collision logic, write your own ProcessCallback and use overlap to set it up.</p>
-	//  * 
-	//  * <p>NOTE: does NOT take objects' scrollfactor into account, all overlaps are checked in world space.</p>
-	//  * 
-	//  * @param	ObjectOrGroup1	The first object or group you want to check.
-	//  * 
-	//  * @return	Whether any objects were successfully collided/separated.
-	//  */
-	// public static boolean collide(SpiBasic ObjectOrGroup1)
-	// {
-	// 	return collide(ObjectOrGroup1, null, null);
-	// }
-
-	// /**
-	//  * Call this method to see if one <code>SpiObject</code> collides with another.
-	//  * Can be called with one object and one group, or two groups, or two objects,
-	//  * whatever floats your boat! For maximum performance try bundling a lot of objects
-	//  * together using a <code>SpiGroup</code> (or even bundling groups together!).
-	//  * 
-	//  * <p>This method just calls overlap and presets the ProcessCallback parameter to SpiObject.separate.
-	//  * To create your own collision logic, write your own ProcessCallback and use overlap to set it up.</p>
-	//  * 
-	//  * <p>NOTE: does NOT take objects' scrollfactor into account, all overlaps are checked in world space.</p>
-	//  * 
-	//  * @param	NotifyCallback	A method with two <code>SpiObject</code> parameters - e.g. <code>myOverlapFunction(Object1:SpiObject,Object2:SpiObject)</code> - that is called if those two objects overlap.
-	//  * 
-	//  * @return	Whether any objects were successfully collided/separated.
-	//  */
-	// public static boolean collide(ISpiCollision NotifyCallback)
-	// {
-	// 	return collide(null, null, NotifyCallback);
-	// }
-	
-	// /**
-	//  * Call this method to see if one <code>SpiObject</code> collides with another.
-	//  * Can be called with one object and one group, or two groups, or two objects,
-	//  * whatever floats your boat! For maximum performance try bundling a lot of objects
-	//  * together using a <code>SpiGroup</code> (or even bundling groups together!).
-	//  * 
-	//  * <p>This method just calls overlap and presets the ProcessCallback parameter to SpiObject.separate.
-	//  * To create your own collision logic, write your own ProcessCallback and use overlap to set it up.</p>
-	//  * 
-	//  * <p>NOTE: does NOT take objects' scrollfactor into account, all overlaps are checked in world space.</p>
-	//  * 
-	//  * @return	Whether any objects were successfully collided/separated.
-	//  */
-	// public static boolean collide()
-	// {
-	// 	return collide(null, null, null);
-	// }
+	/**
+	 * Call this method to see if one <code>SpiObject</code> collides with another.
+	 * Can be called with one object and one group, or two groups, or two objects,
+	 * whatever floats your boat! For maximum performance try bundling a lot of objects
+	 * together using a <code>SpiGroup</code> (or even bundling groups together!).
+	 * 
+	 * <p>This method just calls overlap and presets the ProcessCallback parameter to SpiObject.separate.
+	 * To create your own collision logic, write your own ProcessCallback and use overlap to set it up.</p>
+	 * 
+	 * <p>NOTE: does NOT take objects' scrollfactor into account, all overlaps are checked in world space.</p>
+	 * 
+	 * @param	ObjectOrGroup1	The first object or group you want to check.
+	 * @param	ObjectOrGroup2	The second object or group you want to check.  If it is the same as the first, spiller knows to just do a comparison within that group.
+	 * @param	NotifyCallback	A method with two <code>SpiObject</code> parameters - e.g. <code>myOverlapFunction(Object1:SpiObject,Object2:SpiObject)</code> - that is called if those two objects overlap.
+	 * 
+	 * @return	Whether any objects were successfully collided/separated.
+	 */
+	public static function collide(?ObjectOrGroup1:SpiBasic = null, ?ObjectOrGroup2:SpiBasic = null, ?NotifyCallback:SpiObject->SpiObject->Void = null):Bool
+	{	
+		return false;	
+	//TODO	return overlap(ObjectOrGroup1, ObjectOrGroup2, NotifyCallback, separate);
+	}
 	
 	// /**
 	//  * Adds a new plugin to the global plugin array.
@@ -2574,6 +2506,8 @@ class SpiG
 	// 	SpiDebugPathDisplay debugPathDisplay = (SpiDebugPathDisplay) getPlugin(SpiDebugPathDisplay.class);
 	// 	if(debugPathDisplay != null)
 	// 		debugPathDisplay.clear();
+	//
+	//  random.resetInitialSeed();
 	// }
 	
 	// /**

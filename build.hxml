@@ -5,4 +5,5 @@
 -js build/html5/kha.js
 -xml build.xml
 -main Main
+-D SPI_REFLECTION
 --macro include('spiller')

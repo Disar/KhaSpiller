@@ -35,24 +35,39 @@ class SpiStringUtil
 	 * @param	ShowMS		Whether to show milliseconds after a "." as well.  Default value is false.
 	 * @return	A nicely formatted String, like "1:03".
 	 */
-	public static inline function formatTime(Seconds:Float, ShowMS:Bool = false):String
+	public static inline function formatTime(Seconds:Float, ShowMS:Bool = false, usePeriods:Bool = true):String
 	{
-		var timeString:String = Std.int(Seconds / 60) + ":";
+		var timeString:String = Std.int(Seconds / 60)  + ((usePeriods) ? ":" : "m");
 		var timeStringHelper:Int = Std.int(Seconds) % 60;
+		
+		// Add the space if we aren't using periods
+		if (!usePeriods)
+			timeString += " ";
+
 		if (timeStringHelper < 10)
-		{
 			timeString += "0";
-		}
 		timeString += timeStringHelper;
-		if (ShowMS)
-		{
-			timeString += ".";
+
+		// Add the letter if needed
+		if (!usePeriods)
+			timeString += "s";
+
+		if (ShowMS) {
+			// Add the right separator
+			if (usePeriods)
+				timeString += ".";
+			else
+				timeString += " ";
+
+			// Calculate milliseconds
 			timeStringHelper = Std.int((Seconds - Std.int(Seconds)) * 100);
 			if (timeStringHelper < 10)
-			{
 				timeString += "0";
-			}
 			timeString += timeStringHelper;
+
+			// Add the letter if needed
+			if (!usePeriods)
+				timeString += "ms";
 		}
 		
 		return timeString;
@@ -111,6 +126,9 @@ class SpiStringUtil
 	 */
 	public static inline function formatMoney(Amount:Float, ShowDecimal:Bool = true, EnglishStyle:Bool = true):String
 	{
+		if(Amount == 0)
+			return "0";
+
 		var helper:Int;
 		var amount:Int = Math.floor(Amount);
 		var string:String = "";
@@ -189,6 +207,68 @@ class SpiStringUtil
 			}
 		}
 		return output.toString();
+	}
+
+	/**
+	 * Returns the number as a String in score format.
+	 * 
+	 * @param num The score number.
+	 * @param dig The number of digits.
+	 * @param withCommas Add commas each 3 numbers.
+	 */
+	public static function formatScore(num:Int, dig:Int = 5, withCommas:Bool = false)
+	{
+		dig = (dig == 0) ? 1 : dig; // Check that dig is bigger than 0
+
+		if (withCommas) {
+			return formatMoney(Std.parseInt(Std.string(num).lpad("0", dig)) , false, true);
+		} else
+			return Std.string(num).lpad("0", dig);
+	}
+
+	/**
+	 * Beautify and number-formatting.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static function formatEveryThirdPower(value:Int):String
+	{
+		var base:Int = 0;
+		var notationValue:String = "";
+		var text:String = null;
+		var notations:Array<String> = new Array<String>();
+		notations.push("");
+		notations.push(" million");
+		notations.push(" billion");
+		notations.push(" trillion");
+		notations.push(" quadrillion");
+		notations.push(" quintillion");
+		notations.push(" sextillion");
+		notations.push(" septillion");
+		notations.push(" octillion");
+		notations.push(" nonillion");
+		notations.push(" decillion");
+
+		if (value >= 1000000/* && Long.isFinite(value)*/)
+		{
+			value = Math.round(value / 1000);
+			while(Math.round(value) >= 1000)
+			{
+				value = Math.round(value / 1000);
+				base++;
+			}
+			if (base > notations.length) {
+				return "Infinity";
+			} else {
+				notationValue = notations[Std.int(base)];
+			}
+			
+			text = ( Math.round(value * 1000) / 1000 ) + notationValue;
+		} else {
+			text = formatMoney(value, false, true);
+		}
+		return text;
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package com.ratalaika.spiller.plugin.tweens.motion;
+package spiller.plugin.tweens.motion;
 
 import spiller.SpiU;
 import spiller.event.ISpiTween;
@@ -11,7 +11,7 @@ import spiller.event.ISpiTweenEase;
  * v1.0 Initial version (?)
  * 
  * @version 1.1 - January 24th 2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  */
 public class CircularMotion extends Motion
 {
@@ -140,7 +140,7 @@ public class CircularMotion extends Motion
 	/**
 	 * Updates the Tween.
 	 */
-	@Override
+	override
 	public void update()
 	{
 		super.update();

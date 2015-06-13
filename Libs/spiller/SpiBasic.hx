@@ -1,6 +1,6 @@
 package spiller;
 
-import spiller.plugin.tweens.SpiTween;
+import spiller.tweens.SpiTween;
 import spiller.util.interfaces.ISpiDestroyable;
 import spiller.util.SpiStringUtil;
 
@@ -12,7 +12,7 @@ import spiller.util.SpiStringUtil;
  * v1.0 Initial version
  * 
  * @version 1.0 - 27/03/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Ka Wing Chin
  */
 class SpiBasic implements ISpiDestroyable
@@ -68,6 +68,10 @@ class SpiBasic implements ISpiDestroyable
 	 * The SpiTween reference.
 	 */
 	private var _tween:SpiTween;
+	/**
+	 * Enum that informs the collision system which type of object this is (to avoid expensive type casting).
+	 */
+	public var type(default, null):SpiType = SpiType.BASIC;
 
 	/**
 	 * Instantiate the basic spiller object.
@@ -289,4 +293,23 @@ class SpiBasic implements ISpiDestroyable
 	{
 		return (_tween != null); 
 	}
+}
+
+/**
+ * Types of spiller objects - mainly for collisions.
+ */
+abstract SpiType(Int) from Int from UInt to Int to UInt
+{
+	// public static inline var NONE:Int		= 0;
+	// public static inline var BASIC:Int		= 1;
+	// public static inline var OBJECT:Int		= 2;
+	// public static inline var GROUP:Int		= 3;
+	// public static inline var TILEMAP:Int	= 4;
+
+	public static inline var NONE:SpiType        = 0;
+	public static inline var BASIC:SpiType       = 1;
+	public static inline var OBJECT:SpiType      = 2;
+	public static inline var GROUP:SpiType       = 3;
+	public static inline var TILEMAP:SpiType     = 4;
+
 }

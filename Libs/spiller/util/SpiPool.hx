@@ -10,7 +10,7 @@ package spiller.util;
  * v1.0 Initial version<br>
  * 
  * @version 1.0 - 25/04/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Thomas Weston
  */
 class SpiPool<T> 

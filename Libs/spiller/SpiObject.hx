@@ -3,10 +3,12 @@ package spiller;
 import spiller.math.SpiMath;
 // import spiller.system.SpiTile;
 // import spiller.system.flash.Graphics;
+import spiller.SpiBasic.SpiType;
 import spiller.util.SpiDestroyUtil;
 import spiller.util.SpiPath;
 import spiller.math.SpiPoint;
 import spiller.math.SpiRect;
+import spiller.math.SpiVelocity;
 
 /**
  * This is the base class for most of the display objects<br>
@@ -18,7 +20,7 @@ import spiller.math.SpiRect;
  * v1.0 Initial version
  * 
  * @version 1.0 - 17/07/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author Ka Wing Chin
  * @author Thomas Weston
  */
@@ -314,6 +316,7 @@ class SpiObject extends SpiBasic
 	public function new(X:Float = 0, Y:Float = 0, Width:Int = 0, Height:Int = 0)
 	{
 		super();
+		type = SpiType.OBJECT;
 		x = X;
 		y = Y;
 		last = SpiPoint.get(x, y);
@@ -446,18 +449,18 @@ class SpiObject extends SpiBasic
 		var delta;
 		var velocityDelta;
 
-		velocityDelta = (SpiU.computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular, SpiG.elapsed) - angularVelocity) / 2.0;
+		velocityDelta = (SpiVelocity.computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular, SpiG.elapsed) - angularVelocity) / 2.0;
 		angularVelocity += velocityDelta; 
 		angle += angularVelocity * SpiG.elapsed;
 		angularVelocity += velocityDelta;
 
-		velocityDelta = (SpiU.computeVelocity(velocity.x, acceleration.x, drag.x, maxVelocity.x, SpiG.elapsed) - velocity.x) / 2.0;
+		velocityDelta = (SpiVelocity.computeVelocity(velocity.x, acceleration.x, drag.x, maxVelocity.x, SpiG.elapsed) - velocity.x) / 2.0;
 		velocity.x += velocityDelta;
 		delta = velocity.x * SpiG.elapsed;
 		velocity.x += velocityDelta;
 		x += delta;
 
-		velocityDelta = (SpiU.computeVelocity(velocity.y, acceleration.y, drag.y, maxVelocity.y, SpiG.elapsed) - velocity.y) / 2.0;
+		velocityDelta = (SpiVelocity.computeVelocity(velocity.y, acceleration.y, drag.y, maxVelocity.y, SpiG.elapsed) - velocity.y) / 2.0;
 		velocity.y += velocityDelta;
 		delta = velocity.y * SpiG.elapsed;
 		velocity.y += velocityDelta;
@@ -540,7 +543,7 @@ class SpiObject extends SpiBasic
 		}
 		
 		path = Path;
-		pathSpeed = SpiU.abs(Speed);
+		pathSpeed = SpiMath.abs(Speed);
 		_pathMode = Mode;
 		_pathRotate = AutoRotate;
 		
@@ -690,8 +693,8 @@ class SpiObject extends SpiBasic
 			}
 			else
 			{
-				pathAngle = SpiU.getAngle(_point, node);
-				SpiU.rotatePoint(0, cast(pathSpeed, Int), 0, 0, pathAngle, velocity);
+				pathAngle = SpiMath.getAngle(_point, node);
+				SpiMath.rotatePoint(0, cast(pathSpeed, Int), 0, 0, pathAngle, velocity);
 			}
 			
 			// Then set object rotation if necessary

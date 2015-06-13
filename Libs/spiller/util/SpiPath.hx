@@ -15,7 +15,7 @@ import spiller.math.SpiPoint;
  * v1.0 Initial version
  * 
  * @version 1.0 - 17/07/2013
- * @author ratalaika / ratalaikaGames
+ * @author ratalaika / Ratalaika Games
  * @author	Thomas Weston
  * @author	Ka Wing Chin
  */

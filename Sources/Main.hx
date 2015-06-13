@@ -20,5 +20,12 @@ class Main {
 		SpiPoint.poolStatus();
 		//starter.start(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 //		starter.start(new KhaFlixelGame());
+
+		SpiTypeExt.TILEMAP_2;
 	}
+}
+
+abstract SpiTypeExt(SpiType)
+{
+	public static inline var TILEMAP_2:SpiType		= 5;
 }
