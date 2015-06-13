@@ -872,6 +872,7 @@ class SpiGame extends Game
 			createFocusScreen();
 		}
 
+
 		_pause = new SpiPause();
 
 		_created = true;
