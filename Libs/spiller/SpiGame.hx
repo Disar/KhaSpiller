@@ -34,29 +34,29 @@ class SpiGame
 	/**
 	 * If we are going to use the splash screen.
 	 */
-	public static boolean useSplashScreen = true;
+	public static inline var useSplashScreen:Bool = true;
 	/**
 	 * Sets 0, -, and + to control the global volume sound volume.
 	 * 
 	 * @default true
 	 */
-	public boolean useSoundHotKeys;
+	public var useSoundHotKeys:Bool;
 	/**
 	 * Tells spiller to use the default system mouse cursor instead of custom spiller mouse cursors.
 	 * 
 	 * @default false
 	 */
-	public boolean useSystemCursor;
+	public var useSystemCursor:Bool;
 	/**
 	 * Initialize and allow the spiller debugger overlay even in release mode. Also useful if you don't use SpiPreloader!
 	 * 
 	 * @default false
 	 */
-	public boolean forceDebugger;
+	public var forceDebugger:Bool;
 	/**
 	 * Current game state.
 	 */
-	protected SpiState _state;
+	private var _state:SpiState;
 	/**
 	 * Mouse cursor.
 	 */
@@ -64,141 +64,141 @@ class SpiGame
 	/**
 	 * Class type of the initial/first game state for the game, usually MenuState or something like that.
 	 */
-	protected Class<? extends SpiState> _iState;
+	private var _iState:Class<SpiState>;
 	/**
 	 * Whether the game object's basic initialization has finished yet.
 	 */
-	protected boolean _created;
+	private var _created:Bool;
 	/**
 	 * Total number of milliseconds elapsed since game start.
 	 */
-	protected long _total;
+	private var _total:UInt;
 	/**
 	 * Total number of milliseconds elapsed since last update loop. Counts down as we step through the game loop.
 	 */
-	protected int _accumulator;
+	private var _accumulator:Int;
 	/**
 	 * Milliseconds of time since last step.
 	 */
-	private long _elapsedMS;
+	private var _elapsedMS:UInt;
 	/**
 	 * Whether the Flash player lost focus.
 	 */
-	protected boolean _lostFocus;
+	private var _lostFocus:Bool;
 	/**
 	 * Milliseconds of time per step of the game loop.<br>
 	 * FlashEvent.g. 60 fps = 16ms.
 	 */
-	protected int step;
+	private var step:Int;
 	/**
 	 * Framerate of the Flash player (NOT the game loop). Default = 30.
 	 */
-	protected int _flashFramerate;
+	private var _flashFramerate:Int;
 	/**
 	 * Max allowable accumulation (see _accumulator).<br>
 	 * Should always (and automatically) be set to roughly 2x the flash player framerate.
 	 */
-	protected int maxAccumulation;
+	private var maxAccumulation:Int;
 	/**
 	 * The current game framerate.
 	 */
-	protected int _gameFramerate;
+	private var _gameFramerate:Int;
 	/**
 	 * If a state change was requested, the new state object is stored here until we switch to it.
 	 */
-	protected SpiState requestedState;
+	private var requestedState:SpiState;
 	/**
 	 * A flag for keeping track of whether a game reset was requested or not.
 	 */
-	protected boolean _requestedReset;
+	private var _requestedReset:Bool;
 	/**
 	 * The "focus lost" screen (see <code>createFocusScreen()</code>).
 	 */
-	protected TextureRegion _focus;
+	private var _focus:Image;
 	/**
 	 * The sound tray display container (see <code>createSoundTray()</code>).
 	 */
-	protected SpiSprite _soundTray;
+	private var _soundTray:SpiSprite;
 	/**
 	 * Helps us auto-hide the sound tray after a volume change.
 	 */
-	protected float _soundTrayTimer;
+	private var _soundTrayTimer:Float;
 	/**
 	 * Helps display the volume bars on the sound tray.
 	 */
-	protected Array<SpiSprite> _soundTrayBars;
+	private var _soundTrayBars:Array<SpiSprite>;
 	/**
 	 * The debugger overlay object.
 	 */
-	protected SpiDebugger debugger;
+	private var debugger:SpiDebugger;
 	/**
 	 * A handy boolean that keeps track of whether the debugger exists and is currently visible.
 	 */
-	protected boolean debuggerUp;
+	private var debuggerUp:Bool;
 	/**
 	 * Container for a game replay object.
 	 */
-	protected SpiReplay _replay;
+	private var _replay:SpiReplay;
 	/**
 	 * Flag for whether a playback of a recording was requested.
 	 */
-	protected boolean _replayRequested;
+	private var _replayRequested:Bool;
 	/**
 	 * Flag for whether a new recording was requested.
 	 */
-	protected boolean _recordingRequested;
+	private var _recordingRequested:Bool;
 	/**
 	 * Flag for whether a replay is currently playing.
 	 */
-	protected boolean _replaying;
+	private var _replaying:Bool;
 	/**
 	 * Flag for whether a new recording is being made.
 	 */
-	protected boolean _recording;
+	private var _recording:Bool;
 	/**
 	 * Array that keeps track of keypresses that can cancel a replay. Handy for skipping cutscenes or getting out of attract modes!
 	 */
-	protected Array<String> _replayCancelKeys;
+	private var _replayCancelKeys:Array<String>;
 	/**
 	 * Helps time out a replay if necessary.
 	 */
-	protected int _replayTimer;
+	private var _replayTimer:Int;
 	/**
 	 * This function, if set, is triggered when the callback stops playing.
 	 */
-	protected ISpiReplay _replayCallback;
+	private var _replayCallback:ISpiReplay;
 	/**
 	 * Temporary _font to display the fps.
 	 */
-	private BitmapFont _font;
+	private var _font:BitmapFont;
 	/**
 	 * Temporary camera to display the fps.
 	 */
-	private OrthographicCamera _fontCamera;
+	private var _fontCamera:OrthographicCamera;
 	/**
 	 * Represents the Flash stage.
 	 */
-	public SpiGameStage stage;
+	public var stage:SpiGameStage;
 	/**
 	 * The pause state.
 	 */
-	protected SpiPause _pause;
+	private var _pause:SpiPause;
 	/**
 	 * Internal, a pre-allocated <code>MouseEvent</code> to prevent <code>new</code> calls.
 	 */
-	private MouseEvent _mouseEvent;
+	private var _mouseEvent:MouseEvent;
 	/**
 	 * Internal, a pre-allocated <code>KeyboardEvent</code> to prevent <code>new</code> calls.
 	 */
-	private KeyboardEvent _keyboardEvent;
+	private var _keyboardEvent:KeyboardEvent;
 	/**
 	 * Internal, a pre-allocated <code>EnterFrameEvent</code> to prevent <code>new</code> calls.
 	 */
-	private Event _onEnterFrame;
+	private var _onEnterFrame:Event;
 	/**
 	 * If the game has been destroyed.
 	 */
-	private boolean _destroyed;
+	private var _destroyed:Bool;
 
 	/**
 	 * Instantiate a new game object.
@@ -329,7 +329,7 @@ class SpiGame
 	 * 
 	 * @param Silent Whether or not it should beep.
 	 */
-	protected void showSoundTray(boolean Silent)
+	private void showSoundTray(boolean Silent)
 	{
 		// if(!Silent)
 		// SpiG.play(SndBeep);
@@ -352,7 +352,7 @@ class SpiGame
 	/**
 	 * Makes the little volume tray slide out.
 	 */
-	protected void showSoundTray()
+	private void showSoundTray()
 	{
 		showSoundTray(false);
 	}
@@ -579,7 +579,7 @@ class SpiGame
 	/**
 	 * Internal event handler for input and focus.
 	 */
-	protected void onFocus()
+	private void onFocus()
 	{
 		// if(!debuggerUp && !useSystemCursor)
 		// flash.ui.Mouse.hide();
@@ -593,7 +593,7 @@ class SpiGame
 	/**
 	 * Internal event handler for input and focus.
 	 */
-	protected void onFocusLost()
+	private void onFocusLost()
 	{
 		// flash.ui.Mouse.show();
 		_lostFocus = /*_focus.visible =*/ true;
@@ -701,7 +701,7 @@ class SpiGame
 	 * This is the main game update logic section. The onEnterFrame() handler is in charge of calling this the appropriate number of times each frame. This block handles state
 	 * changes, replays, all that good stuff.
 	 */
-	protected void step()
+	private void step()
 	{
 		if(_destroyed)
 			return;
@@ -783,7 +783,7 @@ class SpiGame
 	/**
 	 * This function just updates the soundtray object.
 	 */
-	protected void updateSoundTray(float MS)
+	private void updateSoundTray(float MS)
 	{
 		// Animate stupid sound tray thing
 
@@ -812,7 +812,7 @@ class SpiGame
 	/**
 	 * This function is called by step() and updates the actual game state. May be called multiple times per "frame" or draw call.
 	 */
-	protected void update()
+	private void update()
 	{
 		if(_destroyed)
 			return;
@@ -997,7 +997,7 @@ class SpiGame
 	 * Sets up the "sound tray", the little volume meter that pops down sometimes.
 	 */
 	// TODO: Sound tray
-	protected void createSoundTray()
+	private void createSoundTray()
 	{
 		// _soundTray.visible = false;
 		// _soundTray.scaleX = 2;
@@ -1056,7 +1056,7 @@ class SpiGame
 	 * Sets up the darkened overlay with the big white "play" button that appears when a spiller game loses focus.
 	 */
 	// TODO: Focus screen
-	protected void createFocusScreen()
+	private void createFocusScreen()
 	{
 		// var gfx:Graphics = _focus.graphics;
 		// var screenWidth:uint = SpiG.width*SpiCamera.defaultZoom;
