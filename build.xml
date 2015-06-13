@@ -481,26 +481,18 @@
 		</meta>
 	</class>
 	<class path="Main" params="" file="Sources/Main.hx">
-		<main public="1" set="method" line="18" static="1">
+		<gameWidth line="10" static="1"><x path="Int"/></gameWidth>
+		<gameHeight line="11" static="1"><x path="Int"/></gameHeight>
+		<initialState line="12" static="1"><x path="Class"><c path="spiller.SpiState"/></x></initialState>
+		<zoom line="13" static="1"><x path="Float"/></zoom>
+		<framerate line="14" static="1"><x path="Int"/></framerate>
+		<skipSplash line="15" static="1"><x path="Bool"/></skipSplash>
+		<main public="1" set="method" line="17" static="1">
 			<f a=""><x path="Void"/></f>
 			<meta><m n=":keep"/></meta>
 		</main>
-		<gameWidth><x path="Int"/></gameWidth>
-		<gameHeight><x path="Int"/></gameHeight>
-		<zoom><x path="Float"/></zoom>
-		<framerate><x path="Int"/></framerate>
-		<skipSplash><x path="Bool"/></skipSplash>
-		<startFullscreen><x path="Bool"/></startFullscreen>
-		<new public="1" set="method" line="9">
-			<f a=""><x path="Void"/></f>
-			<meta><m n=":compilerGenerated"/></meta>
-		</new>
+		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<abstract path="SpiTypeExt" params="" file="Sources/Main.hx" module="Main">
-		<this><x path="spiller.SpiType"/></this>
-		<impl><class path="_Main.SpiTypeExt_Impl_" params="" file="Sources/Main.hx" private="1" module="Main"><TILEMAP_2 public="1" get="inline" set="null" line="30" static="1"><x path="spiller.SpiType"/></TILEMAP_2></class></impl>
-	</abstract>
-	<class path="_Main.SpiTypeExt_Impl_" params="" file="Sources/Main.hx" private="1" module="Main"><TILEMAP_2 public="1" get="inline" set="null" line="30" static="1"><x path="spiller.SpiType"/></TILEMAP_2></class>
 	<abstract path="Map" params="K:V" file="/usr/lib/haxe/std/Map.hx">
 		<from>
 			<icast field="fromStringMap"><c path="haxe.ds.StringMap"><c path="fromStringMap.V"/></c></icast>
@@ -21638,6 +21630,60 @@
 	</class>
 	<class path="spiller.SpiCamera" params="" file="Libs/spiller/SpiCamera.hx">
 		<extends path="spiller.SpiBasic"/>
+		<STYLE_LOCKON public="1" get="inline" set="null" line="29" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "follow" style preset: camera has no deadzone, just tracks the focus object directly.</haxe_doc>
+		</STYLE_LOCKON>
+		<STYLE_PLATFORMER public="1" get="inline" set="null" line="33" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "follow" style preset: camera deadzone is narrow but tall.</haxe_doc>
+		</STYLE_PLATFORMER>
+		<STYLE_TOPDOWN public="1" get="inline" set="null" line="37" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "follow" style preset: camera deadzone is a medium-size square around the focus object.</haxe_doc>
+		</STYLE_TOPDOWN>
+		<STYLE_TOPDOWN_TIGHT public="1" get="inline" set="null" line="41" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "follow" style preset: camera deadzone is a small square around the focus object.</haxe_doc>
+		</STYLE_TOPDOWN_TIGHT>
+		<STYLE_SCREEN_BY_SCREEN public="1" get="inline" set="null" line="45" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "follow" style preset: camera will move screenwise.</haxe_doc>
+		</STYLE_SCREEN_BY_SCREEN>
+		<STYLE_NO_DEAD_ZONE public="1" get="inline" set="null" line="49" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "follow" style preset: camera has no deadzone, just tracks the focus object directly and centers it.</haxe_doc>
+		</STYLE_NO_DEAD_ZONE>
+		<SHAKE_BOTH_AXES public="1" get="inline" set="null" line="53" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "shake" effect preset: shake camera on both the X and Y axes.</haxe_doc>
+		</SHAKE_BOTH_AXES>
+		<SHAKE_HORIZONTAL_ONLY public="1" get="inline" set="null" line="57" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "shake" effect preset: shake camera on the X axis only.</haxe_doc>
+		</SHAKE_HORIZONTAL_ONLY>
+		<SHAKE_VERTICAL_ONLY public="1" get="inline" set="null" line="61" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "shake" effect preset: shake camera on the Y axis only.</haxe_doc>
+		</SHAKE_VERTICAL_ONLY>
+		<NO_SCALE public="1" get="inline" set="null" line="65" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "scale" mode preset: The game is not scaled.</haxe_doc>
+		</NO_SCALE>
+		<FILL_X public="1" get="inline" set="null" line="70" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "scale" mode preset: Scales the stage to fill the display
+	 * in the x direction without stretching.</haxe_doc>
+		</FILL_X>
+		<FILL_Y public="1" get="inline" set="null" line="75" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "scale" mode preset: Scales the stage to fill the display
+	 * in the y direction without stretching.</haxe_doc>
+		</FILL_Y>
+		<STRETCH public="1" get="inline" set="null" line="79" static="1">
+			<x path="Int"/>
+			<haxe_doc>* Camera "scale" mode preset: Stretches the game to fill the entire screen.</haxe_doc>
+		</STRETCH>
 		<new public="1" set="method" line="24"><f a=""><x path="Void"/></f></new>
 		<haxe_doc><![CDATA[* The camera class is used to display the game's visuals in the Flash player.<br>
  * By default one camera is created automatically, that is the same size as the Flash player.<br>
@@ -22141,6 +22187,10 @@
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
 	<class path="spiller.SpiG" params="" file="Libs/spiller/SpiG.hx">
+		<_game static="1">
+			<c path="spiller.SpiGame"/>
+			<haxe_doc>* Internal tracker for game object.</haxe_doc>
+		</_game>
 		<elapsed public="1" static="1">
 			<x path="Float"/>
 			<haxe_doc>* Represents the amount of time in seconds that passed since last frame.</haxe_doc>
@@ -22217,6 +22267,32 @@
 	 * @param data					Anything you want to log to the console.
 	 * @param showThreadName		If the log prints the Thread name or not.</haxe_doc>
 		</log>
+		<getFramerate public="1" get="inline" set="null" line="634" static="1">
+			<f a=""><x path="Int"/></f>
+			<haxe_doc>* How many times you want your game to update each second.
+	 * More updates usually means better collisions and smoother motion.
+	 * NOTE: This is NOT the same thing as the Flash Player framerate!</haxe_doc>
+		</getFramerate>
+		<setFramerate public="1" set="method" line="642" static="1">
+			<f a="Framerate">
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* @private</haxe_doc>
+		</setFramerate>
+		<getFlashFramerate public="1" get="inline" set="null" line="659" static="1">
+			<f a=""><x path="Int"/></f>
+			<haxe_doc>* How many times you want your game to update each second.
+	 * More updates usually means better collisions and smoother motion.
+	 * NOTE: This is NOT the same thing as the Flash Player framerate!</haxe_doc>
+		</getFlashFramerate>
+		<setFlashFramerate public="1" set="method" line="667" static="1">
+			<f a="Framerate">
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>*</haxe_doc>
+		</setFlashFramerate>
 		<getActiveCamera public="1" set="method" line="1845" static="1">
 			<f a=""><c path="spiller.SpiCamera"/></f>
 			<haxe_doc>* Read-only: gets the current SpiCamera.</haxe_doc>
@@ -22248,6 +22324,21 @@
 	 * 
 	 * @return	Whether any objects were successfully collided/separated.]]></haxe_doc>
 		</collide>
+		<init set="method" line="2430" static="1">
+			<f a="Game:Width:Height:Zoom:ScaleMode">
+				<c path="spiller.SpiGame"/>
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Float"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[* Called by <code>SpiGame</code> to set up <code>SpiG</code> during <code>SpiGame</code>'s constructor.]]></haxe_doc>
+		</init>
+		<reset set="method" line="2484" static="1">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Called whenever the game is reset, doesn't have to do quite as much work as the basic initialization stuff.</haxe_doc>
+		</reset>
 		<haxe_doc><![CDATA[* This is a global helper class full of useful methods for audio,<br>
  * input, basic info, and the camera system among other things.<br>
  * Utilities for maths and color and things can be found in <code>SpiU</code>.<br>
@@ -22262,6 +22353,147 @@
  * @author ratalaika / Ratalaika Games
  * @author Ka Wing Chin
  * @author Thomas Weston]]></haxe_doc>
+		<meta>
+			<m n=":directlyUsed"/>
+			<m n=":allow"><e>spiller</e></m>
+		</meta>
+	</class>
+	<class path="spiller.SpiGame" params="" file="Libs/spiller/SpiGame.hx">
+		<extends path="kha.Game"/>
+		<useSplashScreen public="1" get="inline" set="null" line="33" static="1">
+			<x path="Bool"/>
+			<haxe_doc>* If we are going to use the splash screen.</haxe_doc>
+		</useSplashScreen>
+		<useSoundHotKeys public="1">
+			<x path="Bool"/>
+			<haxe_doc>* Sets 0, -, and + to control the global volume sound volume.
+	 * 
+	 * @default true</haxe_doc>
+		</useSoundHotKeys>
+		<useSystemCursor public="1">
+			<x path="Bool"/>
+			<haxe_doc>* Tells spiller to use the default system mouse cursor instead of custom spiller mouse cursors.
+	 * 
+	 * @default false</haxe_doc>
+		</useSystemCursor>
+		<_state>
+			<c path="spiller.SpiState"/>
+			<haxe_doc>* Current game state.</haxe_doc>
+		</_state>
+		<_iState>
+			<x path="Class"><c path="spiller.SpiState"/></x>
+			<haxe_doc>* Mouse cursor.</haxe_doc>
+		</_iState>
+		<_created>
+			<x path="Bool"/>
+			<haxe_doc>* Whether the game object's basic initialization has finished yet.</haxe_doc>
+		</_created>
+		<_total>
+			<x path="Int"/>
+			<haxe_doc>* Total number of milliseconds elapsed since game start.</haxe_doc>
+		</_total>
+		<_accumulator>
+			<x path="Float"/>
+			<haxe_doc>* Total number of milliseconds elapsed since last update loop. Counts down as we step through the game loop.</haxe_doc>
+		</_accumulator>
+		<_elapsedMS>
+			<x path="Float"/>
+			<haxe_doc>* Milliseconds of time since last step.</haxe_doc>
+		</_elapsedMS>
+		<_lostFocus>
+			<x path="Bool"/>
+			<haxe_doc>* Whether the Flash player lost focus.</haxe_doc>
+		</_lostFocus>
+		<step>
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Milliseconds of time per step of the game loop.<br>
+	 * FlashEvent.g. 60 fps = 16ms.]]></haxe_doc>
+		</step>
+		<_flashFramerate>
+			<x path="Int"/>
+			<haxe_doc>* Framerate of the Flash player (NOT the game loop). Default = 30.</haxe_doc>
+		</_flashFramerate>
+		<maxAccumulation>
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Max allowable accumulation (see _accumulator).<br>
+	 * Should always (and automatically) be set to roughly 2x the flash player framerate.]]></haxe_doc>
+		</maxAccumulation>
+		<_gameFramerate>
+			<x path="Int"/>
+			<haxe_doc>* The current game framerate.</haxe_doc>
+		</_gameFramerate>
+		<requestedState>
+			<c path="spiller.SpiState"/>
+			<haxe_doc>* If a state change was requested, the new state object is stored here until we switch to it.</haxe_doc>
+		</requestedState>
+		<_requestedReset>
+			<x path="Bool"/>
+			<haxe_doc>* A flag for keeping track of whether a game reset was requested or not.</haxe_doc>
+		</_requestedReset>
+		<_focus>
+			<c path="kha.Image"/>
+			<haxe_doc><![CDATA[* The "focus lost" screen (see <code>createFocusScreen()</code>).]]></haxe_doc>
+		</_focus>
+		<_font>
+			<c path="kha.Font"/>
+			<haxe_doc>* Temporary _font to display the fps.</haxe_doc>
+		</_font>
+		<stage public="1">
+			<c path="spiller.system.flash.SpiGameStage"/>
+			<haxe_doc>* Temporary camera to display the fps.</haxe_doc>
+		</stage>
+		<_pause>
+			<c path="spiller.system.SpiPause"/>
+			<haxe_doc>* The pause state.</haxe_doc>
+		</_pause>
+		<_mouseEvent>
+			<c path="spiller.system.flash.events.MouseEvent"/>
+			<haxe_doc><![CDATA[* Internal, a pre-allocated <code>MouseEvent</code> to prevent <code>new</code> calls.]]></haxe_doc>
+		</_mouseEvent>
+		<_keyboardEvent>
+			<c path="spiller.system.flash.events.KeyboardEvent"/>
+			<haxe_doc><![CDATA[* Internal, a pre-allocated <code>KeyboardEvent</code> to prevent <code>new</code> calls.]]></haxe_doc>
+		</_keyboardEvent>
+		<_onEnterFrame>
+			<c path="spiller.system.flash.events.Event"/>
+			<haxe_doc><![CDATA[* Internal, a pre-allocated <code>EnterFrameEvent</code> to prevent <code>new</code> calls.]]></haxe_doc>
+		</_onEnterFrame>
+		<_destroyed>
+			<x path="Bool"/>
+			<haxe_doc>* If the game has been destroyed.</haxe_doc>
+		</_destroyed>
+		<new public="1" set="method" line="221">
+			<f a="GameSizeX:GameSizeY:InitialState:?Zoom:?GameFramerate:?FlashFramerate:?UseSystemCursor:?ScaleMode">
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Class"><c path="spiller.SpiState"/></x>
+				<x path="Float"/>
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Bool"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Instantiate a new game object.
+	 * 
+	 * @param GameSizeX The width of your game in game pixels, not necessarily final display pixels (see Zoom).
+	 * @param GameSizeY The height of your game in game pixels, not necessarily final display pixels (see Zoom).
+	 * @param InitialState The class name of the state you want to create and switch to first (e.g. MenuState).
+	 * @param Zoom The default level of zoom for the game's cameras (e.g. 2 = all pixels are now drawn at 2x). Default = 1.
+	 * @param GameFramerate How frequently the game should update (default is 30 times per second).
+	 * @param FlashFramerate Sets the actual display framerate for Flash player (default is 30 times per second).
+	 * @param UseSystemCursor Whether to use the default OS mouse pointer, or to use custom spiller ones.
+	 * @param ScaleMode How to scale the stage to fit the display (default is stretch).</haxe_doc>
+		</new>
+		<haxe_doc>* SpiGame is the heart of all spiller games, and contains a bunch of basic game loops and things. It is a long and sloppy file that you shouldn't have to worry about too much! It
+ * is basically only used to create your game object in the first place, after that SpiG and SpiState have all the useful stuff you actually need.
+ * 
+ * v1.4 Updated reflection stuff v1.3 Added configurable assets dispose v1.2 Fixed the mobile check v1.1 Ported to Java v1.0 Initial version (?)
+ * 
+ * @version 1.4 - 02/07/2013
+ * @author Ka Wing Chin
+ * @author Thomas Weston
+ * @author ratalaika / Ratalaika Games</haxe_doc>
 		<meta>
 			<m n=":directlyUsed"/>
 			<m n=":allow"><e>spiller</e></m>
@@ -23556,6 +23788,27 @@
  * @author Thomas Weston]]></haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
+	<class path="spiller.SpiSprite" params="" file="Libs/spiller/SpiSprite.hx">
+		<extends path="spiller.SpiObject"/>
+		<new public="1" set="method" line="33"><f a="?X:?Y:?Width:?Height">
+	<x path="Float"/>
+	<x path="Float"/>
+	<x path="Int"/>
+	<x path="Int"/>
+	<x path="Void"/>
+</f></new>
+		<haxe_doc><![CDATA[* The main "game object" class, the sprite is a <code>SpiObject</code><br>
+ * with a bunch of graphics options and abilities, like animation and stamping.<br>
+ * <br>
+ * v1.2 Fixed useless calls<br>
+ * v1.1 Added new comments<br>
+ * v1.0 Initial version (?)
+ * 
+ * @version 1.2 - 23/03/2013
+ * @author ratalaika / Ratalaika Games
+ * @author	Ka Wing Chin
+ * @author	Thomas Weston]]></haxe_doc>
+	</class>
 	<class path="spiller.SpiState" params="" file="Libs/spiller/SpiState.hx">
 		<extends path="spiller.SpiGroup"/>
 		<create public="1" set="method" line="29">
@@ -24320,6 +24573,132 @@
 			<m n=":allow"><e>spiller.physics.SpiQuadTreePool</e></m>
 		</meta>
 	</class>
+	<class path="spiller.system.SpiPause" params="" file="Libs/spiller/system/SpiPause.hx">
+		<extends path="spiller.SpiGroup"/>
+		<new public="1" set="method" line="16"><f a="?MaxSize">
+	<x path="Int"/>
+	<x path="Void"/>
+</f></new>
+		<haxe_doc><![CDATA[* This is the Pause window, it has the main menu<br>
+ * designed to close or finish the pause in the game.<br>
+ * You can also add your own menus to the Pause window.<br>
+ * <br>
+ * v1.0 Initial version<br>
+ * 
+ * @version 1.0 - 07/03/2013
+ * @author ratalaika / Ratalaika Games]]></haxe_doc>
+	</class>
+	<class path="spiller.system.flash.events.Event" params="" file="Libs/spiller/system/flash/events/Event.hx">
+		<ACTIVATE public="1" get="inline" set="null" line="18" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>ACTIVATE</code> constant defines the value of the type property
+	 * of an activate event object.]]></haxe_doc>
+		</ACTIVATE>
+		<ADDED_TO_STAGE public="1" get="inline" set="null" line="23" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.ADDED_TO_STAGE</code> constant defines the value of the
+	 * type property of an addedToStage event object.]]></haxe_doc>
+		</ADDED_TO_STAGE>
+		<DEACTIVATE public="1" get="inline" set="null" line="28" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.DEACTIVATE</code> constant defines the value of the type
+	 * property of a deactivate event object.]]></haxe_doc>
+		</DEACTIVATE>
+		<ENTER_FRAME public="1" get="inline" set="null" line="33" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.ENTER_FRAME</code> constant defines the value of the type
+	 * property of an enterFrame event object.]]></haxe_doc>
+		</ENTER_FRAME>
+		<REMOVED_FROM_STAGE public="1" get="inline" set="null" line="38" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.REMOVED_FROM_STAGE</code> constant defines the value of
+	 * the type property of a removedFromStage event object.]]></haxe_doc>
+		</REMOVED_FROM_STAGE>
+		<RESIZE public="1" get="inline" set="null" line="43" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.RESIZE</code> constant defines the value of the type
+	 * property of a resize event object.]]></haxe_doc>
+		</RESIZE>
+		<SOUND_COMPLETE public="1" get="inline" set="null" line="48" static="1">
+			<c path="String"/>
+			<haxe_doc><![CDATA[* The <code>Event.SOUND_COMPLETE</code> constant defines the value of the
+	 * type property of a soundComplete event object.]]></haxe_doc>
+		</SOUND_COMPLETE>
+		<type public="1">
+			<c path="String"/>
+			<haxe_doc>* The event type.</haxe_doc>
+		</type>
+		<new public="1" set="method" line="60">
+			<f a="type">
+				<c path="String"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Class constructor.
+	 * 
+	 * @param type		The event type.</haxe_doc>
+		</new>
+		<haxe_doc><![CDATA[* A generic kind of event.<br>
+ * <br>
+ * v1.1 Commented all the code.<br>
+ * v1.0 Initial version.<br>
+ * 
+ * @version 1.1 - 27/02/2013
+ * @author ratalaika / Ratalaika Games]]></haxe_doc>
+	</class>
+	<class path="spiller.system.PauseEvent" params="" file="Libs/spiller/system/SpiPause.hx" module="spiller.system.SpiPause">
+		<extends path="spiller.system.flash.events.Event"/>
+		<PAUSE_IN public="1" get="inline" set="null" line="34" static="1">
+			<c path="String"/>
+			<haxe_doc>* The pause in event name.</haxe_doc>
+		</PAUSE_IN>
+		<PAUSE_OUT public="1" get="inline" set="null" line="38" static="1">
+			<c path="String"/>
+			<haxe_doc>* The pause out event name.</haxe_doc>
+		</PAUSE_OUT>
+		<_event line="42" static="1">
+			<c path="spiller.system.PauseEvent"/>
+			<haxe_doc>* A pre-allocated instance, used to prevent to much initialization.</haxe_doc>
+		</_event>
+		<getEvent public="1" set="method" line="58" static="1">
+			<f a="type">
+				<c path="String"/>
+				<c path="spiller.system.PauseEvent"/>
+			</f>
+			<haxe_doc>* Get a new instance.</haxe_doc>
+		</getEvent>
+		<new public="1" set="method" line="50">
+			<f a="type">
+				<c path="String"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>* Class constructor.
+	 * 
+	 * @param type			The event type.</haxe_doc>
+		</new>
+		<haxe_doc>* An event for the pause system.
+ * 
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 12/03/2013
+ * @author ratalaika / Ratalaika Games</haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="spiller.system.debug.SpiDebugger" params="" file="Libs/spiller/system/debug/SpiDebugger.hx">
+		<extends path="spiller.SpiGroup"/>
+		<new public="1" set="method" line="26"><f a="?MaxSize">
+	<x path="Int"/>
+	<x path="Void"/>
+</f></new>
+		<haxe_doc>* Container for the new debugger overlay.
+ * Most of the functionality is in the debug folder widgets,
+ * but this class instantiates the widgets and handles their basic formatting and arrangement.
+ * 
+ * v1.0 Initial version
+ * 
+ * @version 1.0 - 25/04/2013
+ * @author ratalaika / Ratalaika Games
+ * @author Ka Wing Chin</haxe_doc>
+	</class>
 	<class path="spiller.system.flash.Graphics" params="" file="Libs/spiller/system/flash/Graphics.hx">
 		<_shapeRenderer static="1">
 			<c path="kha.graphics2.Graphics"/>
@@ -24612,63 +24991,7 @@
  * @version 1.0 - 25/04/2013
  * @author ratalaika / Ratalaika Games
  * @author Thomas Weston</haxe_doc>
-	</class>
-	<class path="spiller.system.flash.events.Event" params="" file="Libs/spiller/system/flash/events/Event.hx">
-		<ACTIVATE public="1" get="inline" set="null" line="18" static="1">
-			<c path="String"/>
-			<haxe_doc><![CDATA[* The <code>ACTIVATE</code> constant defines the value of the type property
-	 * of an activate event object.]]></haxe_doc>
-		</ACTIVATE>
-		<ADDED_TO_STAGE public="1" get="inline" set="null" line="23" static="1">
-			<c path="String"/>
-			<haxe_doc><![CDATA[* The <code>Event.ADDED_TO_STAGE</code> constant defines the value of the
-	 * type property of an addedToStage event object.]]></haxe_doc>
-		</ADDED_TO_STAGE>
-		<DEACTIVATE public="1" get="inline" set="null" line="28" static="1">
-			<c path="String"/>
-			<haxe_doc><![CDATA[* The <code>Event.DEACTIVATE</code> constant defines the value of the type
-	 * property of a deactivate event object.]]></haxe_doc>
-		</DEACTIVATE>
-		<ENTER_FRAME public="1" get="inline" set="null" line="33" static="1">
-			<c path="String"/>
-			<haxe_doc><![CDATA[* The <code>Event.ENTER_FRAME</code> constant defines the value of the type
-	 * property of an enterFrame event object.]]></haxe_doc>
-		</ENTER_FRAME>
-		<REMOVED_FROM_STAGE public="1" get="inline" set="null" line="38" static="1">
-			<c path="String"/>
-			<haxe_doc><![CDATA[* The <code>Event.REMOVED_FROM_STAGE</code> constant defines the value of
-	 * the type property of a removedFromStage event object.]]></haxe_doc>
-		</REMOVED_FROM_STAGE>
-		<RESIZE public="1" get="inline" set="null" line="43" static="1">
-			<c path="String"/>
-			<haxe_doc><![CDATA[* The <code>Event.RESIZE</code> constant defines the value of the type
-	 * property of a resize event object.]]></haxe_doc>
-		</RESIZE>
-		<SOUND_COMPLETE public="1" get="inline" set="null" line="48" static="1">
-			<c path="String"/>
-			<haxe_doc><![CDATA[* The <code>Event.SOUND_COMPLETE</code> constant defines the value of the
-	 * type property of a soundComplete event object.]]></haxe_doc>
-		</SOUND_COMPLETE>
-		<type public="1">
-			<c path="String"/>
-			<haxe_doc>* The event type.</haxe_doc>
-		</type>
-		<new public="1" set="method" line="60">
-			<f a="type">
-				<c path="String"/>
-				<x path="Void"/>
-			</f>
-			<haxe_doc>* Class constructor.
-	 * 
-	 * @param type		The event type.</haxe_doc>
-		</new>
-		<haxe_doc><![CDATA[* A generic kind of event.<br>
- * <br>
- * v1.1 Commented all the code.<br>
- * v1.0 Initial version.<br>
- * 
- * @version 1.1 - 27/02/2013
- * @author ratalaika / Ratalaika Games]]></haxe_doc>
+		<meta><m n=":directlyUsed"/></meta>
 	</class>
 	<class path="spiller.system.flash.events.KeyboardEvent" params="" file="Libs/spiller/system/flash/events/KeyboardEvent.hx">
 		<extends path="spiller.system.flash.events.Event"/>
@@ -24876,6 +25199,56 @@
  * @author Thomas Weston]]></haxe_doc>
 	</class>
 	<class path="spiller.system.macros.SpiMacroUtil" params="" file="Libs/spiller/system/macros/SpiMacroUtil.hx"/>
+	<typedef path="spiller.system.replay.ReplayCallback" params="" file="Libs/spiller/system/replay/SpiReplay.hx" module="spiller.system.replay.SpiReplay"><f a=""><x path="Void"/></f></typedef>
+	<class path="spiller.system.replay.SpiReplay" params="" file="Libs/spiller/system/replay/SpiReplay.hx">
+		<seed public="1">
+			<x path="Float"/>
+			<haxe_doc>* The random number generator seed value for this recording.</haxe_doc>
+		</seed>
+		<frame public="1">
+			<x path="Int"/>
+			<haxe_doc>* The current frame for this recording.</haxe_doc>
+		</frame>
+		<frameCount public="1">
+			<x path="Int"/>
+			<haxe_doc>* The number of frames in this recording.</haxe_doc>
+		</frameCount>
+		<finished public="1">
+			<x path="Bool"/>
+			<haxe_doc>* Whether the replay has finished playing or not.</haxe_doc>
+		</finished>
+		<_frames>
+			<c path="Array"><d/></c>
+			<haxe_doc>* Internal container for all the frames in this replay.</haxe_doc>
+		</_frames>
+		<_capacity>
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Internal tracker for max number of frames we can fit before growing the <code>_frames</code> again.]]></haxe_doc>
+		</_capacity>
+		<_marker>
+			<x path="Int"/>
+			<haxe_doc><![CDATA[* Internal helper variable for keeping track of where we are in <code>_frames</code> during recording or replay.]]></haxe_doc>
+		</_marker>
+		<destroy public="1" set="method" line="67">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Clean up memory.</haxe_doc>
+		</destroy>
+		<rewind public="1" set="method" line="199">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Reset the replay back to the first frame.</haxe_doc>
+		</rewind>
+		<new public="1" set="method" line="53">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>* Instantiate a new replay object.  Doesn't actually do much until you call create() or load().</haxe_doc>
+		</new>
+		<haxe_doc>* The replay object both records and replays game recordings,
+ * as well as handle saving and loading replays to and from files.
+ * Gameplay recordings are essentially a list of keyboard and mouse inputs,
+ * but since Flixel is fairly deterministic, we can use these to play back
+ * recordings of gameplay with a decent amount of fidelity.
+ * 
+ * @author	Thomas Weston</haxe_doc>
+	</class>
 	<class path="spiller.tweens.SpiTween" params="" file="Libs/spiller/tweens/SpiTween.hx">
 		<implements path="spiller.util.interfaces.ISpiDestroyable"/>
 		<PERSIST public="1" get="inline" set="null" line="21" static="1">

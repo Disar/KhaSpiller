@@ -167,10 +167,10 @@ class SpiG
 	//  * Why not some yellow as well?
 	//  */
 	// public static inline var YELLOW = 0xFFFFFF00;
-	// /**
-	//  * Internal tracker for game object.
-	//  */
-	// private static SpiGame _game;
+	/**
+	 * Internal tracker for game object.
+	 */
+	private static var _game:SpiGame;
 	// /**
 	//  * Handy shared variable for implementing your own pause behavior.
 	//  */
@@ -626,51 +626,51 @@ class SpiG
 // 		unwatch(AnyObject, null);
 // 	}
 	
-// 	/**
-// 	 * How many times you want your game to update each second.
-// 	 * More updates usually means better collisions and smoother motion.
-// 	 * NOTE: This is NOT the same thing as the Flash Player framerate!
-// 	 */
-// 	public static int getFramerate()
-// 	{
-// 		return _game._gameFramerate;
-// 	}
+	/**
+	 * How many times you want your game to update each second.
+	 * More updates usually means better collisions and smoother motion.
+	 * NOTE: This is NOT the same thing as the Flash Player framerate!
+	 */
+	public static inline function getFramerate():Int
+	{
+		return _game._gameFramerate;
+	}
 	
-// 	/**
-// 	 * @private
-// 	 */
-// 	public static void setFramerate(int Framerate)
-// 	{
-// 		_game._gameFramerate = Framerate;
-// 		_game.step = (int) (1000f/Framerate);
-// 		if(_game.maxAccumulation < _game.step)
-// 			_game.maxAccumulation = (int) _game.step;
+	/**
+	 * @private
+	 */
+	public static function setFramerate(Framerate:Int):Void
+	{
+		_game._gameFramerate = Framerate;
+		_game.step = Std.int(1000 / Framerate);
+		if(_game.maxAccumulation < _game.step)
+			_game.maxAccumulation = Std.int(_game.step);
 
-// 		// Update the fps at runtime
-// 		if(updateFPS != null)
-// 			updateFPS.updateFPS(Framerate);
-// 	}
+		// Update the fps at runtime
+		//if(updateFPS != null)
+		//	updateFPS.updateFPS(Framerate);
+	}
 	
-// 	/**
-// 	 * How many times you want your game to update each second.
-// 	 * More updates usually means better collisions and smoother motion.
-// 	 * NOTE: This is NOT the same thing as the Flash Player framerate!
-// 	 */
-// 	public static int getFlashFramerate()
-// 	{
-// 		return _game._flashFramerate;
-// 	}
+	/**
+	 * How many times you want your game to update each second.
+	 * More updates usually means better collisions and smoother motion.
+	 * NOTE: This is NOT the same thing as the Flash Player framerate!
+	 */
+	public static inline function getFlashFramerate():Int
+	{
+		return _game._flashFramerate;
+	}
 
-// 	/**
-// 	 * 
-// 	 */
-// 	public static void setFlashFramerate(int Framerate)
-// 	{
-// 		_game._flashFramerate = Framerate;
-// 		_game.maxAccumulation = (int) (2000f/_game._flashFramerate - 1);
-// 		if(_game.maxAccumulation < _game.step)
-// 			_game.maxAccumulation = (int) _game.step;
-// 	}
+	/**
+	 * 
+	 */
+	public static function setFlashFramerate(Framerate:Int):Void
+	{
+		_game._flashFramerate = Framerate;
+		_game.maxAccumulation = Std.int(2000 / _game._flashFramerate - 1);
+		if(_game.maxAccumulation < _game.step)
+			_game.maxAccumulation = Std.int(_game.step);
+	}
 
 // 	/**
 // 	 * Generates a random number.  Deterministic, meaning safe
@@ -2424,13 +2424,13 @@ class SpiG
 	// 	return results;
 	// }
 	
-	// /**
-	//  * Called by <code>SpiGame</code> to set up <code>SpiG</code> during <code>SpiGame</code>'s constructor.
-	//  */
-	// private static void init(SpiGame Game, int Width, int Height, float Zoom, int ScaleMode)
-	// {
-	// 	// Set the game stuff
-	// 	_game = Game;
+	/**
+	 * Called by <code>SpiGame</code> to set up <code>SpiG</code> during <code>SpiGame</code>'s constructor.
+	 */
+	private static function init(Game:SpiGame, Width:Int, Height:Int, Zoom:Float, ScaleMode:Int):Void
+	{
+		// Set the game stuff
+		_game = Game;
 	// 	width = Width;
 	// 	height = Height;
 		
@@ -2476,13 +2476,13 @@ class SpiG
 	// 	//addPlugin(manager);
 		
 	// 	shaders = new ObjectMap<String, SpiShaderProgram>();
-	// }
+	}
 	
-	// /**
-	//  * Called whenever the game is reset, doesn't have to do quite as much work as the basic initialization stuff.
-	//  */
-	// private static void reset()
-	// {
+	/**
+	 * Called whenever the game is reset, doesn't have to do quite as much work as the basic initialization stuff.
+	 */
+	private static function reset():Void
+	{
 	// 	clearBitmapCache();
 	// 	resetInput();
 	// 	destroySounds(true);
@@ -2508,7 +2508,7 @@ class SpiG
 	// 		debugPathDisplay.clear();
 	//
 	//  random.resetInitialSeed();
-	// }
+	}
 	
 	// /**
 	//  * Called by the game object to update the keyboard and mouse input tracking objects.

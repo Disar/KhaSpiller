@@ -23,60 +23,60 @@ package spiller;
  */
 class SpiCamera extends SpiBasic
 {
-	// /**
-	//  * Camera "follow" style preset: camera has no deadzone, just tracks the focus object directly.
-	//  */
-	// public static inline var STYLE_LOCKON = 0;
-	// /**
-	//  * Camera "follow" style preset: camera deadzone is narrow but tall.
-	//  */
-	// public static inline var STYLE_PLATFORMER = 1;
-	// /**
-	//  * Camera "follow" style preset: camera deadzone is a medium-size square around the focus object.
-	//  */
-	// public static inline var STYLE_TOPDOWN = 2;
-	// /**
-	//  * Camera "follow" style preset: camera deadzone is a small square around the focus object.
-	//  */
-	// public static inline var STYLE_TOPDOWN_TIGHT = 3;
-	// /**
-	//  * Camera "follow" style preset: camera will move screenwise.
-	//  */
-	// public static inline var STYLE_SCREEN_BY_SCREEN = 4;
-	// /**
-	//  * Camera "follow" style preset: camera has no deadzone, just tracks the focus object directly and centers it.
-	//  */
-	// public static inline var STYLE_NO_DEAD_ZONE = 5;
-	// /**
-	//  * Camera "shake" effect preset: shake camera on both the X and Y axes.
-	//  */
-	// public static inline var SHAKE_BOTH_AXES = 0;
-	// /**
-	//  * Camera "shake" effect preset: shake camera on the X axis only.
-	//  */
-	// public static inline var SHAKE_HORIZONTAL_ONLY = 1;
-	// /**
-	//  * Camera "shake" effect preset: shake camera on the Y axis only.
-	//  */
-	// public static inline var SHAKE_VERTICAL_ONLY = 2;
-	// /**
-	//  * Camera "scale" mode preset: The game is not scaled.
-	//  */
-	// public static inline var NO_SCALE = 0;
-	// /**
-	//  * Camera "scale" mode preset: Scales the stage to fill the display
-	//  * in the x direction without stretching. 
-	//  */
-	// public static inline var FILL_X = 1;
-	// /**
-	//  * Camera "scale" mode preset: Scales the stage to fill the display
-	//  * in the y direction without stretching.
-	//  */
-	// public static inline var FILL_Y = 2;
-	// /**
-	//  * Camera "scale" mode preset: Stretches the game to fill the entire screen.
-	//  */
-	// public static inline var STRETCH = 3;
+	/**
+	 * Camera "follow" style preset: camera has no deadzone, just tracks the focus object directly.
+	 */
+	public static inline var STYLE_LOCKON:Int = 0;
+	/**
+	 * Camera "follow" style preset: camera deadzone is narrow but tall.
+	 */
+	public static inline var STYLE_PLATFORMER:Int = 1;
+	/**
+	 * Camera "follow" style preset: camera deadzone is a medium-size square around the focus object.
+	 */
+	public static inline var STYLE_TOPDOWN:Int = 2;
+	/**
+	 * Camera "follow" style preset: camera deadzone is a small square around the focus object.
+	 */
+	public static inline var STYLE_TOPDOWN_TIGHT:Int = 3;
+	/**
+	 * Camera "follow" style preset: camera will move screenwise.
+	 */
+	public static inline var STYLE_SCREEN_BY_SCREEN:Int = 4;
+	/**
+	 * Camera "follow" style preset: camera has no deadzone, just tracks the focus object directly and centers it.
+	 */
+	public static inline var STYLE_NO_DEAD_ZONE:Int = 5;
+	/**
+	 * Camera "shake" effect preset: shake camera on both the X and Y axes.
+	 */
+	public static inline var SHAKE_BOTH_AXES:Int = 0;
+	/**
+	 * Camera "shake" effect preset: shake camera on the X axis only.
+	 */
+	public static inline var SHAKE_HORIZONTAL_ONLY:Int = 1;
+	/**
+	 * Camera "shake" effect preset: shake camera on the Y axis only.
+	 */
+	public static inline var SHAKE_VERTICAL_ONLY:Int = 2;
+	/**
+	 * Camera "scale" mode preset: The game is not scaled.
+	 */
+	public static inline var NO_SCALE:Int = 0;
+	/**
+	 * Camera "scale" mode preset: Scales the stage to fill the display
+	 * in the x direction without stretching. 
+	 */
+	public static inline var FILL_X:Int = 1;
+	/**
+	 * Camera "scale" mode preset: Scales the stage to fill the display
+	 * in the y direction without stretching.
+	 */
+	public static inline var FILL_Y:Int = 2;
+	/**
+	 * Camera "scale" mode preset: Stretches the game to fill the entire screen.
+	 */
+	public static inline var STRETCH:Int = 3;
 	// /**
 	//  * The time between checks for stop following the object.<br>
 	//  * Default 0.1sec.
