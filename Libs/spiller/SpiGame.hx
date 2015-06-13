@@ -864,7 +864,7 @@ class SpiGame extends Game
 			#end
 
 			#if SPI_SOUND_TRAY
-			// Volume display tab
+			// Volume display tab 
 			createSoundTray();
 			#end
 
