@@ -1,31 +1,21 @@
 package spiller;
 
-import com.badlogic.gdx.Application.ApplicationType;
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.FileTextureData;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import spiller.event.ISpiReplay;
 import spiller.plugin.SpiPause;
 import spiller.plugin.SpiSplashScreen;
 import spiller.plugin.SpiTimer;
 import spiller.plugin.SpiTimerManager;
 import spiller.plugin.powertools.SpiDelay.EnterFrameEvent;
+
 import spiller.system.SpiDebugger;
+
 import spiller.system.SpiSystemInfo;
+
 import spiller.system.flash.Graphics;
 import spiller.system.flash.SpiGameStage;
-import spiller.system.flash.event.Event;
-import spiller.system.flash.event.KeyboardEvent;
-import spiller.system.flash.event.MouseEvent;
+import spiller.system.flash.events.Event;
+import spiller.system.flash.events.KeyboardEvent;
+import spiller.system.flash.events.MouseEvent;
+
 import spiller.system.replay.SpiReplay;
 
 /**
@@ -39,7 +29,7 @@ import spiller.system.replay.SpiReplay;
  * @author Thomas Weston
  * @author ratalaika / Ratalaika Games
  */
-public class SpiGame implements ApplicationListener, InputProcessor
+class SpiGame
 {
 	/**
 	 * If we are going to use the splash screen.
