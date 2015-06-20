@@ -5,5 +5,11 @@
 -js build/html5/kha.js
 -xml build.xml
 -main Main
+
+-D SPI_FOCUS_LOST_SCREEN
 -D SPI_REFLECTION
+-D SPI_SOUND_TRAY
+-D SPI_RECORD_REPLAY
+
+--macro spiller.system.macros.SpiDefines.run()
 --macro include('spiller')

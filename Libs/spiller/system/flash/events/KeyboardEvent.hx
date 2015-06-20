@@ -15,7 +15,7 @@ class KeyboardEvent extends Event
 	public static inline var PAD_DOWN:String = "padDown";
 	public static inline var PAD_UP:String = "padUp";
 	public static inline var KEY_TYPED:String = "keyTyped";
-	public var charCode:Int;
+	public var charCode:String;
 	public var keyCode:Int;
 
 	/**
@@ -24,7 +24,7 @@ class KeyboardEvent extends Event
 	 * 
 	 * @param type			The event type.
 	 */
-	public function new(type:String, keyCode:Int = 0, charCode:Int = 0)
+	public function new(type:String, keyCode:Int = 0, charCode:String = null)
 	{
 		super(type);
 		this.charCode = charCode;

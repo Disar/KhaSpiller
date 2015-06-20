@@ -1,75 +1,26 @@
 package spiller;
-/*
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
 
-import com.badlogic.gdx.Application.ApplicationType;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics.DisplayMode;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.assets.loaders.BitmapFontLoader.BitmapFontParameter;
-import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
-import com.badlogic.gdx.assets.loaders.resolvers.ResolutionFileResolver.Resolution;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.MathUtils;
-
-import com.badlogic.gdx.utils.IntArray;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import spiller.event.ISpiCamera;
-import spiller.event.ISpiCollision;
-import spiller.event.ISpiObject;
-import spiller.event.ISpiReplay;
-import spiller.event.ISpiShaderProgram;
-import spiller.event.ISpiTween;
-import spiller.event.ISpiTweenEase;
-import spiller.event.ISpiVolume;
-import spiller.gl.SpiManagedTextureData;
-import spiller.gl.SpiShaderProgram;
-import spiller.plugin.SpiDebugPathDisplay;
-import spiller.plugin.SpiLanguagesManager;
-import spiller.plugin.SpiPause;
-import spiller.plugin.SpiPause.PauseEvent;
-import spiller.plugin.SpiRotation;
-import spiller.plugin.SpiTimerManager;
-import spiller.plugin.SpiUpdateFPS;
-import spiller.plugin.ads.SpiAdManager;
-import spiller.plugin.api.SpiAlertManager;
-import spiller.plugin.api.SpiMoreGames;
-import spiller.plugin.api.SpiPNManager;
-import spiller.plugin.api.SpiSocialGames;
-import spiller.plugin.inapp.SpiInAppManager;
-import spiller.plugin.lighting.SpiLightning;
-import spiller.plugin.store.SpiSave;
-import spiller.plugin.tweens.SpiTween;
-import spiller.plugin.tweens.misc.MultiVarTween;
-import spiller.plugin.tweens.util.TweenOptions;
-import spiller.system.SpiAssetManager;
-import spiller.system.SpiQuadTree;
-import spiller.system.SpiVolumeHandler;
-import spiller.system.flash.Graphics;
-import spiller.system.flash.SpiGameStage;
-import spiller.system.gdx.loaders.SpiShaderLoader.ShaderProgramParameter;
-import spiller.system.input.SpiAccelerometer;
-import spiller.system.input.SpiExternalInput;
-import spiller.system.input.SpiKeyboard;
-import spiller.system.input.SpiMouse;
-import spiller.system.replay.SpiReplay;
-*/
+import kha.graphics2.Graphics;
+import kha.Image;
 
 import spiller.math.SpiRandom;
 import spiller.math.SpiPoint;
 import spiller.math.SpiRect;
+import spiller.physics.SpiQuadTree;
+import spiller.system.flash.Graphics;
+import spiller.system.flash.SpiGameStage;
+import spiller.system.input.SpiKeyboard;
+import spiller.system.input.SpiMouse;
+import spiller.sound.SpiSound;
+import spiller.sound.SpiVolumeHandler;
+import spiller.system.SpiPause.PauseEvent;
+import spiller.SpiBasic.SpiType;
+import spiller.system.store.SpiSave;
+import spiller.system.SpiAssetManager;
+
+#if SPI_RECORD_REPLAY
+import spiller.system.replay.SpiReplay;
+#end
 
 /**
  * This is a global helper class full of useful methods for audio,<br>
@@ -137,71 +88,41 @@ class SpiG
 	//  * The Android ID.
 	//  */
 	// public static String DEVICE_ID;
-	// /**
-	//  * Some handy color presets.  Less glaring than pure RGB full values.
-	//  * Primarily used in the visual debugger mode for bounding box displays.
-	//  * Red is used to indicate an active, movable, solid object.
-	//  */
-	// public static inline var RED = 0xffff0012;
-	// /**
-	//  * Green is used to indicate solid but immovable objects.
-	//  */
-	// public static inline var GREEN = 0xff00f225;
-	// /**
-	//  * Blue is used to indicate non-solid objects.
-	//  */
-	// public static inline var BLUE = 0xff0090e9;
-	// /**
-	//  * Pink is used to indicate objects that are only partially solid, like one-way platforms.
-	//  */
-	// public static inline var PINK = 0xfff01eff;
-	// /**
-	//  * White... for white stuff.
-	//  */
-	// public static inline var WHITE = 0xffffffff;
-	// /**
-	//  * And black too.
-	//  */
-	// public static inline var BLACK = 0xff000000;
-	// /**
-	//  * Why not some yellow as well?
-	//  */
-	// public static inline var YELLOW = 0xFFFFFF00;
 	/**
 	 * Internal tracker for game object.
 	 */
 	private static var _game:SpiGame;
-	// /**
-	//  * Handy shared variable for implementing your own pause behavior.
-	//  */
-	// public static boolean paused;
-	// /**
-	//  * Whether you are running in Debug or Release mode.
-	//  * Set automatically by <code>SpiPreloader</code> during startup.
-	//  */
-	// public static boolean debug;
-	// /**
-	//  * Whether we show the FPS or not.
-	//  */
-	// public static boolean showFPS;
-	// /**
-	//  * Handy shared variable to check if the pause is on or off.
-	//  */
-	// private static boolean _disablePause;
-	// /**
-	//  * WARNING: Changing this can lead to issues with physics<br>
-	//  * and the recording system.<br>
-	//  * Setting this to false might lead to smoother animations<br>
-	//  * (even at lower fps) at the cost of physics accuracy.
-	//  */
-	// public static boolean fixedTimestep = true;
-	// /**
-	//  * Useful when the timestep is NOT fixed (i.e. variable),<br>
-	//  * to prevent jerky movement or erratic behavior at very low fps.<br>
-	//  * Essentially locks the framerate to a minimum value - any slower and<br>
-	//  * you'll get slowdown instead of frameskip; default is 1/10th of a second.
-	//  */
-	// public static float maxElapsed = 0.1f;
+	/**
+	 * Handy shared variable for implementing your own pause behavior.
+	 */
+	public static var paused:Bool;
+	/**
+	 * Whether you are running in Debug or Release mode.
+	 * Set automatically by <code>SpiPreloader</code> during startup.
+	 */
+	public static var debug:Bool;
+	/**
+	 * Whether we show the FPS or not.
+	 */
+	public static var showFPS:Bool;
+	/**
+	 * Handy shared variable to check if the pause is on or off.
+	 */
+	private static var _disablePause:Bool;
+	/**
+	 * WARNING: Changing this can lead to issues with physics<br>
+	 * and the recording system.<br>
+	 * Setting this to false might lead to smoother animations<br>
+	 * (even at lower fps) at the cost of physics accuracy.
+	 */
+	public static var fixedTimestep:Bool = true;
+	/**
+	 * Useful when the timestep is NOT fixed (i.e. variable),<br>
+	 * to prevent jerky movement or erratic behavior at very low fps.<br>
+	 * Essentially locks the framerate to a minimum value - any slower and<br>
+	 * you'll get slowdown instead of frameskip; default is 1/10th of a second.
+	 */
+	public static var maxElapsed:Float = 0.1;
 	/**
 	 * Represents the amount of time in seconds that passed since last frame.
 	 */
@@ -242,59 +163,51 @@ class SpiG
 	 * Default = false.
 	 */
 	public static var visualDebug:Bool;
-	// /**
-	//  * Setting this to true will disable/skip stuff that isn't necessary for mobile platforms like Android. [BETA]
-	//  */
-	// public static boolean mobile;
-	// /**
-	//  * The global random number generator seed (for deterministic behavior in recordings and saves).
-	//  */
-	// private static long globalSeed;
-	// /**
-	//  * All the levels you have completed.
-	//  */
-	// public static Array<Object> levels;
-	// /**
-	//  * The current level.
-	//  */
-	// public static int level;
-	// /**
-	//  * The scores accomplished each level.
-	//  */
-	// public static IntArray scores;
-	// /**
-	//  * The current score.
-	//  */
-	// public static int score;
-	// /**
-	//  * <code>saves</code> is a generic bucket for storing
-	//  * SpiSaves so you can access them whenever you want.
-	//  */
-	// public static Array<SpiSave> saves;
-	// /**
-	//  * The current save.
-	//  */
-	// public static int save;
-	// /**
-	//  * An InputProcessor that delegates to an ordered list of other InputProcessors.
-	//  * Delegation for an event stops if a processor returns true, which indicates that the event was handled.
-	//  */
-	// public static InputMultiplexer inputs; 
-	// /**
-	//  * A reference to a <code>SpiMouse</code> object.  Important for input!
-	//  * Referenced also as touch for code reading.
-	//  */
-	// public static SpiMouse touch, mouse;
-	// /**
-	//  * A reference to a <code>SpiKeyboard</code> object.  Important for input!
-	//  */
-	// public static SpiKeyboard keys;
-	// /**
-	//  * If we fire an event after each key down event.<br>
-	//  * This could be handy to configuring player specific keys.<br>
-	//  * Default = false<br>
-	//  */
-	// public static boolean fireEvent = false;
+	/**
+	 * Setting this to true will disable/skip stuff that isn't necessary for mobile platforms like Android. [BETA]
+	 */
+	public static var mobile:Bool;
+	/**
+	 * All the levels you have completed.
+	 */
+	public static var levels:Array<Dynamic>;
+	/**
+	 * The current level.
+	 */
+	public static var level:Int;
+	/**
+	 * The scores accomplished each level.
+	 */
+	public static var scores:Array<Int>;
+	/**
+	 * The current score.
+	 */
+	public static var score:Int;
+	/**
+	 * <code>saves</code> is a generic bucket for storing
+	 * SpiSaves so you can access them whenever you want.
+	 */
+	public static var saves:Array<SpiSave>;
+	/**
+	 * The current save.
+	 */
+	public static var save:Int;
+	/**
+	 * A reference to a <code>SpiMouse</code> object.  Important for input!
+	 * Referenced also as touch for code reading.
+	 */
+	public static var mouse:SpiMouse;
+	public static var touch:SpiMouse;
+	/**
+	 * A reference to a <code>SpiKeyboard</code> object.  Important for input!
+	 */
+	public static var keys:SpiKeyboard;
+	/**
+	 * If we fire an event after each key down event.<br>
+	 * This could be handy to configuring player specific keys.<br>
+	 * Default = false<br>
+	 */
+	public static var fireEvent:Bool = false;
 	// /**
 	//  * A reference to a <code>SpiAccelerometer</code> object. Important for input!
 	//  */
@@ -303,18 +216,18 @@ class SpiG
 	//  * A reference to any <code>SpiExternalInput</code> objects. Important for input!
 	//  */
 	// public static SpiExternalInput externals;
-	// /**
-	//  * A handy container for a background music object.
-	//  */
-	// public static SpiSound music;
-	// /**
-	//  * A list of all the sounds being played in the game.
-	//  */
-	// public static SpiGroup sounds;
-	// /**
-	//  * Internal volume level, used for global sound control.
-	//  */
-	// private static SpiVolumeHandler volumeHandler;
+	/**
+	 * A handy container for a background music object.
+	 */
+	public static var music:SpiSound;
+	/**
+	 * A list of all the sounds being played in the game.
+	 */
+	public static var sounds:SpiGroup;
+	/**
+	 * Internal volume level, used for global sound control.
+	 */
+	private static var volumeHandler:SpiVolumeHandler;
 	/**
 	 * An array of <code>SpiCamera</code> objects that are used to draw stuff.
 	 * By default spiller creates one camera the size of the screen.
@@ -331,12 +244,6 @@ class SpiG
 	 */
 	public static var camera:SpiCamera;
 	// /**
-	//  * Allows you to possibly slightly optimize the rendering process IF
-	//  * you are not doing any pre-processing in your game state's <code>draw()</code> call.
-	//  * @default false
-	//  */
-	// public static boolean useBufferLocking;
-	// /**
 	//  * An array container for <code>ShaderProgram</code>s.
 	//  */
 	// public static ObjectMap<String, SpiShaderProgram> shaders;
@@ -345,25 +252,25 @@ class SpiG
 	//  * <code>SpriteBatch.setShader()</code> only.
 	//  */
 	// public static ShaderProgram batchShader;
-	// /**
-	//  * An array container for plugins.
-	//  * By default spiller uses a couple of plugins:
-	//  * SpiDebugPathDisplay, and SpiTimerManager.
-	//  */
-	// public static Array<SpiBasic> plugins; 
-	// /**
-	//  * Useful helper objects for doing Flash-specific rendering.
-	//  * Primarily used for "debug visuals" like drawing bounding boxes directly to the screen buffer.
-	//  */
-	// public static Graphics flashGfx;
-	// /**
-	//  * Internal storage system to prevent assets from being used repeatedly in memory.
-	//  */
-	// public static SpiAssetManager _cache;
-	// /**
-	//  * Global <code>SpriteBatch</code> for rendering sprites to the screen.
-	//  */
-	// public static SpriteBatch batch;
+	/**
+	 * An array container for plugins.
+	 * By default spiller uses a couple of plugins:
+	 * SpiDebugPathDisplay, and SpiTimerManager.
+	 */
+	public static var plugins:Array<SpiBasic>;
+	/**
+	 * Useful helper objects for doing Flash-specific rendering.
+	 * Primarily used for "debug visuals" like drawing bounding boxes directly to the screen buffer.
+	 */
+	public static var flashGfx:Graphics;
+	/**
+	 * Internal storage system to prevent assets from being used repeatedly in memory.
+	 */
+	public static var _cache:SpiAssetManager;
+	/**
+	 * Global <code>SpriteBatch</code> for rendering sprites to the screen.
+	 */
+	public static var batch:Graphics;
 	// /**
 	//  * Internal reference to OpenGL.
 	//  */
@@ -384,14 +291,10 @@ class SpiG
 	//  * Global tweener for tweening between multiple worlds
 	//  */
 	// public static SpiBasic tweener = new SpiBasic();
-	// /**
-	//  * If there have been a state change request.
-	//  */
-	// public static boolean stateChange;
-	// /**
-	//  * Helper to refer a (1, 1) SpiPoint.
-	//  */
-	// public static final SpiPoint basicPoint = SpiPoint.get(1, 1);
+	/**
+	 * Helper to refer a (1, 1) SpiPoint.
+	 */
+	public static var basicPoint:SpiPoint = SpiPoint.get(1, 1);
 
 	/**
 	 * A SpiRandom object used internally by flixel to generate random numbers.
@@ -499,32 +402,32 @@ class SpiG
 	// 	return buf.toString();
 	// }
 
-	// /**
-	//  * Disable the pause system.
-	//  * 
-	//  * @param Pause		If we disable the pause system or not.
-	//  */
-	// public static void setDisablePause(boolean Pause)
-	// {
-	// 	_disablePause = Pause;
-	// }
+	/**
+	 * Disable the pause system.
+	 * 
+	 * @param Pause		If we disable the pause system or not.
+	 */
+	public static function setDisablePause(Pause:Bool):Void
+	{
+		_disablePause = Pause;
+	}
 
-	// /**
-	//  * Return the true if we disabled the pause system.
-	//  */
-	// public static boolean getDisablePause()
-	// {
-	// 	return _disablePause;
-	// }
+	/**
+	 * Return the true if we disabled the pause system.
+	 */
+	public static function getDisablePause():Bool
+	{
+		return _disablePause;
+	}
 
 
-	// /**
-	//  * Check if the game is paused or not.
-	//  */
-	// public static boolean getPause()
-	// {
-	// 	return paused;
-	// }
+	/**
+	 * Check if the game is paused or not.
+	 */
+	public static function getPause():Bool
+	{
+		return paused;
+	}
 	
 	// /**
 	//  * Check if the game is focused or not.
@@ -534,47 +437,47 @@ class SpiG
 	// 	return !_game._lostFocus;
 	// }
 
-	// /**
-	//  * Return the game instance (DANGEROUS!!!)
-	//  */
-	// public static SpiGame getGame()
-	// {
-	// 	return _game;
-	// }
+	/**
+	 * Return the game instance (DANGEROUS!!!)
+	 */
+	public static function getGame():SpiGame
+	{
+		return _game;
+	}
 
-	// /**
-	//  * This method pause/unpause the game. Only do something if the game was not in the pause/unpause state.
-	//  */
-	// public static void setPause(boolean pause)
-	// {
-	// 	if(_disablePause) {
-	// 		boolean op = paused;
-	// 		paused = pause;
-	// 		if(paused != op) {
-	// 			if(paused) pauseAudio();
-	// 			else resumeAudio();
-	// 		}
-	// 		return;
-	// 	}
+	/**
+	 * This method pause/unpause the game. Only do something if the game was not in the pause/unpause state.
+	 */
+	public static function setPause(pause:Bool):Void
+	{
+		if(_disablePause) {
+			var op:Bool = paused;
+			paused = pause;
+			if(paused != op) {
+				if(paused) pauseAudio();
+				else resumeAudio();
+			}
+			return;
+		}
 
-	// 	boolean op = paused;
-	// 	paused = pause;
-	// 	if(paused != op) {
-	// 		if(paused) {
-	// 			pauseAudio();
+		var op:Bool = paused;
+		paused = pause;
+		if(paused != op) {
+			if(paused) {
+				pauseAudio();
 				
-	// 			// Dispatch pause event
-	// 			if(SpiG.getStage() != null)
-	// 				SpiG.getStage().dispatchEvent(PauseEvent.getEvent(PauseEvent.PAUSE_IN));
-	// 		} else {
-	// 			resumeAudio();
+				// Dispatch pause event
+				if(SpiG.getStage() != null)
+					SpiG.getStage().dispatchEvent(PauseEvent.getEvent(PauseEvent.PAUSE_IN));
+			} else {
+				resumeAudio();
 				
-	// 			// Dispatch pause event
-	// 			if(SpiG.getStage() != null)
-	// 				SpiG.getStage().dispatchEvent(PauseEvent.getEvent(PauseEvent.PAUSE_OUT));
-	// 		}
-	// 	}
-	// }
+				// Dispatch pause event
+				if(SpiG.getStage() != null)
+					SpiG.getStage().dispatchEvent(PauseEvent.getEvent(PauseEvent.PAUSE_OUT));
+			}
+		}
+	}
 
 	// /**
 	//  * Add a variable to the watch list in the debugger.
@@ -642,9 +545,9 @@ class SpiG
 	public static function setFramerate(Framerate:Int):Void
 	{
 		_game._gameFramerate = Framerate;
-		_game.step = Std.int(1000 / Framerate);
-		if(_game.maxAccumulation < _game.step)
-			_game.maxAccumulation = Std.int(_game.step);
+		_game._step = Std.int(1000 / Framerate);
+		if(_game.maxAccumulation < _game._step)
+			_game.maxAccumulation = Std.int(_game._step);
 
 		// Update the fps at runtime
 		//if(updateFPS != null)
@@ -668,8 +571,8 @@ class SpiG
 	{
 		_game._flashFramerate = Framerate;
 		_game.maxAccumulation = Std.int(2000 / _game._flashFramerate - 1);
-		if(_game.maxAccumulation < _game.step)
-			_game.maxAccumulation = Std.int(_game.step);
+		if(_game.maxAccumulation < _game._step)
+			_game.maxAccumulation = Std.int(_game._step);
 	}
 
 // 	/**
@@ -793,6 +696,7 @@ class SpiG
 // 		return getRandom(Objects, 0, 0);
 // 	}
 
+	#if SPI_RECORD_REPLAY
 // 	/**
 // 	 * Load replay data from a string and play it back.
 // 	 * 
@@ -890,20 +794,20 @@ class SpiG
 // 		return correct;
 // 	}
 	
-// 	/**
-// 	 * Returns true if we are replaying the game.
-// 	 */
-// 	public static boolean isReplaying()
-// 	{
-// 		return _game._replaying;
-// 	}
-	
+	/**
+	 * Returns true if we are replaying the game.
+	 */
+	public static function isReplaying():Bool
+	{
+		return _game._replaying;
+	}
+
 // 	/**
 // 	 * Resets the game or state and replay requested flag.
 // 	 * 
 // 	 * @param	StandardMode	If true, reload entire game, else just reload current game state.
 // 	 */
-// 	public static void reloadReplay(boolean StandardMode)
+// 	public static void reloadReplay(boolean StandardMode = true)
 // 	{
 // 		if(StandardMode)
 // 			resetGame();
@@ -913,24 +817,20 @@ class SpiG
 // 			_game._replayRequested = true;
 // 	}
 	
-// 	/**
-// 	 * Resets the game or state and replay requested flag. 
-// 	 */
-// 	public static void reloadReplay()
-// 	{
-// 		reloadReplay(true);
-// 	}
-	
-// 	/**
-// 	 * Stops the current replay.
-// 	 */
-// 	public static void stopReplay()
-// 	{
-// 		_game._replaying = false;
-// 		if(_game.debugger != null)
-// 			_game.debugger.vcr.stopped();
-// 		resetInput();
-// 	}
+	/**
+	 * Stops the current replay.
+	 */
+	public static function stopReplay():Void
+	{
+		_game._replaying = false;
+
+		#if SPI_DEBUG
+		if(_game.debugger != null)
+			_game.debugger.vcr.stopped();
+		#end
+
+		resetInput();
+	}
 	
 // 	/**
 // 	 * Resets the game or state and requests a new recording.
@@ -968,7 +868,8 @@ class SpiG
 // 			_game.debugger.vcr.stopped();
 // 		return _game._replay.save();
 // 	}
-	
+	#end
+
 // 	/**
 // 	 * Request a reset of the current game state.
 // 	 */
@@ -989,16 +890,16 @@ class SpiG
 // 		_game._requestedReset = true;
 // 	}
 	
-// 	/**
-// 	 * Reset the input helper objects (useful when changing screens or states)
-// 	 */
-// 	public static void resetInput()
-// 	{
-// 		keys.reset();
-// 		mouse.reset();
-// 		externals.reset();
-// 		accelerometer.reset();
-// 	}
+	/**
+	 * Reset the input helper objects (useful when changing screens or states)
+	 */
+	public static function resetInput():Void
+	{
+		// keys.reset();
+		// mouse.reset();
+		// externals.reset();
+		// accelerometer.reset();
+	}
 	
 // 	/**
 // 	 * Set up and play a looping background soundtrack.
@@ -1308,202 +1209,192 @@ class SpiG
 // 		return stream(URL, 1.0f, false, true);
 // 	}
 	
-// 	/**
-// 	 * Get the music volume.
-// 	 */
-// 	public static float getMusicVolume()
-// 	{
-// 		 return volumeHandler.musicVolume;
-// 	}
+	/**
+	 * Get the music volume.
+	 */
+	public static function getMusicVolume():Float
+	{
+		 return volumeHandler.musicVolume;
+	}
 
-// 	/**
-// 	 * Get the sound volume.
-// 	 */
-// 	public static float getSoundVolume()
-// 	{
-// 		 return volumeHandler.soundVolume;
-// 	}
+	/**
+	 * Get the sound volume.
+	 */
+	public static function getSoundVolume():Float
+	{
+		 return volumeHandler.soundVolume;
+	}
 	 
-// 	/**
-// 	 * Sets the music volume
-// 	 */
-// 	public static void setMusicVolume(float volume)
-// 	{
-// 		if(volume < 0)
-// 			volume = 0;
-// 		else if(volume > 1)
-// 			volume = 1;
+	/**
+	 * Sets the music volume
+	 */
+	public static function setMusicVolume(volume:Float):Void
+	{
+		if(volume < 0)
+			volume = 0;
+		else if(volume > 1)
+			volume = 1;
 
-// 		volumeHandler.musicVolume = volume;
-// 		if(volumeCallback != null)
-// 			volumeCallback.onChange(volumeHandler.mute ? 0 : volume, SpiSound.MUSIC);
-// 	}
+		volumeHandler.musicVolume = volume;
+		if(volumeCallback != null)
+			volumeCallback(volumeHandler.mute ? 0 : volume, SpiSound.MUSIC);
+	}
 
-// 	/**
-// 	 * Sets the sound volume
-// 	 */
-// 	public static void setSoundVolume(float volume)
-// 	{
-// 		if(volume < 0)
-// 			volume = 0;
-// 		else if(volume > 1)
-// 			volume = 1;
+	/**
+	 * Sets the sound volume
+	 */
+	public static function setSoundVolume(volume:Float):Void
+	{
+		if(volume < 0)
+			volume = 0;
+		else if(volume > 1)
+			volume = 1;
 
-// 		volumeHandler.soundVolume = volume;
-// 		if(volumeCallback != null)
-// 			volumeCallback.onChange(volumeHandler.mute ? 0 : volume, SpiSound.SFX);
-// 	}
+		volumeHandler.soundVolume = volume;
+		if(volumeCallback != null)
+			volumeCallback(volumeHandler.mute ? 0 : volume, SpiSound.SFX);
+	}
 	
-// 	/**
-// 	 * Get the mute state
-// 	 */
-// 	public static boolean getMute()
-// 	{
-// 		return volumeHandler.mute;
-// 	}
+	/**
+	 * Get the mute state
+	 */
+	public static function getMute():Bool
+	{
+		return volumeHandler.mute;
+	}
 
-// 	/**
-// 	 * Sets the mute state
-// 	 */
-// 	public static void setMute(boolean mute)
-// 	{
-// 		volumeHandler.mute = mute;
-// 		if(mute) {
-// 			if(volumeCallback != null)
-// 				volumeCallback.onChange(0, SpiSound.ALL);
-// 		} else {
-// 			if(volumeCallback != null) {
-// 				volumeCallback.onChange(volumeHandler.musicVolume, SpiSound.MUSIC);
-// 				volumeCallback.onChange(volumeHandler.soundVolume, SpiSound.SFX);
-// 			}
-// 		}
-// 	}
+	/**
+	 * Sets the mute state
+	 */
+	public static function setMute(mute:Bool):Void
+	{
+		volumeHandler.mute = mute;
+		if(mute) {
+			if(volumeCallback != null)
+				volumeCallback(0, SpiSound.ALL);
+		} else {
+			if(volumeCallback != null) {
+				volumeCallback(volumeHandler.musicVolume, SpiSound.MUSIC);
+				volumeCallback(volumeHandler.soundVolume, SpiSound.SFX);
+			}
+		}
+	}
 	
-// 	/**
-// 	 * Called by SpiGame on state changes to stop and destroy sounds.
-// 	 * 
-// 	 * @param	ForceDestroy		Kill sounds even if they're flagged <code>survive</code>.
-// 	 */
-// 	static void destroySounds(boolean ForceDestroy)
-// 	{
-// 		if((music != null) && (ForceDestroy || !music.survive))
-// 		{
-// 			music.destroy();
-// 			music = null;
-// 		}
-// 		int i = 0;
-// 		SpiSound sound;
-// 		int l = sounds.size();
-// 		while(i < l)
-// 		{
-// 			sound = (SpiSound) sounds.members.get(i);
-// 			if((sound != null) && (ForceDestroy || !sound.survive))
-// 				sound.destroy(); 
-// 			i++;
-// 		}
-// 		sounds.clear();
-// 	}
+	/**
+	 * Called by SpiGame on state changes to stop and destroy sounds.
+	 * 
+	 * @param	ForceDestroy		Kill sounds even if they're flagged <code>survive</code>.
+	 */
+	static function destroySounds(ForceDestroy:Bool = false):Void
+	{
+		if((music != null) && (ForceDestroy || !music.survive))
+		{
+			music.destroy();
+			music = null;
+		}
+		var i:Int = 0;
+		var sound:SpiSound;
+		var l:Int = sounds.size();
+		while(i < l)
+		{
+			sound = cast(sounds.members[i], SpiSound);
+			if((sound != null) && (ForceDestroy || !sound.survive))
+				sound.destroy(); 
+			i++;
+		}
+		sounds.clear();
+	}
+	
+	/**
+	 * Called by the game loop to make sure the sounds get updated each frame.
+	 */
+	public static function updateSounds():Void
+	{
+		if((music != null) && music.active)
+			music.update();
+		if((sounds != null) && sounds.active)
+			sounds.update();
+	}
+	
+	/**
+	 * Pause all sounds currently playing.
+	 */
+	public static function pauseAudio():Void
+	{
+		// Pause the music.
+		if((music != null) && music.exists)
+			music.pause();
 
-// 	/**
-// 	 * Called by SpiGame on state changes to stop and destroy sounds.
-// 	 * 
-// 	 * @param	ForceDestroy		Kill sounds even if they're flagged <code>survive</code>.
-// 	 */
-// 	static void destroySounds()
-// 	{
-// 		destroySounds(false);
-// 	}
+		// Pause all the sounds.
+		var i:Int = 0;
+		var sound:SpiSound;
+		if(sounds != null) {
+			var l:Int = sounds.size();
+			while(i < l)
+			{
+				sound = cast (sounds.members[i++], SpiSound);
+				if((sound != null) && sound.exists)
+					sound.pause();
+			}
+		}
+	}
 	
-// 	/**
-// 	 * Called by the game loop to make sure the sounds get updated each frame.
-// 	 */
-// 	public static void updateSounds()
-// 	{
-// 		if((music != null) && music.active)
-// 			music.update();
-// 		if((sounds != null) && sounds.active)
-// 			sounds.update();
-// 	}
-	
-// 	/**
-// 	 * Pause all sounds currently playing.
-// 	 */
-// 	public static void pauseAudio()
-// 	{
-// 		// Pause the music.
-// 		if((music != null) && music.exists)
-// 			music.pause();
-
-// 		// Pause all the sounds.
-// 		int i = 0;
-// 		SpiSound sound;
-// 		if(sounds != null) {
-// 			int l = sounds.size();
-// 			while(i < l)
-// 			{
-// 				sound = (SpiSound) sounds.members.get(i++);
-// 				if((sound != null) && sound.exists)
-// 					sound.pause();
-// 			}
-// 		}
-// 	}
-	
-// 	/**
-// 	 * Resume playing existing sounds.
-// 	 */
-// 	public static void resumeAudio()
-// 	{
-// 		// Resume the music.
-// 		if((music != null) && music.exists)
-// 			music.play();
+	/**
+	 * Resume playing existing sounds.
+	 */
+	public static function resumeAudio():Void
+	{
+		// Resume the music.
+		if((music != null) && music.exists)
+			music.play();
 		
-// 		// Resume all the sounds.
-// 		int i = 0;
-// 		SpiSound sound;
-// 		int l = sounds.size();
-// 		while(i < l)
-// 		{
-// 			sound = (SpiSound) sounds.members.get(i++);
-// 			if((sound != null) && sound.exists)
-// 				sound.resume();
-// 		}
-// 	}
+		// Resume all the sounds.
+		var i:Int = 0;
+		var sound:SpiSound;
+		var l:Int = sounds.size();
+		while(i < l)
+		{
+			sound = cast (sounds.members[i++], SpiSound);
+			if((sound != null) && sound.exists)
+				sound.resume();
+		}
+	}
 	
-// 	/**
-// 	 * Free memory by disposing a sound file and removing it from the cache.
-// 	 * 
-// 	 * @param Path The path to the sound file.
-// 	 */
-// 	public static void disposeSound(String Path)
-// 	{
-// 		_cache.unload(Path);
-// 	}
+	/**
+	 * Free memory by disposing a sound file and removing it from the cache.
+	 * 
+	 * @param Path The path to the sound file.
+	 */
+	public static function disposeSound(Path:String):Void
+	{
+		_cache.unload(Path, SOUND);
+	}
 
-// 	/**
-// 	 * Check the local cache to see if an asset with this key has been loaded
-// 	 * already.
-// 	 * 
-// 	 * @param Key The string key identifying the asset.
-// 	 * 
-// 	 * @return Whether or not this file can be found in the cache.
-// 	 */
-// 	public static boolean checkCache(String Key)
-// 	{
-// 		return _cache.containsAsset(Key);
-// 	}
+	/**
+	 * Check the local cache to see if an asset with this key has been loaded
+	 * already.
+	 * 
+	 * @param Key The string key identifying the asset.
+	 * 
+	 * @return Whether or not this file can be found in the cache.
+	 */
+	public static function checkCache(Key:String):Bool
+	{
+		return _cache.containsAsset(Key, ANY);
+	}
 	
-// 	/**
-// 	 * Check the local bitmap cache to see if a bitmap with this key has been
-// 	 * loaded already.
-// 	 * 
-// 	 * @param Key The string key identifying the bitmap.
-// 	 * 
-// 	 * @return Whether or not this file can be found in the cache.
-// 	 */
-// 	public static boolean checkBitmapCache(String Key)
-// 	{
-// 		return _cache.containsAsset(Key, Texture.class);
-// 	}
+	/**
+	 * Check the local bitmap cache to see if a bitmap with this key has been
+	 * loaded already.
+	 * 
+	 * @param Key The string key identifying the bitmap.
+	 * 
+	 * @return Whether or not this file can be found in the cache.
+	 */
+	public static function checkBitmapCache(Key:String):Bool
+	{
+		return _cache.containsAsset(Key, IMAGE);
+	}
 	
 // 	/**
 // 	 * Generates a new <code>TextureRegion</code> object (a colored square) and caches it.
@@ -1696,78 +1587,67 @@ class SpiG
 	// 	return addBitmap(Graphic, false, false, null);
 	// }
 	
-	// /**
-	//  * Loads a <code>TextureAtlas</code> from a file and caches it.
-	//  * 
-	//  * @param Path The path to the atlas file you want to load.
-	//  * 
-	//  * @return The <code>TextureAtlas</code>.
-	//  */
-	// public static TextureAtlas loadTextureAtlas(String Path)
-	// {
-	// 	return _cache.load(Path, TextureAtlas.class);
-	// }
+	/**
+	 * Loads a <code>TextureAtlas</code> from a file and caches it.
+	 * 
+	 * @param Path The path to the atlas file you want to load.
+	 * 
+	 * @return The <code>TextureAtlas</code>.
+	 */
+	public static function loadTextureAtlas(Path:String):Image
+	{
+		return _cache.load(Path, IMAGE);
+	}
 
-	// /**
-	//  * Free memory by disposing a <code>TextureAtlas</code> and removing it from
-	//  * the cache.
-	//  * 
-	//  * @param Path The path to the atlas file.
-	//  */
-	// public static void disposeTextureAtlas(String Path)
-	// {
-	// 	_cache.unload(Path);
-	// }
+	/**
+	 * Free memory by disposing a <code>TextureAtlas</code> and removing it from
+	 * the cache.
+	 * 
+	 * @param Path The path to the atlas file.
+	 */
+	public static function disposeTextureAtlas(Path:String):Void
+	{
+		_cache.unload(Path, IMAGE);
+	}
 	
-	// /**
-	//  * Dumps the cache's image references.
-	//  */
-	// public static void clearBitmapCache()
-	// {
-	// 	_cache.disposeRunTimeTextures();
-	// }
+	/**
+	 * Dumps the cache's image references.
+	 */
+	public static function clearBitmapCache():Void
+	{
+		_cache.disposeRunTimeTextures();
+	}
 
-	// /**
-	//  * Dispose the asset manager and all assets it contains.
-	//  */
-	// public static void disposeAssetManager()
-	// {
-	// 	if(_cache != null)
-	// 		_cache.dispose();
-	// }
+	/**
+	 * Dispose the asset manager and all assets it contains.
+	 */
+	public static function disposeAssetManager():Void
+	{
+		if(_cache != null)
+			_cache.dispose();
+	}
 	
-	// /**
-	//  * The number of assets currently loaded. Useful for debugging.
-	//  * 
-	//  * @return The number of assets.
-	//  */
-	// public static int getNumberOfAssets()
-	// {
-	// 	return _cache.getNumberOfAssets();
-	// }
+	/**
+	 * The number of assets currently loaded. Useful for debugging.
+	 * 
+	 * @return The number of assets.
+	 */
+	public static function getNumberOfAssets():Int
+	{
+		return _cache.getNumberOfAssets();
+	}
 
-	// /**
-	//  * Add resolutions to the resolver.
-	//  * 
-	//  * @param resolutions An array of resolutions (e.g. new Resolution(320, 480,
-	//  *        "320480")).
-	//  */
-	// public static void addResolutionResolver(Resolution[] resolutions)
-	// {
-	// 	_cache.addResolutionResolver(resolutions);
-	// }
-	
-	// /**
-	//  * Loads an external text file.
-	//  * 
-	//  * @param FileName	The path to the text file.
-	//  * 
-	//  * @return	The contents of the file.
-	//  */
-	// public static String loadString(String FileName)
-	// {
-	// 	return Gdx.files.internal(FileName).readString();
-	// }
+	/**
+	 * Loads an external text file.
+	 * 
+	 * @param FileName	The path to the text file.
+	 * 
+	 * @return	The contents of the file.
+	 */
+	public static function loadString(FileName:String):String
+	{
+		return SpiAssetManager.getFileHandle(FileName).readString();
+	}
 	
 	// /**
 	//  * Loads a font from a file and caches it.
@@ -1822,22 +1702,22 @@ class SpiG
 	// 		_cache.unload(Size + ":" + Path);
 	// }
 	
-	// /**
-	//  * Read-only: retrieves the Flash stage object (required for event listeners)
-	//  * Will be null if it's not safe/useful yet.
-	//  */
-	// public static SpiGameStage getStage()
-	// {
-	// 	return _game.stage;
-	// }
+	/**
+	 * Read-only: retrieves the Flash stage object (required for event listeners)
+	 * Will be null if it's not safe/useful yet.
+	 */
+	public static function getStage():SpiGameStage
+	{
+		return _game.stage;
+	}
 	
-	// /**
-	//  * Read-only: access the current game state from anywhere.
-	//  */
-	// public static SpiState getState()
-	// {
-	// 	return _game._state;
-	// }
+	/**
+	 * Read-only: access the current game state from anywhere.
+	 */
+	public static function getState():SpiState
+	{
+		return _game._state;
+	}
 	
 	/**
 	 * Read-only: gets the current SpiCamera.
@@ -1846,27 +1726,17 @@ class SpiG
 	{
 		return activeCamera;
 	}
-	
-	// /**
-	//  * Switch from the current game state to the one specified here.
-	//  * 
-	//  * @param state 			The new state.
-	//  */
-	// public static void switchState(SpiState State)
-	// {
-	// 	setState(State);
-	// }
 
-	// /**
-	//  * Switch from the current game state to the one specified here.
-	//  * Saving the current in the stack.
-	//  * 
-	//  * @param state 	The new state.
-	//  */
-	// public static void setState(SpiState state)
-	// {
-	// 	_game.requestedState = state;
-	// }
+	/**
+	 * Switch from the current game state to the one specified here.
+	 * Saving the current in the stack.
+	 * 
+	 * @param state 	The new state.
+	 */
+	public static function switchState(state:SpiState):Void
+	{
+		_game.requestedState = state;
+	}
 	
 	// /**
 	//  * Change the way the debugger's windows are laid out.
@@ -1888,95 +1758,63 @@ class SpiG
 	// 		_game.debugger.resetLayout();
 	// }
 	
-	// /**
-	//  * Add a new camera object to the game.
-	//  * Handy for PiP, split-screen, etc.
-	//  * 
-	//  * @param	NewCamera		The camera you want to add.
-	//  * @param	addToCameras	If we add the camera to the global list of cameras.
-	//  * 
-	//  * @return	This <code>SpiCamera</code> instance.
-	//  */
-	// public static SpiCamera addCamera(SpiCamera NewCamera, boolean addToCameras)
-	// {
-	// 	displayList.add(NewCamera);
+	/**
+	 * Add a new camera object to the game.
+	 * Handy for PiP, split-screen, etc.
+	 * 
+	 * @param	NewCamera		The camera you want to add.
+	 * @param	addToCameras	If we add the camera to the global list of cameras.
+	 * 
+	 * @return	This <code>SpiCamera</code> instance.
+	 */
+	public static function addCamera(NewCamera:SpiCamera, addToCameras:Bool = true):SpiCamera
+	{
+		displayList.push(NewCamera);
 		
-	// 	if(addToCameras)
-	// 		cameras.add(NewCamera);
+		if(addToCameras)
+			cameras.push(NewCamera);
 
-	// 	return NewCamera;
-	// }
+		return NewCamera;
+	}
+	
+	/**
+	 * Remove a camera from the game.
+	 * 
+	 * @param	Camera	The camera you want to remove.
+	 * @param	Destroy	Whether to call destroy() on the camera, default value is true.
+	 */
+	public static function removeCamera(Camera:SpiCamera, Destroy:Bool = true):Void
+	{
+		if(!displayList.remove(Camera))
+			log("Error removing camera, not part of game.");
+		cameras.remove(Camera);
+		if(Destroy)
+			Camera.destroy();
+	}
 
-	// /**
-	//  * Add a new camera object to the game.
-	//  * Handy for PiP, split-screen, etc.
-	//  * 
-	//  * @param	NewCamera	The camera you want to add.
-	//  * 
-	//  * @return	This <code>SpiCamera</code> instance.
-	//  */
-	// public static SpiCamera addCamera(SpiCamera NewCamera)
-	// {
-	// 	return addCamera(NewCamera, true);
-	// }
-	
-	// /**
-	//  * Remove a camera from the game.
-	//  * 
-	//  * @param	Camera	The camera you want to remove.
-	//  * @param	Destroy	Whether to call destroy() on the camera, default value is true.
-	//  */
-	// public static void removeCamera(SpiCamera Camera, boolean Destroy)
-	// {
-	// 	if(!displayList.removeValue(Camera, true))
-	// 		log("Error removing camera, not part of game.");
-	// 	cameras.removeValue(Camera, true);
-	// 	if(Destroy)
-	// 		Camera.destroy();
-	// }
-	
-	// /**
-	//  * Remove a camera from the game.
-	//  * 
-	//  * @param	Camera	The camera you want to remove.
-	//  */
-	// public static void removeCamera(SpiCamera Camera)
-	// {
-	// 	removeCamera(Camera, true);
-	// }
-	
-	// /**
-	//  * Dumps all the current cameras and resets to just one camera.
-	//  * Handy for doing split-screen especially.
-	//  * 
-	//  * @param	NewCamera	Optional; specify a specific camera object to be the new main camera.
-	//  */
-	// public static void resetCameras(SpiCamera NewCamera)
-	// {
-	// 	SpiCamera cam;
-	// 	int i = 0;
-	// 	int l = displayList.size;
-	// 	while(i < l)
-	// 	{
-	// 		cam = displayList.get(i++);
-	// 		cam.destroy();
-	// 	}
-	// 	displayList.clear();
-	// 	cameras.clear();
+	/**
+	 * Dumps all the current cameras and resets to just one camera.
+	 * Handy for doing split-screen especially.
+	 * 
+	 * @param	NewCamera	Optional; specify a specific camera object to be the new main camera.
+	 */
+	public static function resetCameras(NewCamera:SpiCamera = null):Void
+	{
+		var cam:SpiCamera;
+		var i:Int = 0;
+		var l:Int = displayList.length;
+		while(i < l)
+		{
+			cam = displayList[i++];
+			cam.destroy();
+		}
+		displayList.splice(0, displayList.length);
+		cameras.splice(0, cameras.length);
 
-	// 	if(NewCamera == null)
-	// 		NewCamera = new SpiCamera(0, 0, width, height);
-	// 	camera = addCamera(NewCamera);
-	// }
-	
-	// /**
-	//  * Dumps all the current cameras and resets to just one camera.
-	//  * Handy for doing split-screen especially.
-	//  */ 
-	// public static void resetCameras()
-	// {
-	// 	resetCameras(null);
-	// }
+		if(NewCamera == null)
+			NewCamera = new SpiCamera(0, 0, width, height);
+		camera = addCamera(NewCamera);
+	}
 	
 	// /**
 	//  * All screens are filled with this color and gradually return to normal.
@@ -2189,28 +2027,28 @@ class SpiG
 	// 	shake(0.05f,0.5f,null,true,0);
 	// }
 	
-	// /**
-	//  * Get and set the background color of the game.
-	//  * Is equivalent to camera.bgColor.
-	//  */
-	// public static int getBgColor()
-	// {
-	// 	if(camera == null)
-	// 		return 0xff000000;
-	// 	else
-	// 		return camera.bgColor;
-	// }
+	/**
+	 * Get and set the background color of the game.
+	 * Is equivalent to camera.bgColor.
+	 */
+	public static function getBgColor():Int
+	{
+		if(camera == null)
+			return 0xff000000;
+		else
+			return camera.bgColor;
+	}
 
-	// /**
-	//  * Set the background color of all the game cameras.
-	//  */
-	// public static void setBgColor(int Color)
-	// {
-	// 	int i = 0;
-	// 	int l = cameras.size;
-	// 	while(i < l)
-	// 		cameras.get(i++).bgColor = Color;
-	// }
+	/**
+	 * Set the background color of all the game cameras.
+	 */
+	public static function setBgColor(Color:Int):Void
+	{
+		var i:Int = 0;
+		var l:Int = cameras.length;
+		while(i < l)
+			cameras[i++].bgColor = Color;
+	}
 	
 	// /**
 	//  * Call this method to see if one <code>SpiObject</code> overlaps another.
@@ -2357,26 +2195,26 @@ class SpiG
 	// 	return Plugin;
 	// }
 
-	// /**
-	//  * Retrieves a plugin based on its class name from the global plugin array.
-	//  * 
-	//  * @param	ClassType	The class name of the plugin you want to retrieve. See the <code>SpiPath</code> or <code>SpiTimer</code> constructors for example usage.
-	//  * 
-	//  * @return	The plugin object, or null if no matching plugin was found.
-	//  */
-	// public static SpiBasic getPlugin(Class<? extends SpiBasic> ClassType)
-	// {
-	// 	Array<SpiBasic> pluginList = plugins;
-	// 	int i = 0;
-	// 	int l = pluginList.size;
-	// 	while(i < l)
-	// 	{
-	// 		if(pluginList.get(i).getClass().equals(ClassType))
-	// 			return plugins.get(i);
-	// 		i++;
-	// 	}
-	// 	return null;
-	// }
+	/**
+	 * Retrieves a plugin based on its class name from the global plugin array.
+	 * 
+	 * @param	ClassType	The class name of the plugin you want to retrieve. See the <code>SpiPath</code> or <code>SpiTimer</code> constructors for example usage.
+	 * 
+	 * @return	The plugin object, or null if no matching plugin was found.
+	 */
+	public static function getPlugin(ClassType:SpiType):SpiBasic
+	{
+		var pluginList:Array<SpiBasic> = plugins;
+		var i:Int = 0;
+		var l:Int = pluginList.length;
+		while(i < l)
+		{
+			if(pluginList[i].type == ClassType)
+				return plugins[i];
+			i++;
+		}
+		return null;
+	}
 		
 	// /**
 	//  * Removes an instance of a plugin from the global plugin array.
@@ -2431,49 +2269,41 @@ class SpiG
 	{
 		// Set the game stuff
 		_game = Game;
-	// 	width = Width;
-	// 	height = Height;
+		width = Width;
+		height = Height;
 		
-	// 	// Set the sound stuff
-	// 	sounds = new SpiGroup();
-	// 	volumeHandler = new SpiVolumeHandler();
-	// 	music = null;
+		// Set the sound stuff
+		sounds = new SpiGroup();
+		volumeHandler = new SpiVolumeHandler();
+		music = null;
 
-	// 	// Initialize all the SpiG general variables
-	// 	_cache = new SpiAssetManager();
-	// 	stateChange = false;
+		// Initialize all the SpiG general variables
+		_cache = new SpiAssetManager();
 		
-	// 	SpiCamera.defaultZoom = Zoom;
-	// 	SpiCamera.defaultScaleMode = ScaleMode;
-	// 	cameras = new Array<SpiCamera>();
-	// 	displayList = new Array<SpiCamera>();
+		SpiCamera.defaultZoom = Zoom;
+		SpiCamera.defaultScaleMode = ScaleMode;
+		cameras = new Array<SpiCamera>();
+		displayList = new Array<SpiCamera>();
 	// 	spriteLightning = new SpiLightning();
-	// 	camera = null;
-	// 	useBufferLocking = false;
+		camera = null;
 
-	// 	// Set the plugin stuff
-	// 	plugins = new Array<SpiBasic>();
+		// Set the plugin stuff
+		plugins = new Array<SpiBasic>();
 	// 	addPlugin(new SpiDebugPathDisplay());
 	// 	addPlugin(new SpiTimerManager());
 		
-	// 	// Set the input stuff
-	// 	mouse = new SpiMouse();
-	// 	touch = mouse;
-	// 	keys = new SpiKeyboard();
+		// Set the input stuff
+		mouse = new SpiMouse();
+		touch = mouse;
+		keys = new SpiKeyboard();
 	// 	accelerometer = new SpiAccelerometer();
 	// 	externals = new SpiExternalInput();
-	// 	inputs = new InputMultiplexer(); 
 
-	// 	levels = new Array<Object>();
-	// 	scores = new IntArray();
-	// 	visualDebug = false;
+		levels = new Array<Dynamic>();
+		scores = new Array<Int>();
+		visualDebug = false;
 		
 	// 	_floatArray = new float[4];
-
-	// 	//SpiGestureManager manager = new SpiGestureManager();
-	// 	//inputs.addProcessor(new SpiSwipeDetector(10, manager));
-	// 	//inputs.addProcessor(new GestureDetector());
-	// 	//addPlugin(manager);
 		
 	// 	shaders = new ObjectMap<String, SpiShaderProgram>();
 	}
@@ -2483,146 +2313,151 @@ class SpiG
 	 */
 	private static function reset():Void
 	{
-	// 	clearBitmapCache();
-	// 	resetInput();
-	// 	destroySounds(true);
+		clearBitmapCache();
+		resetInput();
+		destroySounds(true);
 	// 	stopVibrate();
 	// 	destroyShaders();
 
-	// 	levels.clear();
-	// 	scores.clear();
-	// 	level = 0;
-	// 	score = 0;
-	// 	paused = false;
-	// 	fixedTimestep = true;
-	// 	maxElapsed = 0.1f;
-	// 	timeScale = 1.0f;
-	// 	elapsed = 0;
+		levels.splice(0, levels.length);
+		scores.splice(0, scores.length);
+		level = 0;
+		score = 0;
+		paused = false;
+		fixedTimestep = true;
+		maxElapsed = 0.1;
+		timeScale = 1.0;
+		elapsed = 0;
 	// 	globalSeed = SpiU.getSeed();
 	// 	SpiU.setSeed(globalSeed);
-	// 	worldBounds = new SpiRect(-10, -10, width + 20, height + 20);
-	// 	worldDivisions = 6;
+		worldBounds = new SpiRect(-10, -10, width + 20, height + 20);
+		worldDivisions = 6;
 	// 	spriteLightning.clear();
 	// 	SpiDebugPathDisplay debugPathDisplay = (SpiDebugPathDisplay) getPlugin(SpiDebugPathDisplay.class);
 	// 	if(debugPathDisplay != null)
 	// 		debugPathDisplay.clear();
 	//
-	//  random.resetInitialSeed();
+	 	random.resetInitialSeed();
 	}
 	
-	// /**
-	//  * Called by the game object to update the keyboard and mouse input tracking objects.
-	//  */
-	// public static void updateInput()
-	// {
-	// 	// Update the specific mobile phone inputs
-	// 	accelerometer.update();
-	// 	externals.update();
+	/**
+	 * Called by the game object to update the keyboard and mouse input tracking objects.
+	 */
+	public static function updateInput():Void
+	{
+		// Update the specific mobile phone inputs
+		// accelerometer.update();
+		// externals.update();
 
-	// 	// Update the Keyboard inputs
-	// 	keys.update();
+		// Update the Keyboard inputs
+		keys.update();
 
-	// 	if(!_game.debuggerUp || !_game.debugger.hasMouse)
-	// 		mouse.update();
-	// }
+		#if SPI_DEBUG
+		if(!_game.debuggerUp || !_game.debugger.hasMouse) {
+		#end
+			mouse.update();
+		#if SPI_DEBUG
+		}
+		#end
+	}
 	
-	// /**
-	//  * Called by the game object to lock all the camera buffers and clear them for the next draw pass.  
-	//  */
-	// public static void lockCameras()
-	// {
-	// 	SpiCamera camera = activeCamera;
+	/**
+	 * Called by the game object to lock all the camera buffers and clear them for the next draw pass.  
+	 */
+	public static function lockCameras():Void
+	{
+		var camera:SpiCamera = activeCamera;
 		
-	// 	// If the app is an iOS app do not cut the screen
-	// 	if(Gdx.app.getType() != ApplicationType.iOS) {
-	// 		// Set the drawing area		
-	// 		int scissorWidth = SpiU.ceil(camera.width * camera._screenScaleFactorX * camera.getZoom());
-	// 		int scissorHeight = SpiU.ceil(camera.height * camera._screenScaleFactorY * camera.getZoom());
-	// 		int scissorX = (int) (camera.x * camera._screenScaleFactorX);
-	// 		int scissorY = (int) (screenHeight - ((camera.y * camera._screenScaleFactorY) + scissorHeight));
-	// 		gl.glScissor(scissorX, scissorY, scissorWidth, scissorHeight);
-	// 	} else {
-	// 		gl.glScissor(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-	// 	}
+		// // If the app is an iOS app do not cut the screen
+		// if(Gdx.app.getType() != ApplicationType.iOS) {
+		// 	// Set the drawing area		
+		// 	int scissorWidth = SpiU.ceil(camera.width * camera._screenScaleFactorX * camera.getZoom());
+		// 	int scissorHeight = SpiU.ceil(camera.height * camera._screenScaleFactorY * camera.getZoom());
+		// 	int scissorX = (int) (camera.x * camera._screenScaleFactorX);
+		// 	int scissorY = (int) (screenHeight - ((camera.y * camera._screenScaleFactorY) + scissorHeight));
+		// 	gl.glScissor(scissorX, scissorY, scissorWidth, scissorHeight);
+		// } else {
+		// 	gl.glScissor(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		// }
 			
-	// 	// Clear the camera
-	// 	if(((camera.bgColor >> 24) & 0xff) == 0xFF)
-	// 	{
-	// 		int color = SpiU.multiplyColors(camera.bgColor, camera.getColor());
-	// 		_floatArray = SpiU.getRGBA(color, _floatArray);
-	// 		gl.glClearColor(_floatArray[0] * 0.00392f, _floatArray[1] * 0.00392f, _floatArray[2] * 0.00392f, 1.0f);
-	// 		gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	// 	} else
-	// 	// Clear camera if needed
-	// 	if(camera.bgColor != 0x0)
-	// 	{
-	// 		camera.fill(camera.bgColor);
-	// 	}
+		// Clear the camera
+		// if(((camera.bgColor >> 24) & 0xff) == 0xFF)
+		// {
+		// 	int color = SpiU.multiplyColors(camera.bgColor, camera.getColor());
+		// 	_floatArray = SpiU.getRGBA(color, _floatArray);
+		// 	gl.glClearColor(_floatArray[0] * 0.00392f, _floatArray[1] * 0.00392f, _floatArray[2] * 0.00392f, 1.0f);
+		// 	gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		// } else
+		// // Clear camera if needed
+		// if(camera.bgColor != 0x0)
+		// {
+		// 	camera.fill(camera.bgColor);
+		// }
 
-	// 	// Set tint
-	// 	_floatArray = SpiU.getRGBA(camera.getColor(), _floatArray);
-	// 	batch.setColor(_floatArray[0] * 0.00392f, _floatArray[1] * 0.00392f, _floatArray[2] * 0.00392f, 1.0f);
+		// // Set tint
+		// _floatArray = SpiU.getRGBA(camera.getColor(), _floatArray);
+		// batch.setColor(_floatArray[0] * 0.00392f, _floatArray[1] * 0.00392f, _floatArray[2] * 0.00392f, 1.0f);
 
-	// 	// Set matrix
-	// 	batch.setProjectionMatrix(camera.glCamera.combined);
-	// 	flashGfx.setProjectionMatrix(camera.glCamera.combined);
+		// // Set matrix
+		// batch.setProjectionMatrix(camera.glCamera.combined);
+		// flashGfx.setProjectionMatrix(camera.glCamera.combined);
 
-	// 	// Get ready for drawing
-	// 	batch.begin();
-	// 	flashGfx.begin();
-	// }
+		// // Get ready for drawing
+		// batch.begin();
+		// flashGfx.begin();
+	}
 	
-	// /**
-	//  * Called by the game object to draw the special FX and unlock all the camera buffers.
-	//  */
-	// public static void unlockCameras()
-	// {
-	// 	SpiCamera camera = activeCamera;
+	/**
+	 * Called by the game object to draw the special FX and unlock all the camera buffers.
+	 */
+	public static function unlockCameras():Void
+	{
+		var camera:SpiCamera = activeCamera;
 		
-	// 	batch.end();
-	// 	flashGfx.end();
+		// batch.end();
+		flashGfx.end();
 		
-	// 	camera.drawFX();
-	// }
+		// camera.drawFX();
+	}
 	
-	// /**
-	//  * Called by the game object to update the cameras and their tracking/special effects logic.
-	//  */
-	// public static void updateCameras()
-	// {
-	// 	SpiCamera cam;
-	// 	Array<SpiCamera> cams = cameras;
-	// 	int i = 0;
-	// 	int l = cams.size;
-	// 	while(i < l)
-	// 	{
-	// 		cam = cams.get(i++);
-	// 		if((cam != null) && cam.exists)
-	// 		{
-	// 			if(cam.active)
-	// 				cam.update();
-	// 			cam.glCamera.position.x = cam._flashOffsetX - (cam.x / cam.getZoom());
-	// 			cam.glCamera.position.y = cam._flashOffsetY - (cam.y / cam.getZoom());
-	// 		}
-	// 	}
-	// }
+	/**
+	 * Called by the game object to update the cameras and their tracking/special effects logic.
+	 */
+	public static function updateCameras():Void
+	{
+		var cam:SpiCamera;
+		var cams:Array<SpiCamera> = cameras;
+		var i:Int = 0;
+		var l:Int = cams.length;
+		while(i < l)
+		{
+			cam = cams[i++];
+			if((cam != null) && cam.exists)
+			{
+				if(cam.active)
+					cam.update();
+				//TODO cam.glCamera.position.x = cam._flashOffsetX - (cam.x / cam.getZoom());
+				//TODO cam.glCamera.position.y = cam._flashOffsetY - (cam.y / cam.getZoom());
+			}
+		}
+	}
 	
-	// /**
-	//  * Used by the game object to call <code>update()</code> on all the plugins.
-	//  */
-	// public static void updatePlugins()
-	// {
-	// 	SpiBasic plugin;
-	// 	Array<SpiBasic> pluginList = plugins;
-	// 	int i = 0;
-	// 	int l = pluginList.size;
-	// 	while(i < l)
-	// 	{
-	// 		plugin = pluginList.get(i++);
-	// 		if(plugin.exists && plugin.active)
-	// 			plugin.update();
-	// 	}
-	// }
+	/**
+	 * Used by the game object to call <code>update()</code> on all the plugins.
+	 */
+	public static function updatePlugins():Void
+	{
+		var plugin:SpiBasic;
+		var pluginList:Array<SpiBasic> = plugins;
+		var i:Int = 0;
+		var l:Int = pluginList.length;
+		while(i < l)
+		{
+			plugin = pluginList[i++];
+			if(plugin.exists && plugin.active)
+				plugin.update();
+		}
+	}
 
 	// /**
 	//  * Used by the game object to call <code>draw()</code> on all the plugins.
@@ -2973,39 +2808,36 @@ class SpiG
 	// 	}
 	// }
 
-	// //==========================================================================//
-	// //								CALLBACKS									//
-	// //==========================================================================//
-	// /**
-	//  * Set this hook to get a callback whenever the volume changes.
-	//  * Function should take the form <code>myVolumeHandler(Volume:Number)</code>.
-	//  */
-	// private static ISpiVolume volumeCallback = new ISpiVolume()
-	// {
-	// 	public void onChange(float volume, int type)
-	// 	{
-	// 		switch(type) {
-	// 			case SpiSound.MUSIC:
-	// 				if(music != null)
-	// 					music.setVolume(volume);
-	// 				break;
-	// 			case SpiSound.SFX:
-	// 				// Update all the sounds
-	// 				for(int i = 0; i < sounds.members.size; i++) {
-	// 					((SpiSound)sounds.members.get(i)).setVolume(volume);
-	// 				}
-	// 				break;
-	// 			case SpiSound.ALL:
-	// 				if(music != null)
-	// 					music.setVolume(volume);
-	// 				// Update all the sounds
-	// 				for(int i = 0; i < sounds.members.size; i++) {
-	// 					((SpiSound)sounds.members.get(i)).setVolume(volume);
-	// 				}
-	// 				break;
-	// 		}
-	// 	};
-	// };
+	//==========================================================================//
+	//								CALLBACKS									//
+	//==========================================================================//
+	/**
+	 * Set this hook to get a callback whenever the volume changes.
+	 * Function should take the form <code>myVolumeHandler(Volume:Number)</code>.
+	 */
+	private static function volumeCallback(volume:Float, type:Int)
+	{
+		switch(type) {
+			case SpiSound.MUSIC:
+				if(music != null)
+					music.setVolume(volume);
+
+			case SpiSound.SFX:
+				// Update all the sounds
+				for(i in 0 ... sounds.members.length) {
+					cast (sounds.members[i], SpiSound).setVolume(volume);
+				}
+
+			case SpiSound.ALL:
+				if(music != null)
+					music.setVolume(volume);
+
+				// Update all the sounds
+				for(i in 0 ... sounds.members.length) {
+					cast (sounds.members[i], SpiSound).setVolume(volume);
+				}
+		}
+	}
 
 	// /**
 	//  * Internal callback method for collision.

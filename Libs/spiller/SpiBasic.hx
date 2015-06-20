@@ -300,16 +300,15 @@ class SpiBasic implements ISpiDestroyable
  */
 abstract SpiType(Int) from Int from UInt to Int to UInt
 {
-	// public static inline var NONE:Int		= 0;
-	// public static inline var BASIC:Int		= 1;
-	// public static inline var OBJECT:Int		= 2;
-	// public static inline var GROUP:Int		= 3;
-	// public static inline var TILEMAP:Int	= 4;
-
 	public static inline var NONE:SpiType        = 0;
 	public static inline var BASIC:SpiType       = 1;
 	public static inline var OBJECT:SpiType      = 2;
 	public static inline var GROUP:SpiType       = 3;
 	public static inline var TILEMAP:SpiType     = 4;
+	public static inline var PARTICLE:SpiType    = 5;
 
+
+
+
+	public static inline var PLUGIN_TIME_MANAGER:SpiType    = 1000;
 }

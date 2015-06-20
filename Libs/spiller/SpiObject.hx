@@ -2,8 +2,9 @@ package spiller;
 
 import spiller.math.SpiMath;
 // import spiller.system.SpiTile;
-// import spiller.system.flash.Graphics;
+import spiller.system.flash.Graphics;
 import spiller.SpiBasic.SpiType;
+import spiller.util.SpiColor;
 import spiller.util.SpiDestroyUtil;
 import spiller.util.SpiPath;
 import spiller.math.SpiPoint;
@@ -234,7 +235,7 @@ class SpiObject extends SpiBasic
 	 * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
 	 * You can even use them broadly as boolean values if you're feeling saucy!
 	 */
-	public var wasTouching:Int;
+	public var touchingLastFrame:Int;
 	/**
 	 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.
 	 * Use bitwise operators to check the values stored here.
@@ -333,7 +334,7 @@ class SpiObject extends SpiBasic
 		moves = true;
 		
 		touching = NONE;
-		wasTouching = NONE;
+		touchingLastFrame = NONE;
 		allowCollisions = ANY;
 		
 		velocity = SpiPoint.get();
@@ -435,7 +436,7 @@ class SpiObject extends SpiBasic
 		if(moves)
 			updateMotion();
 		
-		wasTouching = touching;
+		touchingLastFrame = touching;
 		touching = NONE;
 	}
 	
@@ -467,63 +468,65 @@ class SpiObject extends SpiBasic
 		y += delta;
 	}
 	
-	// /**
-	//  * Rarely called, and in this case just increments the visible objects count and calls <code>drawDebug()</code> if necessary.
-	//  */
-	// override
-	// public void draw()
-	// {
-	// 	SpiCamera camera = SpiG.activeCamera;
+	/**
+	 * Rarely called, and in this case just increments the visible objects count and calls <code>drawDebug()</code> if necessary.
+	 */
+	override
+	public function draw():Void
+	{
+		var camera:SpiCamera = SpiG.activeCamera;
 		
-	// 	if (cameras == null)
-	// 		cameras = SpiG.cameras;
-	// 	if(cameras.indexOf(camera) == -1)
-	// 		return;
+		if (cameras == null)
+			cameras = SpiG.cameras;
+		if(cameras.indexOf(camera) == -1)
+			return;
 		
-	// 	if(!onScreen(camera))
-	// 		return;
-	// 	VISIBLECOUNT++;
-	// 	if(SpiG.visualDebug && !ignoreDrawDebug)
-	// 		drawDebug(camera);
-	// }
+		if(!onScreen(camera))
+			return;
+		
+		super.draw();
+
+		if(SpiG.visualDebug && !ignoreDrawDebug)
+			drawDebug(camera);
+	}
 	
-	// /**
-	//  * Override this method to draw custom "debug mode" graphics to the
-	//  * specified camera while the debugger's visual mode is toggled on.
-	//  * 
-	//  * @param	Camera	Which camera to draw the debug visuals to.
-	//  */
-	// override
-	// public void drawDebug(SpiCamera Camera)
-	// {
-	// 	if(Camera == null)
-	// 		Camera = SpiG.camera;
+	/**
+	 * Override this method to draw custom "debug mode" graphics to the
+	 * specified camera while the debugger's visual mode is toggled on.
+	 * 
+	 * @param	Camera	Which camera to draw the debug visuals to.
+	 */
+	override
+	public function drawDebug(Camera:SpiCamera = null):Void
+	{
+		if(Camera == null)
+			Camera = SpiG.camera;
 		
-	// 	// Get bounding box coordinates
-	// 	float boundingBoxX = x - (int)(Camera.scroll.x*scrollFactor.x); //copied from getScreenXY()
-	// 	float boundingBoxY = y - (int)(Camera.scroll.y*scrollFactor.y);
-	// 	boundingBoxX = (int) (boundingBoxX + ((boundingBoxX > 0)?0.0000001f:-0.0000001f));
-	// 	boundingBoxY = (int) (boundingBoxY + ((boundingBoxY > 0)?0.0000001f:-0.0000001f));
-	// 	int boundingBoxWidth = (int) width;
-	// 	int boundingBoxHeight = (int) height;
+		// Get bounding box coordinates
+		var boundingBoxX:Float = x - Std.int(Camera.scroll.x * scrollFactor.x); //copied from getScreenXY()
+		var boundingBoxY:Float = y - Std.int(Camera.scroll.y * scrollFactor.y);
+		boundingBoxX = Std.int(boundingBoxX + ((boundingBoxX > 0)?0.0000001:-0.0000001));
+		boundingBoxY = Std.int(boundingBoxY + ((boundingBoxY > 0)?0.0000001:-0.0000001));
+		var boundingBoxWidth = Std.int(width);
+		var boundingBoxHeight = Std.int(height);
 		
-	// 	Graphics gfx = SpiG.flashGfx;
-	// 	int boundingBoxColor;
-	// 	if(allowCollisions > 0)
-	// 	{
-	// 		if(allowCollisions != ANY)
-	// 			boundingBoxColor = SpiG.PINK;
-	// 		if(immovable)
-	// 			boundingBoxColor = SpiG.GREEN;
-	// 		else
-	// 			boundingBoxColor = SpiG.RED;
-	// 	}
-	// 	else
-	// 		boundingBoxColor = SpiG.BLUE;
+		var gfx:Graphics = SpiG.flashGfx;
+		var boundingBoxColor:Int;
+		if(allowCollisions > 0)
+		{
+			if(allowCollisions != ANY)
+				boundingBoxColor = SpiColor.PINK;
+			if(immovable)
+				boundingBoxColor = SpiColor.GREEN;
+			else
+				boundingBoxColor = SpiColor.RED;
+		}
+		else
+			boundingBoxColor = SpiColor.BLUE;
 		
-	// 	gfx.lineStyle(1.0f, boundingBoxColor, 0.5f);
-	// 	gfx.drawRect(boundingBoxX, boundingBoxY, boundingBoxWidth, boundingBoxHeight);
-	// }
+		gfx.lineStyle(1.0, boundingBoxColor, 0.5);
+		gfx.drawRect(boundingBoxX, boundingBoxY, boundingBoxWidth, boundingBoxHeight);
+	}
 	
 	/**
 	 * Call this method to give this object a path to follow.
@@ -771,7 +774,7 @@ class SpiObject extends SpiBasic
 	//  * 
 	//  * @return	Whether or not the two objects overlap.
 	//  */
-	// public boolean overlaps(SpiBasic ObjectOrGroup,boolean InScreenSpace, SpiCamera Camera)
+	// public boolean overlaps(SpiBasic ObjectOrGroup,boolean InScreenSpace = false, SpiCamera Camera = null)
 	// {
 	// 	if(ObjectOrGroup instanceof SpiGroup)
 	// 	{
@@ -816,35 +819,6 @@ class SpiObject extends SpiBasic
 	// 			(objectScreenPos.x < _point.x + width) &&
 	// 			(objectScreenPos.y + object.height > _point.y) &&
 	// 			(objectScreenPos.y < _point.y + height);
-	// }
-	
-	// /**
-	//  * Checks to see if some <code>SpiObject</code> overlaps this <code>SpiObject</code> or <code>SpiGroup</code>.
-	//  * If the group has a LOT of things in it, it might be faster to use <code>SpiG.overlaps()</code>.
-	//  * WARNING: Currently tilemaps do NOT support screen space overlap checks!
-	//  * 
-	//  * @param	ObjectOrGroup	The object or group being tested.
-	//  * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.  Default is false, or "only compare in world space."
-	//  * 
-	//  * @return	Whether or not the two objects overlap.
-	//  */
-	// public boolean overlaps(SpiBasic ObjectOrGroup,boolean InScreenSpace)
-	// {
-	// 	return overlaps(ObjectOrGroup, InScreenSpace, null);
-	// }
-	
-	// /**
-	//  * Checks to see if some <code>SpiObject</code> overlaps this <code>SpiObject</code> or <code>SpiGroup</code>.
-	//  * If the group has a LOT of things in it, it might be faster to use <code>SpiG.overlaps()</code>.
-	//  * WARNING: Currently tilemaps do NOT support screen space overlap checks!
-	//  * 
-	//  * @param	ObjectOrGroup	The object or group being tested.
-	//  * 
-	//  * @return	Whether or not the two objects overlap.
-	//  */
-	// public boolean overlaps(SpiBasic ObjectOrGroup)
-	// {
-	// 	return overlaps(ObjectOrGroup, false, null);
 	// }
 	
 	// /**
@@ -921,23 +895,6 @@ class SpiObject extends SpiBasic
 	//  * @param	X				The X position you want to check.  Pretends this object (the caller, not the parameter) is located here.
 	//  * @param	Y				The Y position you want to check.  Pretends this object (the caller, not the parameter) is located here.
 	//  * @param	ObjectOrGroup	The object or group being tested.
-	//  * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.  Default is false, or "only compare in world space."
-	//  * 
-	//  * @return	Whether or not the two objects overlap.
-	//  */
-	// public boolean overlapsAt(float X, float Y, SpiBasic ObjectOrGroup, boolean InScreenSpace)
-	// {
-	// 	return overlapsAt(X, Y, ObjectOrGroup, InScreenSpace, null);
-	// }
-	
-	// /**
-	//  * Checks to see if this <code>SpiObject</code> were located at the given position, would it overlap the <code>SpiObject</code> or <code>SpiGroup</code>?
-	//  * This is distinct from overlapsPoint(), which just checks that point, rather than taking the object's size into account.
-	//  * WARNING: Currently tilemaps do NOT support screen space overlap checks!
-	//  * 
-	//  * @param	X				The X position you want to check.  Pretends this object (the caller, not the parameter) is located here.
-	//  * @param	Y				The Y position you want to check.  Pretends this object (the caller, not the parameter) is located here.
-	//  * @param	ObjectOrGroup	The object or group being tested.
 	//  * 
 	//  * @return	Whether or not the two objects overlap.
 	//  */
@@ -946,298 +903,222 @@ class SpiObject extends SpiBasic
 	// 	return overlapsAt(X, Y, ObjectOrGroup, false, null);
 	// }
 	
-	// /**
-	//  * Checks to see if a point in 2D world space overlaps this <code>SpiObject</code> object.
-	//  * 
-	//  * @param	Point			The point in world space you want to check.
-	//  * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.
-	//  * @param	Camera			Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
-	//  * 
-	//  * @return	Whether or not the point overlaps this object.
-	//  */
-	// public boolean overlapsPoint(SpiPoint Point, boolean InScreenSpace, SpiCamera Camera)
-	// {
-	// 	if(!InScreenSpace)
-	// 		return (Point.x > x) && 
-	// 				(Point.x < (x + width)) && 
-	// 				(Point.y > y) && 
-	// 				(Point.y < (y + height));
+	/**
+	 * Checks to see if a point in 2D world space overlaps this <code>SpiObject</code> object.
+	 * 
+	 * @param	Point			The point in world space you want to check.
+	 * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.
+	 * @param	Camera			Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
+	 * 
+	 * @return	Whether or not the point overlaps this object.
+	 */
+	public function overlapsPoint(Point:SpiPoint, InScreenSpace:Bool = false, Camera:SpiCamera = null):Bool
+	{
+		if(!InScreenSpace)
+			return (Point.x > x) && 
+					(Point.x < (x + width)) && 
+					(Point.y > y) && 
+					(Point.y < (y + height));
 
-	// 	if(Camera == null)
-	// 		Camera = SpiG.camera;
-	// 	float X = Point.x - Camera.scroll.x;
-	// 	float Y = Point.y - Camera.scroll.y;
-	// 	getScreenXY(_point,Camera);
-	// 	Point.putWeak();
-	// 	return (X > _point.x) && 
-	// 			(X < _point.x+width) && 
-	// 			(Y > _point.y) && 
-	// 			(Y < _point.y+height);
-	// }
-	
-	// /**
-	//  * Checks to see if a point in 2D world space overlaps this <code>SpiObject</code> object.
-	//  * 
-	//  * @param	Point			The point in world space you want to check.
-	//  * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.
-	//  * 
-	//  * @return	Whether or not the point overlaps this object.
-	//  */
-	// public boolean overlapsPoint(SpiPoint Point, boolean InScreenSpace)
-	// {
-	// 	return overlapsPoint(Point, InScreenSpace, null);
-	// }
-	
-	// /**
-	//  * Checks to see if a point in 2D world space overlaps this <code>SpiObject</code> object.
-	//  * 
-	//  * @param	Point			The point in world space you want to check.
-	//  * 
-	//  * @return	Whether or not the point overlaps this object.
-	//  */
-	// public boolean overlapsPoint(SpiPoint Point)
-	// {
-	// 	return overlapsPoint(Point, false, null);
-	// }
+		if(Camera == null)
+			Camera = SpiG.camera;
+		var X:Float = Point.x - Camera.scroll.x;
+		var Y:Float = Point.y - Camera.scroll.y;
+		getScreenXY(_point,Camera);
+		Point.putWeak();
+		return (X > _point.x) && 
+				(X < _point.x + width) && 
+				(Y > _point.y) && 
+				(Y < _point.y + height);
+	}
 
-	// /**
-	//  * Check and see if this object is currently on screen.
-	//  * 
-	//  * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
-	//  * 
-	//  * @return	Whether the object is on screen or not.
-	//  */
-	// public boolean onScreen(SpiCamera Camera)
-	// {
-	// 	if(Camera == null)
-	// 		Camera = SpiG.camera;
-	// 	getScreenXY(_point,Camera);
-	// 	return (_point.x + width > 0) && 
-	// 			(_point.x < Camera.width) && 
-	// 			(_point.y + height > 0) && 
-	// 			(_point.y < Camera.height);
-	// }
+	/**
+	 * Check and see if this object is currently on screen.
+	 * 
+	 * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
+	 * 
+	 * @return	Whether the object is on screen or not.
+	 */
+	public function onScreen(Camera:SpiCamera):Bool
+	{
+		if(Camera == null)
+			Camera = SpiG.camera;
+		getScreenXY(_point,Camera);
+		return (_point.x + width > 0) && 
+				(_point.x < Camera.width) && 
+				(_point.y + height > 0) && 
+				(_point.y < Camera.height);
+	}
 	
-	// /**
-	//  * Check and see if this object is currently on screen.
-	//  * 
-	//  * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
-	//  */
-	// public boolean onScreen()
-	// {
-	// 	return onScreen(null);
-	// }
-	
-	// /**
-	//  * Call this method to figure out the on-screen position of the object.
-	//  * 
-	//  * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
-	//  * @param	Point		Takes a <code>SpiPoint</code> object and assigns the post-scrolled X and Y values of this object to it.
-	//  * 
-	//  * @return	The <code>Point</code> you passed in, or a new <code>Point</code> if you didn't pass one, containing the screen X and Y position of this object.
-	//  */
-	// public SpiPoint getScreenXY(SpiPoint Point, SpiCamera Camera)
-	// {
-	// 	if(Point == null)
-	// 		Point = SpiPoint.get();
-	// 	if(Camera == null)
-	// 		Camera = SpiG.camera;
+	/**
+	 * Call this method to figure out the on-screen position of the object.
+	 * 
+	 * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
+	 * @param	Point		Takes a <code>SpiPoint</code> object and assigns the post-scrolled X and Y values of this object to it.
+	 * 
+	 * @return	The <code>Point</code> you passed in, or a new <code>Point</code> if you didn't pass one, containing the screen X and Y position of this object.
+	 */
+	public function getScreenXY(Point:SpiPoint = null, Camera:SpiCamera = null):SpiPoint
+	{
+		if(Point == null)
+			Point = SpiPoint.get();
+		if(Camera == null)
+			Camera = SpiG.camera;
 
-	// 	Point.x = x - (int)(Camera.scroll.x * scrollFactor.x);
-	// 	Point.y = y - (int)(Camera.scroll.y * scrollFactor.y);
-	// 	Point.x += (Point.x > 0)?0.0000001f:-0.0000001f;
-	// 	Point.y += (Point.y > 0)?0.0000001f:-0.0000001f;
-	// 	return Point;
-	// }
+		Point.x = x - Std.int(Camera.scroll.x * scrollFactor.x);
+		Point.y = y - Std.int(Camera.scroll.y * scrollFactor.y);
+		Point.x += (Point.x > 0)?0.0000001:-0.0000001;
+		Point.y += (Point.y > 0)?0.0000001:-0.0000001;
+		return Point;
+	}
 	
-	// /**
-	//  * Call this method to figure out the on-screen position of the object.
-	//  * 
-	//  * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera. 
-	//  *
-	//  * @return	The <code>Point</code> you passed in, or a new <code>Point</code> if you didn't pass one, containing the screen X and Y position of this object.
-	//  */
-	// public SpiPoint getScreenXY(SpiPoint Point)
-	// {
-	// 	return getScreenXY(Point, null);
-	// }
+	/**
+	 * Tells this object to flicker, retro-style.
+	 * Pass a negative value to flicker forever.
+	 * 
+	 * @param	Duration	How many seconds to flicker for.
+	 */
+	public function flicker(Duration:Float = 1):Void
+	{
+		_flickerTimer = Duration;
+		if(_flickerTimer == 0)
+			_flicker = false;
+	}
 	
-	// /**
-	//  * Call this method to figure out the on-screen position of the object.
-	//  *  
-	//  * @return	The <code>Point</code> you passed in, or a new <code>Point</code> if you didn't pass one, containing the screen X and Y position of this object.
-	//  */
-	// public SpiPoint getScreenXY()
-	// {
-	// 	return getScreenXY(null, null);
-	// }
+	/**
+	 * Check to see if the object is still flickering.
+	 * 
+	 * @return	Whether the object is flickering or not.
+	 */
+	public function getFlickering():Bool
+	{
+		return _flickerTimer != 0;
+	}
 	
-	// /**
-	//  * Tells this object to flicker, retro-style.
-	//  * Pass a negative value to flicker forever.
-	//  * 
-	//  * @param	Duration	How many seconds to flicker for.
-	//  */
-	// public void flicker(float Duration)
-	// {
-	// 	_flickerTimer = Duration;
-	// 	if(_flickerTimer == 0)
-	// 		_flicker = false;
-	// }
+	/**
+	 * Whether the object collides or not.  For more control over what directions
+	 * the object will collide from, use collision constants (like LEFT, FLOOR, etc)
+	 * to set the value of allowCollisions directly.
+	 */
+	public function getSolid():Bool
+	{
+		return (allowCollisions & ANY) > NONE;
+	}
 	
-	// /**
-	//  * Tells this object to flicker, retro-style.
-	//  * Pass a negative value to flicker forever.
-	//  */ 
-	// public void flicker()
-	// {
-	// 	flicker(1);
-	// }
+	/**
+	 * @private
+	 */
+	public function setSolid(Solid:Bool):Void
+	{
+		if(Solid)
+			allowCollisions = ANY;
+		else
+			allowCollisions = NONE;
+	}
 	
-	// /**
-	//  * Check to see if the object is still flickering.
-	//  * 
-	//  * @return	Whether the object is flickering or not.
-	//  */
-	// public boolean getFlickering()
-	// {
-	// 	return _flickerTimer != 0;
-	// }
+	/**
+	 * Retrieve the midpoint of this object in world coordinates.
+	 * 
+	 * @Point	Allows you to pass in an existing <code>SpiPoint</code> object if you're so inclined.  Otherwise a new one is created.
+	 * 
+	 * @return	A <code>SpiPoint</code> object containing the midpoint of this object in world coordinates.
+	 */
+	public function getMidpoint(Point:SpiPoint = null):SpiPoint
+	{
+		if(Point == null)
+			Point = _point;
+		Point.x = x + width * 0.5;
+		Point.y = y + height * 0.5;
+		return Point;
+	}
 	
-	// /**
-	//  * Whether the object collides or not.  For more control over what directions
-	//  * the object will collide from, use collision constants (like LEFT, FLOOR, etc)
-	//  * to set the value of allowCollisions directly.
-	//  */
-	// public boolean getSolid()
-	// {
-	// 	return (allowCollisions & ANY) > NONE;
-	// }
+	/**
+	 * Handy method for reviving game objects.
+	 * Resets their existence flags and position.
+	 * 
+	 * @param	X	The new X position of this object.
+	 * @param	Y	The new Y position of this object.
+	 */
+	public function reset(X:Float, Y:Float):Void
+	{
+		revive();
+		touching = NONE;
+		touchingLastFrame = NONE;
+		x = X;
+		y = Y;
+		last.x = x;
+		last.y = y;
+		velocity.x = 0;
+		velocity.y = 0;
+	}
 	
-	// /**
-	//  * @private
-	//  */
-	// public void setSolid(boolean Solid)
-	// {
-	// 	if(Solid)
-	// 		allowCollisions = ANY;
-	// 	else
-	// 		allowCollisions = NONE;
-	// }
+	/**
+	 * Handy method for checking if this object is touching a particular surface.
+	 * For slightly better performance you can just &amp; the value directly into <code>touching</code>.
+	 * However, this method is good for readability and accessibility.
+	 * 
+	 * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
+	 * 
+	 * @return	Whether the object is touching an object in (any of) the specified direction(s) this frame.
+	 */
+	public function isTouching(Direction:Int):Bool
+	{
+		return (touching & Direction) > NONE;
+	}
 	
-	// /**
-	//  * Retrieve the midpoint of this object in world coordinates.
-	//  * 
-	//  * @Point	Allows you to pass in an existing <code>SpiPoint</code> object if you're so inclined.  Otherwise a new one is created.
-	//  * 
-	//  * @return	A <code>SpiPoint</code> object containing the midpoint of this object in world coordinates.
-	//  */
-	// public SpiPoint getMidpoint(SpiPoint Point)
-	// {
-	// 	if(Point == null)
-	// 		Point = _point;
-	// 	Point.x = x + width * 0.5f;
-	// 	Point.y = y + height * 0.5f;
-	// 	return Point;
-	// }
+	/**
+	 * Handy method for checking if this object touched a particular surface in this exact call to separate.<br>
+	 * For slightly better performance you can just &amp; the value directly into <code>_lastTouching</code>.<br>
+	 * However, this method is good for readability and accessibility.<br>
+	 * This should be used inside postCollision or inside the process callbacks.
+	 * 
+	 * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
+	 * 
+	 * @return	Whether the object is touched an object in (any of) the specified direction(s) this call to separate.
+	 */
+	public function justTouching(Direction:Int):Bool
+	{
+		return (_lastTouching & Direction) > NONE;
+	}
 	
-	// /**
-	//  * Retrieve the midpoint of this object in world coordinates.
-	//  * 
-	//  * @Point	Allows you to pass in an existing <code>SpiPoint</code> object if you're so inclined.  Otherwise a new one is created.
-	//  */ 
-	// public SpiPoint getMidpoint()
-	// {
-	// 	return getMidpoint(null);
-	// }
+	/**
+	 * Handy method for checking if this object was touching a particular surface.
+	 * For slightly better performance you can just &amp; the value directly into <code>touchingLastFrame</code>.
+	 * However, this method is good for readability and accessibility.
+	 * 
+	 * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
+	 * 
+	 * @return	Whether the object was touching an object in (any of) the specified direction(s) the previous frame.
+	 */
+	public function wasTouching(Direction:Int):Bool
+	{
+		return (touchingLastFrame & Direction) > NONE;
+	}
 	
-	// /**
-	//  * Handy method for reviving game objects.
-	//  * Resets their existence flags and position.
-	//  * 
-	//  * @param	X	The new X position of this object.
-	//  * @param	Y	The new Y position of this object.
-	//  */
-	// public void reset(float X, float Y)
-	// {
-	// 	revive();
-	// 	touching = NONE;
-	// 	wasTouching = NONE;
-	// 	x = X;
-	// 	y = Y;
-	// 	last.x = x;
-	// 	last.y = y;
-	// 	velocity.x = 0;
-	// 	velocity.y = 0;
-	// }
+	/**
+	 * Handy method for checking if this object is just landed on a particular surface.
+	 * 
+	 * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
+	 * 
+	 * @return	Whether the object just landed on (any of) the specified surface(s) this frame.
+	 */
+	public function justTouched(Direction:Int):Bool
+	{
+		return ((touching & Direction) > NONE) && ((touchingLastFrame & Direction) <= NONE);
+	}
 	
-	// /**
-	//  * Handy method for checking if this object is touching a particular surface.
-	//  * For slightly better performance you can just &amp; the value directly into <code>touching</code>.
-	//  * However, this method is good for readability and accessibility.
-	//  * 
-	//  * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
-	//  * 
-	//  * @return	Whether the object is touching an object in (any of) the specified direction(s) this frame.
-	//  */
-	// public boolean isTouching(int Direction)
-	// {
-	// 	return (touching & Direction) > NONE;
-	// }
-	
-	// /**
-	//  * Handy method for checking if this object touched a particular surface in this exact call to separate.<br>
-	//  * For slightly better performance you can just &amp; the value directly into <code>_lastTouching</code>.<br>
-	//  * However, this method is good for readability and accessibility.<br>
-	//  * This should be used inside postCollision or inside the process callbacks.
-	//  * 
-	//  * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
-	//  * 
-	//  * @return	Whether the object is touched an object in (any of) the specified direction(s) this call to separate.
-	//  */
-	// public boolean justTouching(int Direction)
-	// {
-	// 	return (_lastTouching & Direction) > NONE;
-	// }
-	
-	// /**
-	//  * Handy method for checking if this object was touching a particular surface.
-	//  * For slightly better performance you can just &amp; the value directly into <code>wasTouching</code>.
-	//  * However, this method is good for readability and accessibility.
-	//  * 
-	//  * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
-	//  * 
-	//  * @return	Whether the object was touching an object in (any of) the specified direction(s) the previous frame.
-	//  */
-	// public boolean wasTouching(int Direction)
-	// {
-	// 	return (wasTouching & Direction) > NONE;
-	// }
-	
-	// /**
-	//  * Handy method for checking if this object is just landed on a particular surface.
-	//  * 
-	//  * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
-	//  * 
-	//  * @return	Whether the object just landed on (any of) the specified surface(s) this frame.
-	//  */
-	// public boolean justTouched(int Direction)
-	// {
-	// 	return ((touching & Direction) > NONE) && ((wasTouching & Direction) <= NONE);
-	// }
-	
-	// /**
-	//  * Reduces the "health" variable of this sprite by the amount specified in Damage.
-	//  * Calls kill() if health drops to or below zero.
-	//  * 
-	//  * @param	Damage		How much health to take away (use a negative number to give a health bonus).
-	//  */
-	// public void hurt(float Damage)
-	// {
-	// 	health = health - Damage;
-	// 	if(health <= 0)
-	// 		kill();
-	// }
+	/**
+	 * Reduces the "health" variable of this sprite by the amount specified in Damage.
+	 * Calls kill() if health drops to or below zero.
+	 * 
+	 * @param	Damage		How much health to take away (use a negative number to give a health bonus).
+	 */
+	public function hurt(Damage:Float):Void
+	{
+		health = health - Damage;
+		if(health <= 0)
+			kill();
+	}
 
 	// /**
 	//  * The main collision resolution method in spiller.

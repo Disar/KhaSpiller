@@ -443,48 +443,48 @@ class SpiRandom
 	private static inline var MULTIPLIER:Float = 48271.0;
 	private static inline var MODULUS:Int = SpiMath.MAX_VALUE_INT;
 	
-	// #if FLX_RECORD
-	// /**
-	//  * Internal storage for the seed used to generate the most recent state.
-	//  */
-	// private static var _stateSeed:Int = 1;
+	#if SPI_RECORD_REPLAY
+	/**
+	 * Internal storage for the seed used to generate the most recent state.
+	 */
+	private static var _stateSeed:Int = 1;
 	
-	// /**
-	//  * The seed to be used by the recording requested in SpiGame.
-	//  */
-	// private static var _recordingSeed:Int = 1;
+	/**
+	 * The seed to be used by the recording requested in SpiGame.
+	 */
+	private static var _recordingSeed:Int = 1;
 	
-	// /**
-	//  * Update the seed that was used to create the most recent state.
-	//  * Called by SpiGame, needed for replays.
-	//  * 
-	//  * @return  The new value of the state seed.
-	//  */
-	// @:allow(spiller.SpiGame.switchState)
-	// private static inline function updateStateSeed():Int
-	// {
-	// 	return _stateSeed = SpiG.random.currentSeed;
-	// }
+	/**
+	 * Update the seed that was used to create the most recent state.
+	 * Called by SpiGame, needed for replays.
+	 * 
+	 * @return  The new value of the state seed.
+	 */
+	@:allow(spiller.SpiGame.switchState)
+	private static inline function updateStateSeed():Int
+	{
+		return _stateSeed = SpiG.random.currentSeed;
+	}
 	
-	// /**
-	//  * Used to store the seed for a requested recording. If StandardMode is false, this will also reset the global seed!
-	//  * This ensures that the state is created in the same way as just before the recording was requested.
-	//  * 
-	//  * @param   StandardMode   If true, entire game will be reset, else just the current state will be reset.
-	//  */
-	// @:allow(spiller.system.frontEnds.VCRFrontEnd.startRecording)
-	// private static inline function updateRecordingSeed(StandardMode:Bool = true):Int
-	// {
-	// 	return _recordingSeed = SpiG.random.initialSeed = StandardMode ? SpiG.random.initialSeed : _stateSeed;
-	// }
+	/**
+	 * Used to store the seed for a requested recording. If StandardMode is false, this will also reset the global seed!
+	 * This ensures that the state is created in the same way as just before the recording was requested.
+	 * 
+	 * @param   StandardMode   If true, entire game will be reset, else just the current state will be reset.
+	 */
+	@:allow(spiller.system.frontEnds.VCRFrontEnd.startRecording)
+	private static inline function updateRecordingSeed(StandardMode:Bool = true):Int
+	{
+		return _recordingSeed = SpiG.random.initialSeed = StandardMode ? SpiG.random.initialSeed : _stateSeed;
+	}
 	
-	// /**
-	//  * Returns the seed to use for the requested recording.
-	//  */
-	// @:allow(spiller.SpiGame.step)
-	// private static inline function getRecordingSeed():Int
-	// {
-	// 	return _recordingSeed;
-	// }
-	// #end
+	/**
+	 * Returns the seed to use for the requested recording.
+	 */
+	@:allow(spiller.SpiGame.step)
+	private static inline function getRecordingSeed():Int
+	{
+		return _recordingSeed;
+	}
+	#end
 }

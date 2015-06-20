@@ -2,17 +2,12 @@
 
 First we log into our GitLab server and go to
 <pre lang="bash">
-/var/opt/gitlab/git-data/repositories/<group>/<project>.git.
+/var/opt/gitlab/git-data/repositories/"group"/"project".git.
 </pre>
 
 Then we add a mirror to our gitlab git
 <pre lang="bash">
 git remote add --mirror github git@github.com:ratalaika/KhaSpiller.git
-</pre>
-
-After that we make a backup of the post-recive hook
-<pre lang="bash">
-mv post-revice post-recive.back
 </pre>
 
 Now we create our file using this
@@ -22,6 +17,7 @@ echo "exec git push --quiet github &" >> post-receive
 
 And grant him permisions
 <pre lang="bash">
+chown git:git post-receive
 chmod 755 post-receive
 </pre>
 
@@ -43,5 +39,5 @@ Host github.com
 
 For end we make a small comit on the client a execute the post-recive by hand to verify that the access are right
 <pre lang="bash">
-./hooks/post-receive
+./custom_hooks/post-receive
 </pre>

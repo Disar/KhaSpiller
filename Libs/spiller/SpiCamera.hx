@@ -1,14 +1,11 @@
 package spiller;
 
-// import com.badlogic.gdx.Gdx;
-// import com.badlogic.gdx.Application.ApplicationType;
-// import com.badlogic.gdx.graphics.GL20;
-// import com.badlogic.gdx.graphics.OrthographicCamera;
-// import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-// import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import spiller.math.SpiPoint;
+import spiller.math.SpiRect;
+import spiller.system.flash.SpiGameStage;
+import spiller.util.SpiDestroyUtil;
 
-// import spiller.system.flash.SpiGameStage;
-// import spiller.util.SpiDestroyUtil;
+typedef CameraCallback = Void->Void;
 
 /**
  * The camera class is used to display the game's visuals in the Flash player.<br>
@@ -77,293 +74,264 @@ class SpiCamera extends SpiBasic
 	 * Camera "scale" mode preset: Stretches the game to fill the entire screen.
 	 */
 	public static inline var STRETCH:Int = 3;
-	// /**
-	//  * The time between checks for stop following the object.<br>
-	//  * Default 0.1sec.
-	//  */
-	// public static float stopFollowTimeCheck = 0.1f;
-	// /**
-	//  * The margin to stop following the object.<br>
-	//  * Default 10px.
-	//  */
-	// public static float stopFollowMargin = 10;
-	// /**
-	//  * While you can alter the zoom of each camera after the fact,
-	//  * this variable determines what value the camera will start at when created.
-	//  */
-	// public static float defaultZoom;
-	// /**
-	//  * While you can alter the scale mode of each camera after the fact,
-	//  * this variable determines what value the camera will start at when created.
-	//  */
-	// public static int defaultScaleMode;
-	// /**
-	//  * The X position of this camera's display.  Zoom does NOT affect this number.
-	//  * Measured in pixels from the left side of the flash window.
-	//  */
-	// public float x;
-	// /**
-	//  * The Y position of this camera's display.  Zoom does NOT affect this number.
-	//  * Measured in pixels from the top of the flash window.
-	//  */
-	// public float y;
-	// /**
-	//  * How wide the camera display is, in game pixels.
-	//  */
-	// public int width;
-	// /**
-	//  * How tall the camera display is, in game pixels.
-	//  */
-	// public int height;
-	// /**
-	//  * Tells the camera to follow this <code>SpiObject</code> object around.
-	//  */
-	// public SpiObject target;
-	// /**
-	//  * Used to smoothly track the camera as it follows.
-	//  */
-	// public float followLerp = 0;
-	// /**
-	//  * You can assign a "dead zone" to the camera in order to better control its movement.
-	//  * The camera will always keep the focus object inside the dead zone,
-	//  * unless it is bumping up against the bounds rectangle's edges.
-	//  * The deadzone's coordinates are measured from the camera's upper left corner in game pixels.
-	//  * For rapid prototyping, you can use the preset deadzones (e.g. <code>STYLE_PLATFORMER</code>) with <code>follow()</code>.
-	//  */
-	// public SpiRect deadzone;
-	// /**
-	//  * The edges of the camera's range, i.e. where to stop scrolling.
-	//  * Measured in game pixels and world coordinates.
-	//  */
-	// public SpiRect bounds;
-	// /**
-	//  * Stores the basic parallax scrolling values.
-	//  */
-	// public SpiPoint scroll;
-	// /**
-	//  * The actual libgdx camera.
-	//  */
-	// private OrthographicCamera glCamera;
-	// /**
-	//  * The natural background color of the camera. Defaults to SpiG.bgColor.
-	//  * NOTE: can be transparent for crazy FX!
-	//  */
-	// public int bgColor;
-	// /**
-	//  * Indicates how far the camera is zoomed in.
-	//  */
-	// private float _zoom;
-	// /**
-	//  * Decides how spiller handles different screen sizes.
-	//  */
-	// private int _scaleMode;
-	// public float _screenScaleFactorX;
-	// public float _screenScaleFactorY;
-	// public int viewportWidth;
-	// public int viewportHeight;
-	// /**
-	//  * Internal, to help avoid costly allocations.
-	//  */
-	// private SpiPoint _point;
-	// /**
-	//  * Internal, help with color transforming the flash bitmap.
-	//  */
-	// private int _color;
-	// /**
-	//  * Internal, used to render buffer to screen space.
-	//  */
-	// float _flashOffsetX;
-	// /**
-	//  * Internal, used to render buffer to screen space.
-	//  */
-	// float _flashOffsetY;
-	// /**
-	//  * Internal, used to control the "flash" special effect.
-	//  */
-	// private int _fxFlashColor;
-	// /**
-	//  * Internal, used to control the "flash" special effect.
-	//  */
-	// private float _fxFlashDuration;
-	// /**
-	//  * Internal, used to control the "flash" special effect.
-	//  */
-	// private ISpiCamera _fxFlashComplete;
-	// /**
-	//  * Internal, used to control the "flash" special effect.
-	//  */
-	// private float _fxFlashAlpha;
-	// /**
-	//  * Internal, used to control the "fade" special effect.
-	//  */
-	// private int _fxFadeColor;
-	// /**
-	//  * Internal, used to control the "fade" special effect.
-	//  */
-	// private float _fxFadeDuration;
-	// /**
-	//  * Internal, used to control the "fade" special effect.
-	//  */
-	// private ISpiCamera _fxFadeComplete;
-	// /**
-	//  * Internal, used to control the "fade" special effect.
-	//  */
-	// private float _fxFadeAlpha;
-	// /**
- //     * Internal, used to control the "fade" special effect.
- //     */
- //    private boolean _fxFadeIn;
-	// /**
-	//  * Internal, used to control the "shake" special effect.
-	//  */
-	// private float _fxShakeIntensity;
-	// /**
-	//  * Internal, used to control the "shake" special effect.
-	//  */
-	// private float _fxShakeDuration;
-	// /**
-	//  * Internal, used to control the "shake" special effect.
-	//  */
-	// private ISpiCamera _fxShakeComplete;
-	// /**
-	//  * Internal, used to control the "shake" special effect.
-	//  */
-	// private SpiPoint _fxShakeOffset;
-	// /**
-	//  * Internal, used to control the "shake" special effect.
-	//  */
-	// private int _fxShakeDirection;
-	// /**
-	//  * Internal helper to store the angle of the camera.
-	//  */
-	// private float _angle;
-	// /**
-	//  * Internal helper to store the alpha value of the camera.
-	//  */
-	// private float _alpha;
-	// /**
-	//  * Tells the camera to use this following style.
-	//  */
-	// private int _style;
-	// /**
-	//  * If we want to use the zoom offset for the bound calculation.
-	//  */
-	// private boolean _useZoomOffsetForBounds;
-	// /**
-	//  * Used to calculate the following target current velocity.
-	//  */
-	// private SpiPoint _lastTargetPosition;
-	// /**
-	//  * Helper to calculate follow target current scroll.
-	//  */
-	// private SpiPoint _scrollTarget;
-	// /**
-	//  * Used to force the camera to look ahead of the target.
-	//  */
-	// public SpiPoint followLead;
-	// /**
-	//  * If we stop the camera when reaching the object.
-	//  */
-	// private boolean _stopReach;
-	// /**
-	//  * The last scroll position.
-	//  */
-	// private SpiPoint _lastScroll;
-	// /**
-	//  * Counter for stop follow checks.
-	//  */
-	// private float _stopFollowCounter;
-	// /**
-	//  * The amount we need to move the camera to center on the screen.
-	//  */
-	// private SpiPoint _offsetFullscreen;
+	/**
+	 * The time between checks for stop following the object.<br>
+	 * Default 0.1sec.
+	 */
+	public static var stopFollowTimeCheck:Float = 0.1;
+	/**
+	 * The margin to stop following the object.<br>
+	 * Default 10px.
+	 */
+	public static var stopFollowMargin:Float = 10;
+	/**
+	 * While you can alter the zoom of each camera after the fact,
+	 * this variable determines what value the camera will start at when created.
+	 */
+	public static var defaultZoom:Float;
+	/**
+	 * While you can alter the scale mode of each camera after the fact,
+	 * this variable determines what value the camera will start at when created.
+	 */
+	public static var defaultScaleMode:Int;
+	/**
+	 * The X position of this camera's display.  Zoom does NOT affect this number.
+	 * Measured in pixels from the left side of the flash window.
+	 */
+	public var x:Float;
+	/**
+	 * The Y position of this camera's display.  Zoom does NOT affect this number.
+	 * Measured in pixels from the top of the flash window.
+	 */
+	public var y:Float;
+	/**
+	 * How wide the camera display is, in game pixels.
+	 */
+	public var width:Int;
+	/**
+	 * How tall the camera display is, in game pixels.
+	 */
+	public var height:Int;
+	/**
+	 * Tells the camera to follow this <code>SpiObject</code> object around.
+	 */
+	public var target:SpiObject;
+	/**
+	 * Used to smoothly track the camera as it follows.
+	 */
+	public var followLerp:Float = 0;
+	/**
+	 * You can assign a "dead zone" to the camera in order to better control its movement.
+	 * The camera will always keep the focus object inside the dead zone,
+	 * unless it is bumping up against the bounds rectangle's edges.
+	 * The deadzone's coordinates are measured from the camera's upper left corner in game pixels.
+	 * For rapid prototyping, you can use the preset deadzones (e.g. <code>STYLE_PLATFORMER</code>) with <code>follow()</code>.
+	 */
+	public var deadzone:SpiRect;
+	/**
+	 * The edges of the camera's range, i.e. where to stop scrolling.
+	 * Measured in game pixels and world coordinates.
+	 */
+	public var bounds:SpiRect;
+	/**
+	 * Stores the basic parallax scrolling values.
+	 */
+	public var scroll:SpiPoint;
+	/**
+	 * The natural background color of the camera. Defaults to SpiG.bgColor.
+	 * NOTE: can be transparent for crazy FX!
+	 */
+	public var bgColor:Int;
+	/**
+	 * Indicates how far the camera is zoomed in.
+	 */
+	private var _zoom:Float;
+	/**
+	 * Decides how spiller handles different screen sizes.
+	 */
+	private var _scaleMode:Int;
+	public var _screenScaleFactorX:Float;
+	public var _screenScaleFactorY:Float;
+	public var viewportWidth:Int;
+	public var viewportHeight:Int;
+	/**
+	 * Internal, to help avoid costly allocations.
+	 */
+	private var _point:SpiPoint;
+	/**
+	 * Internal, help with color transforming the flash bitmap.
+	 */
+	private var _color:Int;
+	/**
+	 * Internal, used to render buffer to screen space.
+	 */
+	var _flashOffsetX:Float;
+	/**
+	 * Internal, used to render buffer to screen space.
+	 */
+	var _flashOffsetY:Float;
+	/**
+	 * Internal, used to control the "flash" special effect.
+	 */
+	private var _fxFlashColor:Int;
+	/**
+	 * Internal, used to control the "flash" special effect.
+	 */
+	private var _fxFlashDuration:Float;
+	/**
+	 * Internal, used to control the "flash" special effect.
+	 */
+	private var _fxFlashComplete:CameraCallback;
+	/**
+	 * Internal, used to control the "flash" special effect.
+	 */
+	private var _fxFlashAlpha:Float;
+	/**
+	 * Internal, used to control the "fade" special effect.
+	 */
+	private var _fxFadeColor:Int;
+	/**
+	 * Internal, used to control the "fade" special effect.
+	 */
+	private var _fxFadeDuration:Float;
+	/**
+	 * Internal, used to control the "fade" special effect.
+	 */
+	private var _fxFadeComplete:CameraCallback;
+	/**
+	 * Internal, used to control the "fade" special effect.
+	 */
+	private var _fxFadeAlpha:Float;
+	/**
+     * Internal, used to control the "fade" special effect.
+     */
+    private var _fxFadeIn:Bool;
+	/**
+	 * Internal, used to control the "shake" special effect.
+	 */
+	private var _fxShakeIntensity:Float;
+	/**
+	 * Internal, used to control the "shake" special effect.
+	 */
+	private var _fxShakeDuration:Float;
+	/**
+	 * Internal, used to control the "shake" special effect.
+	 */
+	private var _fxShakeComplete:CameraCallback;
+	/**
+	 * Internal, used to control the "shake" special effect.
+	 */
+	private var _fxShakeOffset:SpiPoint;
+	/**
+	 * Internal, used to control the "shake" special effect.
+	 */
+	private var _fxShakeDirection:Int;
+	/**
+	 * Internal helper to store the angle of the camera.
+	 */
+	private var _angle:Float;
+	/**
+	 * Internal helper to store the alpha value of the camera.
+	 */
+	private var _alpha:Float;
+	/**
+	 * Tells the camera to use this following style.
+	 */
+	private var _style:Int;
+	/**
+	 * If we want to use the zoom offset for the bound calculation.
+	 */
+	private var _useZoomOffsetForBounds:Bool;
+	/**
+	 * Used to calculate the following target current velocity.
+	 */
+	private var _lastTargetPosition:SpiPoint;
+	/**
+	 * Helper to calculate follow target current scroll.
+	 */
+	private var _scrollTarget:SpiPoint;
+	/**
+	 * Used to force the camera to look ahead of the target.
+	 */
+	public var followLead:SpiPoint;
+	/**
+	 * If we stop the camera when reaching the object.
+	 */
+	private var _stopReach:Bool;
+	/**
+	 * The last scroll position.
+	 */
+	private var _lastScroll:SpiPoint;
+	/**
+	 * Counter for stop follow checks.
+	 */
+	private var _stopFollowCounter:Float;
+	/**
+	 * The amount we need to move the camera to center on the screen.
+	 */
+	private var _offsetFullscreen:SpiPoint;
 
-	// /**
-	//  * Instantiates a new camera at the specified location, with the specified size and zoom level.
-	//  * 
-	//  * @param X			X location of the camera's display in pixels. Uses native, 1:1 resolution, ignores zoom.
-	//  * @param Y			Y location of the camera's display in pixels. Uses native, 1:1 resolution, ignores zoom.
-	//  * @param Width		The width of the camera display in pixels.
-	//  * @param Height	The height of the camera display in pixels.
-	//  * @param Zoom		The initial zoom level of the camera.  A zoom level of 2 will make all pixels display at 2x resolution.
-	//  * @param ScaleMode	The initial scale mode of the camera.
-	//  */
-	// public SpiCamera(int X, int Y, int Width, int Height, float Zoom, int ScaleMode)
-	// {
-	// 	x = X;
-	// 	y = Y;
-	// 	width = Width;
-	// 	height = Height;
-	// 	target = null;
-	// 	deadzone = null;
-	// 	scroll = SpiPoint.get();
-	// 	_point = SpiPoint.get();
-	// 	bounds = null;
-	// 	glCamera = new OrthographicCamera();						
-	// 	bgColor = SpiG.getBgColor();
-	// 	_color = 0xFFFFFF;
-	// 	_alpha = 1.0f;
-	// 	_useZoomOffsetForBounds = false;
-	// 	_scrollTarget = SpiPoint.get();
-	// 	followLead = SpiPoint.get();
-	// 	_offsetFullscreen = SpiPoint.get();
+	/**
+	 * Instantiates a new camera at the specified location, with the specified size and zoom level.
+	 * 
+	 * @param X			X location of the camera's display in pixels. Uses native, 1:1 resolution, ignores zoom.
+	 * @param Y			Y location of the camera's display in pixels. Uses native, 1:1 resolution, ignores zoom.
+	 * @param Width		The width of the camera display in pixels.
+	 * @param Height	The height of the camera display in pixels.
+	 * @param Zoom		The initial zoom level of the camera.  A zoom level of 2 will make all pixels display at 2x resolution.
+	 * @param ScaleMode	The initial scale mode of the camera.
+	 */
+	public function new(X:Int, Y:Int, Width:Int, Height:Int, Zoom:Float = 0, ScaleMode:Int = STRETCH)
+	{
+		super();
+
+		x = X;
+		y = Y;
+		width = Width;
+		height = Height;
+		target = null;
+		deadzone = null;
+		scroll = SpiPoint.get();
+		_point = SpiPoint.get();
+		bounds = null;
+		// glCamera = new OrthographicCamera();						
+		bgColor = SpiG.getBgColor();
+		_color = 0xFFFFFF;
+		_alpha = 1.0;
+		_useZoomOffsetForBounds = false;
+		_scrollTarget = SpiPoint.get();
+		followLead = SpiPoint.get();
+		_offsetFullscreen = SpiPoint.get();
 		
-	// 	setScaleMode(ScaleMode);
-	// 	setZoom(Zoom); //sets the scale of flash sprite, which in turn loads flashoffset values
-	// 	_flashOffsetX = glCamera.position.x - _offsetFullscreen.x;
-	// 	_flashOffsetY = glCamera.position.y - _offsetFullscreen.y;
+		setScaleMode(ScaleMode);
+		setZoom(Zoom); //sets the scale of flash sprite, which in turn loads flashoffset values
+		// _flashOffsetX = glCamera.position.x - _offsetFullscreen.x;
+		// _flashOffsetY = glCamera.position.y - _offsetFullscreen.y;
 
-	// 	glCamera.position.x = _flashOffsetX - (x / getZoom());
-	// 	glCamera.position.y = _flashOffsetY - (y / getZoom());
+		// glCamera.position.x = _flashOffsetX - (x / getZoom());
+		// glCamera.position.y = _flashOffsetY - (y / getZoom());
 
-	// 	_fxFlashColor = 0;
-	// 	_fxFlashDuration = 0.0f;
-	// 	_fxFlashComplete = null;
-	// 	_fxFlashAlpha = 0.0f;
+		_fxFlashColor = 0;
+		_fxFlashDuration = 0.0;
+		_fxFlashComplete = null;
+		_fxFlashAlpha = 0.0;
 		
-	// 	_fxFadeColor = 0;
-	// 	_fxFadeDuration = 0.0f;
-	// 	_fxFadeComplete = null;
-	// 	_fxFadeAlpha = 0.0f;
-	// 	_fxFadeIn = false;
+		_fxFadeColor = 0;
+		_fxFadeDuration = 0.0;
+		_fxFadeComplete = null;
+		_fxFadeAlpha = 0.0;
+		_fxFadeIn = false;
 		
-	// 	_fxShakeIntensity = 0.0f;
-	// 	_fxShakeDuration = 0.0f;
-	// 	_fxShakeComplete = null;
-	// 	_fxShakeOffset = SpiPoint.get();
-	// 	_fxShakeDirection = 0;
+		_fxShakeIntensity = 0.0;
+		_fxShakeDuration = 0.0;
+		_fxShakeComplete = null;
+		_fxShakeOffset = SpiPoint.get();
+		_fxShakeDirection = 0;
 
-	// 	_style = -1;
-	// 	_lastScroll = SpiPoint.get();
-	// }
+		_style = -1;
+		_lastScroll = SpiPoint.get();
+	}
 
-	// /**
-	//  * Instantiates a new camera at the specified location, with the specified size and zoom level.
-	//  * 
-	//  * @param X			X location of the camera's display in pixels. Uses native, 1:1 resolution, ignores zoom.
-	//  * @param Y			Y location of the camera's display in pixels. Uses native, 1:1 resolution, ignores zoom.
-	//  * @param Width		The width of the camera display in pixels.
-	//  * @param Height	The height of the camera display in pixels.
-	//  * @param Zoom		The initial zoom level of the camera.  A zoom level of 2 will make all pixels display at 2x resolution.
-	//  */
-	// public SpiCamera(int X, int Y, int Width, int Height, float Zoom)
-	// {
-	// 	this(X, Y, Width, Height, Zoom, 0);
-	// }
-		
-	// /**
-	//  * Instantiates a new camera at the specified location, with the specified size and zoom level.
-	//  * 
-	//  * @param X			X location of the camera's display in pixels. Uses native, 1:1 resolution, ignores zoom.
-	//  * @param Y			Y location of the camera's display in pixels. Uses native, 1:1 resolution, ignores zoom.
-	//  * @param Width		The width of the camera display in pixels.
-	//  * @param Height	The height of the camera display in pixels.
-	//  */
-	// public SpiCamera(int X, int Y, int Width, int Height)
-	// {
-	// 	this(X, Y, Width, Height, 0, 0);
-	// }
-	
 	// /**
 	//  * Clean up memory.
 	//  */
@@ -1044,181 +1012,178 @@ class SpiCamera extends SpiBasic
 	// 	return this;
 	// }
 	
-	// /**
-	//  * The zoom level of this camera. 1 = 1:1, 2 = 2x zoom, etc.
-	//  */
-	// public float getZoom()
-	// {
-	// 	return _zoom;
-	// }
+	/**
+	 * The zoom level of this camera. 1 = 1:1, 2 = 2x zoom, etc.
+	 */
+	public function getZoom():Float
+	{
+		return _zoom;
+	}
 	
-	// /**
-	//  * @private
-	//  */
-	// public void setZoom(float Zoom)
-	// {
-	// 	if(Zoom == 0)
-	// 		_zoom = defaultZoom;
-	// 	else
-	// 		_zoom = Zoom;
-	// 	setScale(_zoom, _zoom);
-	// }
+	/**
+	 * @private
+	 */
+	public function setZoom(Zoom:Float):Void
+	{
+		if(Zoom == 0)
+			_zoom = defaultZoom;
+		else
+			_zoom = Zoom;
+		setScale(_zoom, _zoom);
+	}
 	
-	// /**
-	//  * The scale mode of this camera.
-	//  */
-	// public int getScaleMode()
-	// {
-	// 	return _scaleMode;
-	// }
+	/**
+	 * The scale mode of this camera.
+	 */
+	public function getScaleMode():Int
+	{
+		return _scaleMode;
+	}
 	
-	// /**
-	//  * @private
-	//  */
-	// public void setScaleMode(int ScaleMode)
-	// {
-	// 	if(ScaleMode == 0)
-	// 		_scaleMode = defaultScaleMode;
-	// 	else
-	// 		_scaleMode = ScaleMode;
-	// 	setScale(_zoom, _zoom);
-	// }
+	/**
+	 * @private
+	 */
+	public function setScaleMode(ScaleMode:Int):Void
+	{
+		if(ScaleMode == 0)
+			_scaleMode = defaultScaleMode;
+		else
+			_scaleMode = ScaleMode;
+		setScale(_zoom, _zoom);
+	}
 	
-	// /**
-	//  * The alpha value of this camera display (a Number between 0.0 and 1.0).
-	//  */
-	// public float getAlpha()
-	// {
-	// 	return _alpha;
-	// }
+	/**
+	 * The alpha value of this camera display (a Number between 0.0 and 1.0).
+	 */
+	public function getAlpha():Float
+	{
+		return _alpha;
+	}
 	
-	// /**
-	//  * @private
-	//  */ 
-	// public void setAlpha(float Alpha)
-	// {		
-	// 	_alpha = Alpha;
-	// }
+	/**
+	 * @private
+	 */ 
+	public function setAlpha(Alpha:Float):Void
+	{		
+		_alpha = Alpha;
+	}
 	
-	// /**
-	//  * The angle of the camera display (in degrees).
-	//  * Currently yields weird display results,
-	//  * since cameras aren't nested in an extra display object yet.
-	//  */
-	// public float getAngle()
-	// {
-	// 	return _angle;
-	// }
+	/**
+	 * The angle of the camera display (in degrees).
+	 * Currently yields weird display results,
+	 * since cameras aren't nested in an extra display object yet.
+	 */
+	public function getAngle():Float
+	{
+		return _angle;
+	}
 
-	// /**
-	//  * @private
-	//  */
-	// public void setAngle(float Angle)
-	// {
-	// 	_angle = Angle;
-	// 	glCamera.rotate(Angle, 0, 0, 1);
-	// }
+	/**
+	 * @private
+	 */
+	public function setAngle(Angle:Float):Void
+	{
+		_angle = Angle;
+		// glCamera.rotate(Angle, 0, 0, 1);
+	}
 	
-	// /**
-	//  * The color tint of the camera display. 
-	//  */
-	// public int getColor()
-	// {
-	// 	return _color;
-	// }
+	/**
+	 * The color tint of the camera display. 
+	 */
+	public function getColor():Int
+	{
+		return _color;
+	}
 	
-	// /**
-	//  * @private
-	//  */
-	// public void setColor(int Color)
-	// {
-	// 	_color = Color;
-	// }
+	/**
+	 * @private
+	 */
+	public function setColor(Color:Int)
+	{
+		_color = Color;
+	}
 	
-	// /**
-	//  * Whether the camera display is smooth and filtered, or chunky and pixelated.
-	//  * Default behavior is chunky-style.
-	//  */
-	// public boolean getAntialiasing()
-	// {
-	// 	return true;
-	// }
+	/**
+	 * Whether the camera display is smooth and filtered, or chunky and pixelated.
+	 * Default behavior is chunky-style.
+	 */
+	public function getAntialiasing():Bool
+	{
+		return true;
+	}
 
-	// /**
-	//  * @private
-	//  */
-	// public void setAntialiasing(boolean Antialiasing)
-	// {
+	/**
+	 * @private
+	 */
+	public function setAntialiasing(Antialiasing:Bool):Void
+	{
 		
-	// }
+	}
 	
-	// /**
-	//  * The scale of the camera object, irrespective of zoom.
-	//  * Currently yields weird display results,
-	//  * since cameras aren't nested in an extra display object yet.
-	//  */
-	// public SpiPoint getScale()
-	// {
-	// 	SpiGameStage stage = SpiG.getStage();
-	// 	return _point.make(stage.stageWidth/glCamera.viewportWidth,stage.stageHeight/glCamera.viewportHeight);
-	// }
+	/**
+	 * The scale of the camera object, irrespective of zoom.
+	 * Currently yields weird display results,
+	 * since cameras aren't nested in an extra display object yet.
+	 */
+	public function getScale():SpiPoint
+	{
+		var stage:SpiGameStage = SpiG.getStage();
+		return null;
+		//TODO return _point.make(stage.stageWidth / glCamera.viewportWidth, stage.stageHeight / glCamera.viewportHeight);
+	}
 	
-	// /**
-	//  * @private
-	//  */
-	// public void setScale(float X, float Y)
-	// {
-	// 	// Do nothing if any of the values is 0
-	// 	if(X == 0 || Y == 0)
-	// 		return;
+	/**
+	 * @private
+	 */
+	public function setScale(X:Float, Y:Float):Void
+	{
+		// Do nothing if any of the values is 0
+		if(X == 0 || Y == 0)
+			return;
 		
-	// 	SpiGameStage stage = SpiG.getStage();
-	// 	float screenAspectRatio = SpiG.screenWidth / (float)SpiG.screenHeight;
+		var stage:SpiGameStage = SpiG.getStage();
+		var screenAspectRatio:Float = SpiG.screenWidth / SpiG.screenHeight;
 
-	// 	switch(_scaleMode)
-	// 	{
-	// 		case NO_SCALE:
-	// 			_screenScaleFactorY = 1;
-	// 			_screenScaleFactorX = 1;
-	// 			viewportWidth = (int) (SpiG.screenWidth/X);
-	// 			viewportHeight = (int) (SpiG.screenHeight/Y);
-	// 			break;
-	// 		default:
-	// 		case STRETCH:
-	// 			_screenScaleFactorY = (float)SpiG.screenHeight / stage.stageHeight;
-	// 			_screenScaleFactorX = (float)SpiG.screenWidth / stage.stageWidth;
-	// 			viewportWidth = (int) (stage.stageWidth/X);
-	// 			viewportHeight = (int) (stage.stageHeight/Y);
-	// 			break;
-	// 		case FILL_X:
-	// 			_screenScaleFactorX = (float)SpiG.screenWidth / (stage.stageHeight * screenAspectRatio);
-	// 			_screenScaleFactorY = (float)SpiG.screenHeight / stage.stageHeight;
-	// 			viewportWidth = (int) ((stage.stageHeight * screenAspectRatio)/X);
-	// 			viewportHeight = (int) (stage.stageHeight/Y);
-	// 			break;
-	// 		case FILL_Y:
-	// 			_screenScaleFactorX = (float)SpiG.screenWidth / stage.stageWidth;
-	// 			_screenScaleFactorY = (float)SpiG.screenHeight / (stage.stageWidth / screenAspectRatio);
-	// 			viewportWidth = (int) (stage.stageWidth/X);
-	// 			viewportHeight = (int) ((stage.stageWidth / screenAspectRatio)/Y);
-	// 			break;
-	// 	}
+		switch(_scaleMode)
+		{
+			case NO_SCALE:
+				_screenScaleFactorY = 1;
+				_screenScaleFactorX = 1;
+				viewportWidth = Std.int(SpiG.screenWidth/X);
+				viewportHeight = Std.int(SpiG.screenHeight/Y);
+			default:
+			case STRETCH:
+				_screenScaleFactorY = SpiG.screenHeight / stage.stageHeight;
+				_screenScaleFactorX = SpiG.screenWidth / stage.stageWidth;
+				viewportWidth = Std.int(stage.stageWidth/X);
+				viewportHeight = Std.int(stage.stageHeight/Y);
+			case FILL_X:
+				_screenScaleFactorX = SpiG.screenWidth / (stage.stageHeight * screenAspectRatio);
+				_screenScaleFactorY = SpiG.screenHeight / stage.stageHeight;
+				viewportWidth = Std.int((stage.stageHeight * screenAspectRatio)/X);
+				viewportHeight = Std.int(stage.stageHeight/Y);
+			case FILL_Y:
+				_screenScaleFactorX = SpiG.screenWidth / stage.stageWidth;
+				_screenScaleFactorY = SpiG.screenHeight / (stage.stageWidth / screenAspectRatio);
+				viewportWidth = Std.int(stage.stageWidth/X);
+				viewportHeight = Std.int((stage.stageWidth / screenAspectRatio)/Y);
+		}
 
-	// 	// Set the screen size
-	// 	if(Gdx.graphics.isFullscreen() && Gdx.app.getType() != ApplicationType.Android) {
-	// 		// Update the offset full screen
-	// 		_offsetFullscreen.set(SpiG.screenWidth - SpiG.width, SpiG.screenHeight - SpiG.height);
-	// 		_offsetFullscreen.mul(0.5f);
+		// Set the screen size
+		// if(Gdx.graphics.isFullscreen() && Gdx.app.getType() != ApplicationType.Android) {
+		// 	// Update the offset full screen
+		// 	_offsetFullscreen.set(SpiG.screenWidth - SpiG.width, SpiG.screenHeight - SpiG.height);
+		// 	_offsetFullscreen.mul(0.5f);
 			
-	// 		glCamera.setToOrtho(true, SpiG.screenWidth, SpiG.screenHeight);
-	// 	} else {
-	// 		glCamera.setToOrtho(true, viewportWidth, viewportHeight);
-	// 	}
+		// 	glCamera.setToOrtho(true, SpiG.screenWidth, SpiG.screenHeight);
+		// } else {
+		// 	glCamera.setToOrtho(true, viewportWidth, viewportHeight);
+		// }
 		
-	// 	// Set the offset
-	// 	_flashOffsetX = glCamera.position.x - _offsetFullscreen.x;
-	// 	_flashOffsetY = glCamera.position.y - _offsetFullscreen.y;	
-	// }
+		// Set the offset
+		// _flashOffsetX = glCamera.position.x - _offsetFullscreen.x;
+		// _flashOffsetY = glCamera.position.y - _offsetFullscreen.y;	
+	}
 	
 	// /**
 	//  * Fill the camera with the specified color.
@@ -1226,7 +1191,7 @@ class SpiCamera extends SpiBasic
 	//  * @param	Color		The color to fill with in 0xAARRGGBB hex format.
 	//  * @param	BlendAlpha	Whether to blend the alpha value or just wipe the previous contents.  Default is true.
 	//  */
-	// public void fill(int Color, boolean BlendAlpha)
+	// public void fill(int Color, boolean BlendAlpha = true)
 	// {
 	// 	if (BlendAlpha)
 	// 	{
@@ -1243,16 +1208,6 @@ class SpiCamera extends SpiBasic
 	// 	flashGfx.setColor(((color >> 16) & 0xFF) * 0.00392f, ((color >> 8) & 0xFF) * 0.00392f, (color & 0xFF) * 0.00392f, ((Color >> 24) & 0xFF) * 0.00392f);
 	// 	flashGfx.rect(0, 0, width, height);
 	// 	flashGfx.end();
-	// }
-	
-	// /**
-	//  * Fill the camera with the specified color.
-	//  * 
-	//  * @param	Color		The color to fill with in 0xAARRGGBB hex format.
-	//  */
-	// public void fill(int Color)
-	// {
-	// 	fill(Color, true);
 	// }
 	
 	// /**

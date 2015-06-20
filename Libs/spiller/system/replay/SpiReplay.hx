@@ -2,7 +2,7 @@ package spiller.system.replay;
 
 
 import spiller.SpiG;
-// import spiller.system.input.SpiInput.KeyData;
+import spiller.system.input.SpiInput.KeyData;
 
 typedef ReplayCallback = Void->Void;
 
@@ -20,7 +20,7 @@ class SpiReplay
 	/**
 	 * The random number generator seed value for this recording.
 	 */
-	public var seed:Float;
+	public var seed:Int;
 	/**
 	 * The current frame for this recording.
 	 */
@@ -37,7 +37,7 @@ class SpiReplay
 	/**
 	 * Internal container for all the frames in this replay.
 	 */
-	private var _frames:Array<Dynamic>; //Array<SpiFrameRecord>
+	private var _frames:Array<SpiFrameRecord>;
 	/**
 	 * Internal tracker for max number of frames we can fit before growing the <code>_frames</code> again.
 	 */
@@ -69,129 +69,121 @@ class SpiReplay
 		if(_frames == null)
 			return;
 		var i:Int = frameCount-1;
-		// while(i >= 0)
-			// _frames[i--].destroy();
+		while(i >= 0)
+			_frames[i--].destroy();
 		_frames = null;
 	}
 		
-	// /**
-	//  * Create a new gameplay recording.  Requires the current random number generator seed.
-	//  * 
-	//  * @param	Seed	The current seed from the random number generator.
-	//  */
-	// public void create(long Seed)
-	// {
-	// 	destroy();
-	// 	init();
-	// 	seed = Seed;
-	// 	rewind();
-	// }
+	/**
+	 * Create a new gameplay recording.  Requires the current random number generator seed.
+	 * 
+	 * @param	Seed	The current seed from the random number generator.
+	 */
+	public function create(Seed:Int)
+	{
+		destroy();
+		init();
+		seed = Seed;
+		rewind();
+	}
 		
-	// /**
-	//  * Load replay data from a <code>String</code> object.
-	//  * Strings can come from embedded assets or external
-	//  * files loaded through the debugger overlay. 
-	//  * 
-	//  * @param	FileContents	A <code>String</code> object containing a gameplay recording.
-	//  */
-	// public void load(String FileContents)
-	// {
-	// 	init();
+	/**
+	 * Load replay data from a <code>String</code> object.
+	 * Strings can come from embedded assets or external
+	 * files loaded through the debugger overlay. 
+	 * 
+	 * @param	FileContents	A <code>String</code> object containing a gameplay recording.
+	 */
+	public function load(FileContents:String)
+	{
+		init();
 			
-	// 	String[] lines = FileContents.split("\r?\n|\r");
+		var lines:Array<String> = FileContents.split("\r?\n|\r");
 		
-	// 	seed = Long.parseLong(lines[0]);
+		seed = Std.parseInt(lines[0]);
 		
-	// 	String line;
-	// 	int i = 1;
-	// 	int l = lines.length;
-	// 	while(i < l)
-	// 	{
-	// 		line = lines[i++];
-	// 		if(line.length() > 3)
-	// 		{
-	// 			_frames.add(new SpiFrameRecord().load(line));
-	// 			frameCount++;
-	// 			if(frameCount >= _capacity)
-	// 			{
-	// 				_capacity *= 2;
-	// 				_frames.ensureCapacity(_capacity - _frames.size);
-	// 			}
-	// 		}
-	// 	}
+		var line:String;
+		var i:Int = 1;
+		var l:Int = lines.length;
+		while(i < l)
+		{
+			line = lines[i++];
+			if(line.length > 3)
+			{
+				_frames.push(new SpiFrameRecord().load(line));
+				frameCount++;
+			}
+		}
 		
-	// 	rewind();
-	// }
+		rewind();
+	}
 		
-	// /**
-	//  * Common initialization terms used by both <code>create()</code> and <code>load()</code> to set up the replay object.
-	//  */
-	// protected void init()
-	// {
-	// 	_capacity = 100;
-	// 	_frames = new Array<SpiFrameRecord>(_capacity);
-	// 	frameCount = 0;
-	// }
+	/**
+	 * Common initialization terms used by both <code>create()</code> and <code>load()</code> to set up the replay object.
+	 */
+	private function init():Void
+	{
+		_capacity = 100;
+		_frames = new Array<SpiFrameRecord>();
+		frameCount = 0;
+	}
 		
-	// /**
-	//  * Save the current recording data off to a <code>String</code> object.
-	//  * Basically goes through and calls <code>SpiFrameRecord.save()</code> on each frame in the replay.
-	//  * 
-	//  * @return	The gameplay recording in simple ASCII format.
-	//  */
-	// public String save()
-	// {
-	// 	if(frameCount <= 0)
-	// 		return null;
-	// 	String output = seed+"\n";
-	// 	int i = 0;
-	// 	while(i < frameCount)
-	// 		output += _frames.get(i++).save() + "\n";
-	// 	return output;
-	// }
+	/**
+	 * Save the current recording data off to a <code>String</code> object.
+	 * Basically goes through and calls <code>SpiFrameRecord.save()</code> on each frame in the replay.
+	 * 
+	 * @return	The gameplay recording in simple ASCII format.
+	 */
+	public function save():String
+	{
+		if(frameCount <= 0)
+			return null;
+		var output:String = seed+"\n";
+		var i:Int = 0;
+		while(i < frameCount)
+			output += _frames[i++].save() + "\n";
+		return output;
+	}
 
-	// /**
-	//  * Get the current input data from the input managers and store it in a new frame record.
-	//  */
-	// public void recordFrame()
-	// {
-	// 	Array<KeyData> keysRecord = SpiG.keys.record();
-	// 	SpiMouseRecord mouseRecord = SpiG.mouse.record();
-	// 	if((keysRecord == null) && (mouseRecord == null))
-	// 	{
-	// 		frame++;
-	// 		return;
-	// 	}
-	// 	_frames.add(new SpiFrameRecord().create(frame++, keysRecord, mouseRecord));
-	// 	frameCount++;
-	// 	if(frameCount >= _capacity)
-	// 	{
-	// 		_capacity *= 2;
-	// 		_frames.ensureCapacity(_capacity - _frames.size);
-	// 	}
-	// }
+	/**
+	 * Get the current input data from the input managers and store it in a new frame record.
+	 */
+	public function recordFrame():Void
+	{
+		var keysRecord:Array<KeyData> = SpiG.keys.record();
+		var mouseRecord:SpiMouseRecord = SpiG.mouse.record();
+
+		if((keysRecord == null) && (mouseRecord == null)) {
+			frame++;
+			return;
+		}
+
+		_frames.push(new SpiFrameRecord().create(frame++, keysRecord, mouseRecord));
+		frameCount++;
+	}
 		
-	// /**
-	//  * Get the current frame record data and load it into the input managers.
-	//  */
-	// public void playNextFrame()
-	// {
-	// 	SpiG.resetInput();
+	/**
+	 * Get the current frame record data and load it into the input managers.
+	 */
+	public function playNextFrame():Void
+	{
+		SpiG.resetInput();
 		
-	// 	if(_marker >= frameCount)
-	// 	{
-	// 		finished = true;
-	// 		return;
-	// 	}
-	// 	if(_frames.get(_marker).frame != frame++)
-	// 		return;
+		if(_marker >= frameCount) {
+			finished = true;
+			return;
+		}
+		if(_frames[_marker].frame != frame++)
+			return;
 		
-	// 	SpiFrameRecord fr = _frames.get(_marker++);
-	// 	if(fr.keys != null)
-	// 		SpiG.keys.playback(fr.keys);
-	// 	if(fr.mouse != null)
-	// 		SpiG.mouse.playback(fr.mouse);
-	// }
+		var fr:SpiFrameRecord = _frames[_marker++];
+
+		if(fr.keys != null)
+			SpiG.keys.playback(fr.keys);
+
+		if(fr.mouse != null)
+			SpiG.mouse.playback(fr.mouse);
+	}
 	
 	/**
 	 * Reset the replay back to the first frame.
