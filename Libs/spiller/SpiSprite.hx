@@ -1,16 +1,18 @@
 package spiller;
 
+import kha.graphics4.Program;
 import kha.Image;
 
 import spiller.data.SpiSystemAsset;
+import spiller.system.kha.graphics.atlas.AtlasRegion;
 import spiller.system.kha.graphics.Sprite;
-import spiller.system.kha.graphics.ShaderProgram;
-import spiller.system.kha.graphics.TextureRegion;
 import spiller.animation.SpiAnim;
 import spiller.system.flash.BlendMode;
+import spiller.util.SpiColor;
 import spiller.util.SpiDestroyUtil;
 import spiller.math.SpiRect;
 import spiller.math.SpiPoint;
+using spiller.system.kha.graphics.GraphicsExtension;
 
 typedef AnimationCallback = String->Int->Int->Void;
 
@@ -27,6 +29,7 @@ typedef AnimationCallback = String->Int->Int->Void;
  * @author	Ka Wing Chin
  * @author	Thomas Weston
  */
+ @:allow(spiller.SpiGame)
 class SpiSprite extends SpiObject
 {
 	/**
@@ -37,7 +40,7 @@ class SpiSprite extends SpiObject
 	 * Internal tracker for the current shader that is used.<br>
 	 * NOTE: Requires GLES20.
 	 */
-	private static var currentShader:ShaderProgram;
+	private static var currentShader:Program;
 	/**
 	 * WARNING: The origin of the sprite will default to its center.
 	 * If you change this, the visuals and the collisions will likely be
@@ -70,7 +73,7 @@ class SpiSprite extends SpiObject
 	 * 
 	 * @default null
 	 */
-	public var blendGL20:ShaderProgram;
+	public var blendGL20:Program;
 	/**
 	 * The sprite that will be blended with the base.<br>
 	 * Only used with <code>blendGL20</code>.<br>
@@ -82,7 +85,7 @@ class SpiSprite extends SpiObject
 	/**
 	 * The shader program the object is using.<br>
 	 */
-	public var shader:ShaderProgram;
+	public var shader:Program;
 	/**
 	 * Ignores the shader that is used by the <code>SpriteBatch</code>.<br>
 	 * 
@@ -172,7 +175,7 @@ class SpiSprite extends SpiObject
 	/**
 	 * Internal, stores the entire source graphic (not the current displayed animation frame), used with Flash getter/setter.
 	 */
-	private var _pixels:TextureRegion;
+	private var _pixels:AtlasRegion;
 	/**
 	 * The texture X offset.
 	 */
@@ -184,7 +187,7 @@ class SpiSprite extends SpiObject
 	/**
 	 * Stores the normal map from this sprite if it has any.
 	 */
-	private var _normalMap:TextureRegion;
+	private var _normalMap:AtlasRegion;
 
 	/**
 	 * Creates a white 8x8 square <code>SpiSprite</code> at the specified position.
@@ -403,7 +406,7 @@ class SpiSprite extends SpiObject
 	/**
 	 * This method initializes the lightning for a sprite.
 	 */
-	public function loadLightMaps(normals:SpiSprite):SpiSprite
+	public function loadLightMaps(normals:String):SpiSprite
 	{
 		_normalMap = SpiG.addBitmap(normals);
 		return this;
@@ -415,9 +418,9 @@ class SpiSprite extends SpiObject
 	private function resetHelpers():Void
 	{			
 		if(framePixels == null)
-			framePixels = new Sprite();
+			framePixels = new Sprite(_pixels);
 		
-		framePixels.setRegion(_pixels, 0, 0, frameWidth, frameHeight);
+		framePixels.setRegion(0, 0, frameWidth, frameHeight);
 		framePixels.setSize(frameWidth, frameHeight);
 		framePixels.flip(false, true);
 		origin.make(frameWidth * 0.5, frameHeight * 0.5);
@@ -494,7 +497,7 @@ class SpiSprite extends SpiObject
 	// 		if(blend != null && currentBlend != blend) {
 	// 			currentBlend = blend;
 	// 			int[] blendFunc = BlendMode.getOpenGLBlendMode(blend);
-	// 			SpiG.batch.setBlendFunction(blendFunc[0], blendFunc[1]);
+	// 			SpiG.batch.setBlendingMode(blendFunc[0], blendFunc[1]);
 	// 		} else
 	// 		// Check for lightning
 	// 		if (_normalMap != null) {
@@ -524,7 +527,7 @@ class SpiSprite extends SpiObject
 	 */
 	public function renderSprite():Void
 	{
-		framePixels.draw(SpiG.batch);
+		framePixels.render(SpiG.batch);
 	}
 
 	// /**
@@ -1035,7 +1038,7 @@ class SpiSprite extends SpiObject
 	 * Set <code>pixels</code> to any <code>TextureRegion</code> object.
 	 * Automatically adjust graphic size and render helpers.
 	 */
-	public function getPixels():TextureRegion
+	public function getPixels():AtlasRegion
 	{
 		return _pixels;
 	}
@@ -1044,7 +1047,7 @@ class SpiSprite extends SpiObject
 	 * Set <code>pixels</code> to any <code>TextureRegion</code> object.
 	 * Automatically adjust graphic size and render helpers. 
 	 */
-	public function setPixels(Pixels:TextureRegion, Width:Int = 0, Height:Int = 0):Void
+	public function setPixels(Pixels:AtlasRegion, Width:Int = 0, Height:Int = 0):Void
 	{
 		_pixels = Pixels;
 		
@@ -1105,94 +1108,80 @@ class SpiSprite extends SpiObject
 		_alpha = Alpha;
 	}
 	
-	// /**
-	//  * Set <code>color</code> to a number in this format: 0xRRGGBB.
-	//  * <code>color</code> IGNORES ALPHA.  To change the opacity use <code>alpha</code>.
-	//  * Tints the whole sprite to be this color (similar to OpenGL vertex colors).
-	//  */
-	// public int getColor()
-	// {
-	// 	return _color;
-	// }
+	/**
+	 * Set <code>color</code> to a number in this format: 0xRRGGBB.
+	 * <code>color</code> IGNORES ALPHA.  To change the opacity use <code>alpha</code>.
+	 * Tints the whole sprite to be this color (similar to OpenGL vertex colors).
+	 */
+	public function getColor():SpiColor
+	{
+		return _color;
+	}
 	
-	// /**
-	//  * Set <code>color</code> to a number in this format: 0xRRGGBB.
-	//  * <code>color</code> IGNORES ALPHA. 
-	//  * To change the opacity use <code>alpha</code>.
-	//  * Tints the whole sprite to be this color (similar to OpenGL vertex colors). 
-	//  */
-	// public void setColor(int Color)
-	// {
-	// 	Color &= 0x00FFFFFF;
-	// 	_color = Color;		
-	// }
+	/**
+	 * Set <code>color</code> to a number in this format: 0xRRGGBB.
+	 * <code>color</code> IGNORES ALPHA. 
+	 * To change the opacity use <code>alpha</code>.
+	 * Tints the whole sprite to be this color (similar to OpenGL vertex colors). 
+	 */
+	public function setColor(Color:SpiColor):Void
+	{
+		Color &= 0x00FFFFFF;
+		_color = Color;		
+	}
 	
-	// /**
-	//  * Return the current sprite frame.
-	//  */
-	// public int getFrame()
-	// {
-	// 	return _curIndex;
-	// }
+	/**
+	 * Return the current sprite frame.
+	 */
+	public function getFrame():Int
+	{
+		return _curIndex;
+	}
 	
-	// /**
-	//  * Tell the sprite to change to a specific frame of animation.
-	//  * 
-	//  * @param	frame	The frame you want to display.
-	//  */
-	// public void setFrame(int frame)
-	// {
-	// 	_curAnim = null;
-	// 	_curIndex = frame;
-	// 	dirty = true;
-	// }
+	/**
+	 * Tell the sprite to change to a specific frame of animation.
+	 * 
+	 * @param	frame	The frame you want to display.
+	 */
+	public function setFrame(frame:Int):Void
+	{
+		_curAnim = null;
+		_curIndex = frame;
+		dirty = true;
+	}
 	
-	// /**
-	//  * Check and see if this object is currently on screen.
-	//  * Differs from <code>SpiObject</code>'s implementation
-	//  * in that it takes the actual graphic into account,
-	//  * not just the hitbox or bounding box or whatever.
-	//  * 
-	//  * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
-	//  * 
-	//  * @return	Whether the object is on screen or not.
-	//  */
-	// override
-	// public boolean onScreen(SpiCamera Camera)
-	// {
-	// 	if(Camera == null)
-	// 		Camera = SpiG.camera;
+	/**
+	 * Check and see if this object is currently on screen.
+	 * Differs from <code>SpiObject</code>'s implementation
+	 * in that it takes the actual graphic into account,
+	 * not just the hitbox or bounding box or whatever.
+	 * 
+	 * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
+	 * 
+	 * @return	Whether the object is on screen or not.
+	 */
+	override
+	public function onScreen(Camera:SpiCamera):Bool
+	{
+		if(Camera == null)
+			Camera = SpiG.camera;
 		
-	// 	getScreenXY(_point, Camera);
-	// 	_point.x = _point.x - offset.x - Camera.getOffsetFullscreen().x;
-	// 	_point.y = _point.y - offset.y - Camera.getOffsetFullscreen().y;
+		getScreenXY(_point, Camera);
+		_point.x = _point.x - offset.x - Camera.getOffsetFullscreen().x;
+		_point.y = _point.y - offset.y - Camera.getOffsetFullscreen().y;
 
-	// 	if(((angle == 0) || (_bakedRotation > 0)) && (scale.x == 1) && (scale.y == 1))
-	// 		return ((_point.x + frameWidth > 0) && (_point.x < Camera.width) && (_point.y + frameHeight > 0) && (_point.y < Camera.height));
+		if(((angle == 0) || (_bakedRotation > 0)) && (scale.x == 1) && (scale.y == 1))
+			return ((_point.x + frameWidth > 0) && (_point.x < Camera.width) && (_point.y + frameHeight > 0) && (_point.y < Camera.height));
 		
-	// 	float halfWidth = (float)frameWidth/2;
-	// 	float halfHeight = (float)frameHeight/2;
-	// 	float absScaleX = (scale.x>0)?scale.x:-scale.x;
-	// 	float absScaleY = (scale.y>0)?scale.y:-scale.y;
-	// 	float radius = (float) (Math.sqrt(halfWidth*halfWidth+halfHeight*halfHeight)*((absScaleX >= absScaleY)?absScaleX:absScaleY));
-	// 	_point.x += halfWidth;
-	// 	_point.y += halfHeight;
-	// 	return ((_point.x + radius > 0) && (_point.x - radius < Camera.width) && (_point.y + radius > 0) && (_point.y - radius < Camera.height));
-	// }
-	
-	// /**
-	//  * Check and see if this object is currently on screen.
-	//  * Differs from <code>SpiObject</code>'s implementation
-	//  * in that it takes the actual graphic into account,
-	//  * not just the hitbox or bounding box or whatever.
-	//  * 
-	//  * @return	Whether the object is on screen or not.
-	//  */
-	// override
-	// public boolean onScreen()
-	// {
-	// 	return onScreen(null);
-	// }
+		var halfWidth:Float = frameWidth / 2;
+		var halfHeight:Float = frameHeight / 2;
+		var absScaleX:Float = (scale.x > 0) ? scale.x : -scale.x;
+		var absScaleY:Float = (scale.y > 0) ? scale.y : -scale.y;
+		var radius = Math.sqrt(halfWidth * halfWidth + halfHeight * halfHeight) * ((absScaleX >= absScaleY) ? absScaleX : absScaleY);
+		_point.x += halfWidth;
+		_point.y += halfHeight;
+		return ((_point.x + radius > 0) && (_point.x - radius < Camera.width) && (_point.y + radius > 0) && (_point.y - radius < Camera.height));
+	}
 	
 	// /**
 	//  * Checks to see if a point in 2D world space overlaps this <code>SpiSprite</code> object's current displayed pixels.
@@ -1217,21 +1206,7 @@ class SpiSprite extends SpiObject
 	// 	Point.putWeak();
 	// 	return false;//framePixels.hitTest(_flashPointZero,Mask,_flashPoint);
 	// }
-	
-	// /**
-	//  * Checks to see if a point in 2D world space overlaps this <code>SpiSprite</code> object's current displayed pixels.
-	//  * This check is ALWAYS made in screen space, and always takes scroll factors into account.
-	//  * 
-	//  * @param	Point		The point in world space you want to check.
-	//  * @param	Mask		Used in the pixel hit test to determine what counts as solid.
-	//  * 
-	//  * @return	Whether or not the point overlaps this object.
-	//  */
-	// public boolean pixelsOverlapPoint(SpiPoint Point,int Mask)
-	// {
-	// 	return pixelsOverlapPoint(Point, Mask, null);
-	// }
-	
+
 	// /**
 	//  * Checks to see if a point in 2D world space overlaps this <code>SpiSprite</code> object's current displayed pixels.
 	//  * This check is ALWAYS made in screen space, and always takes scroll factors into account.
@@ -1256,7 +1231,7 @@ class SpiSprite extends SpiObject
 		{
 			if(currentBlend != null) {
 				currentBlend = null;
-				SpiG.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+				SpiG.batch.setBlendingMode(SourceAlpha, InverseSourceAlpha);
 			}
 			if(SpiG.batchShader != null && !ignoreBatchShader)
 				SpiG.batch.setShader(SpiG.batchShader);

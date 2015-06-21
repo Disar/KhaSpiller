@@ -1,5 +1,7 @@
 package spiller.math;
 
+import kha.Rectangle;
+
 // import kha.math.Vector2;
 
 // import spiller.SpiG;
@@ -52,33 +54,41 @@ class SpiMath
 	public static inline var EPSILON:Float = 0.0000001;
 
 // 	public static var getrandmax:Int = Integer.MAX_VALUE;
-// 	private static var mr:Int = 0;
-// 	private static var cosTable:Array<Float> = new Array<Float>();
-// 	private static var sinTable:Array<Float> = new Array<Float>();
-// 	/**
-// 	 * A reference to SpiU.PI
-// 	 */
-// 	public static final float PI = SpiU.PI;
-// 	/**
-// 	 * 
-// 	 */
-// 	private static float coefficient1 = (float) (PI / 4);
-// 	/**
-// 	 * Degrees to radians.
-// 	 */
-// 	public static final float DEGREESTORADIANS = PI / 180f;
-// 	/**
-// 	 * Degrees to radians, but shorter variable name.
-// 	 */
-// 	public static final float DEGTORAD = DEGREESTORADIANS;
-// 	/**
-// 	 * Radians to degrees.
-// 	 */
-// 	public static final float RADIANSTODEGREES = 180f / PI;
-// 	/**
-// 	 * Radians to degrees, but shorter variable name.
-// 	 */
-// 	public static final float RADTODEG = RADIANSTODEGREES;
+	private static var mr:Int = 0;
+	private static var cosTable:Array<Float> = new Array<Float>();
+	private static var sinTable:Array<Float> = new Array<Float>();
+	/**
+	 * A reference to SpiU.PI
+	 */
+	public static inline var PI:Float = 3.1415927;
+	/**
+	 * The value 2PI as a float. (360 degrees)
+	 */
+	public static inline var TWO_PI:Float = 2.0 * PI;
+	/**
+	 * The value PI/2 as a float. (90 degrees)
+	 */
+	public static inline var HALF_PI:Float = 0.5 * PI;
+	/**
+	 * 
+	 */
+	private static inline var coefficient1:Float = (PI / 4);
+	/**
+	 * Degrees to radians.
+	 */
+	public static inline var DEGREESTORADIANS:Float = PI / 180;
+	/**
+	 * Degrees to radians, but shorter variable name.
+	 */
+	public static inline var DEGTORAD:Float = DEGREESTORADIANS;
+	/**
+	 * Radians to degrees.
+	 */
+	public static inline var RADIANSTODEGREES:Float = 180 / PI;
+	/**
+	 * Radians to degrees, but shorter variable name.
+	 */
+	public static inline var RADTODEG:Float = RADIANSTODEGREES;
 	
 	/**
 	 * Round to the closes number with the number of decimals given. E.g round(2.954165, 2) == 2.95
@@ -152,188 +162,134 @@ class SpiMath
 		return false;
 	}
 	
-// 	/**
-// 	 * Returns true if the mouse world x/y coordinate are within the given rectangular block
-// 	 * 
-// 	 * @param	useWorldCoords	If true the world x/y coordinates of the mouse will be used, otherwise screen x/y
-// 	 * @param	rect			The SpiRect to test within. If this is null for any reason this function always returns true.
-// 	 * 
-// 	 * @return	true if mouse is within the SpiRect, otherwise false
-// 	 */
-// 	public static boolean mouseInSpiRect(boolean useWorldCoords, SpiRect rect)
-// 	{
-// 		if (rect == null) {
-// 			return true;
-// 		}
+	/**
+	 * Returns true if the mouse world x/y coordinate are within the given rectangular block
+	 * 
+	 * @param	useWorldCoords	If true the world x/y coordinates of the mouse will be used, otherwise screen x/y
+	 * @param	rect			The SpiRect to test within. If this is null for any reason this function always returns true.
+	 * 
+	 * @return	true if mouse is within the SpiRect, otherwise false
+	 */
+	public static function mouseInSpiRect(useWorldCoords:Bool, rect:SpiRect):Bool
+	{
+		if (rect == null) {
+			return true;
+		}
 		
-// 		if (useWorldCoords) {
-// 			return pointInSpiRect(SpiG.mouse.x, SpiG.mouse.y, rect);
-// 		} else {
-// 			return pointInSpiRect(SpiG.mouse.screenX, SpiG.mouse.screenY, rect);
-// 		}
-// 	}
+		if (useWorldCoords) {
+			return pointInSpiRect(SpiG.mouse.x, SpiG.mouse.y, rect);
+		} else {
+			return pointInSpiRect(SpiG.mouse.screenX, SpiG.mouse.screenY, rect);
+		}
+	}
 	
-// 	/**
-// 	 * Returns true if the given x/y coordinate is within the Rectangle
-// 	 * 
-// 	 * @param	pointX		The X value to test
-// 	 * @param	pointY		The Y value to test
-// 	 * @param	rect		The Rectangle to test within
-// 	 * @return	true if pointX/pointY is within the Rectangle, otherwise false
-// 	 */
-// 	public static boolean pointInRectangle(int pointX, int pointY, SpiRect rect)
-// 	{
-// 		if (pointX >= rect.x && pointX <= rect.getRight() && pointY >= rect.y && pointY <= rect.getBottom())
-// 		{
-// 			return true;
-// 		}
+	/**
+	 * Returns true if the given x/y coordinate is within the Rectangle
+	 * 
+	 * @param	pointX		The X value to test
+	 * @param	pointY		The Y value to test
+	 * @param	rect		The Rectangle to test within
+	 * @return	true if pointX/pointY is within the Rectangle, otherwise false
+	 */
+	public static function pointInRectangle(pointX:Int, pointY:Int, rect:Rectangle):Bool
+	{
+		if (pointX >= rect.x && pointX <= rect.width && pointY >= rect.y && pointY <= rect.height)
+		{
+			return true;
+		}
 		
-// 		return false;
-// 	}
+		return false;
+	}
 	
-// 	/**
-// 	 * A faster (but much less accurate) version of Math.atan2(). For close range / loose comparisons this works very well, 
-// 	 * but avoid for long-distance or high accuracy simulations.
-// 	 * Based on: http://blog.gamingyourway.com/PermaLink,guid,78341247-3344-4a7a-acb2-c742742edbb1.aspx
-// 	 * <p>
-// 	 * Computes and returns the angle of the point y/x in radians, when measured counterclockwise from a circle's x axis 
-// 	 * (where 0,0 represents the center of the circle). The return value is between positive pi and negative pi. 
-// 	 * Note that the first parameter to atan2 is always the y coordinate.
-// 	 * </p>
-// 	 * @param y The y coordinate of the point
-// 	 * @param x The x coordinate of the point
-// 	 * @return The angle of the point x/y in radians
-// 	 */
-// 	public static float atan2(float y, float x)
-// 	{
-// 		float absY = y;
-// 		float coefficient2 = 3 * coefficient1;
-// 		float r;
-// 		float angle;
+	/**
+	 * A faster (but much less accurate) version of Math.atan2(). For close range / loose comparisons this works very well, 
+	 * but avoid for long-distance or high accuracy simulations.
+	 * Based on: http://blog.gamingyourway.com/PermaLink,guid,78341247-3344-4a7a-acb2-c742742edbb1.aspx
+	 * <p>
+	 * Computes and returns the angle of the point y/x in radians, when measured counterclockwise from a circle's x axis 
+	 * (where 0,0 represents the center of the circle). The return value is between positive pi and negative pi. 
+	 * Note that the first parameter to atan2 is always the y coordinate.
+	 * </p>
+	 * @param y The y coordinate of the point
+	 * @param x The x coordinate of the point
+	 * @return The angle of the point x/y in radians
+	 */
+	public static function atan2(y:Float, x:Float):Float
+	{
+		var absY:Float = y;
+		var coefficient2:Float = 3 * coefficient1;
+		var r:Float;
+		var angle:Float;
 		
-// 		if (absY < 0) {
-// 			absY = -absY;
-// 		}
+		if (absY < 0) {
+			absY = -absY;
+		}
 
-// 		if (x >= 0) {
-// 			r = (x - absY) / (x + absY);
-// 			angle = coefficient1 - coefficient1 * r;
-// 		} else {
-// 			r = (x + absY) / (absY - x);
-// 			angle = coefficient2 - coefficient1 * r;
-// 		}
+		if (x >= 0) {
+			r = (x - absY) / (x + absY);
+			angle = coefficient1 - coefficient1 * r;
+		} else {
+			r = (x + absY) / (absY - x);
+			angle = coefficient2 - coefficient1 * r;
+		}
 
-// 		return y < 0 ? -angle : angle;
-// 	}
+		return y < 0 ? -angle : angle;
+	}
 	
-// 	/**
-// 	 * Generate a sine and cosine table simultaneously and extremely quickly. Based on research by Franky of scene.at
-// 	 * <p>
-// 	 * The parameters allow you to specify the length, amplitude and frequency of the wave. Once you have called this function
-// 	 * you should get the results via getSinTable() and getCosTable(). This generator is fast enough to be used in real-time.
-// 	 * </p>
-// 	 * @param length 		The length of the wave
-// 	 * @param sinAmplitude 	The amplitude to apply to the sine table (default 1.0) if you need values between say -+ 125 then give 125 as the value
-// 	 * @param cosAmplitude 	The amplitude to apply to the cosine table (default 1.0) if you need values between say -+ 125 then give 125 as the value
-// 	 * @param frequency 	The frequency of the sine and cosine table data
-// 	 * @return	Returns the sine table
-// 	 * @see getSinTable
-// 	 * @see getCosTable
-// 	 */
-// 	public static FloatArray sinCosGenerator(int length, float sinAmplitude, float cosAmplitude, float frequency)
-// 	{
-// 		float sin = sinAmplitude;
-// 		float cos = cosAmplitude;
-// 		float frq = (float) (frequency * Math.PI / length);
+	/**
+	 * Generate a sine and cosine table simultaneously and extremely quickly. Based on research by Franky of scene.at
+	 * <p>
+	 * The parameters allow you to specify the length, amplitude and frequency of the wave. Once you have called this function
+	 * you should get the results via getSinTable() and getCosTable(). This generator is fast enough to be used in real-time.
+	 * </p>
+	 * @param length 		The length of the wave
+	 * @param sinAmplitude 	The amplitude to apply to the sine table (default 1.0) if you need values between say -+ 125 then give 125 as the value
+	 * @param cosAmplitude 	The amplitude to apply to the cosine table (default 1.0) if you need values between say -+ 125 then give 125 as the value
+	 * @param frequency 	The frequency of the sine and cosine table data
+	 * @return	Returns the sine table
+	 * @see getSinTable
+	 * @see getCosTable
+	 */
+	public static function sinCosGenerator(length:Int, sinAmplitude:Float = 1, cosAmplitude:Float = 1, frequency:Float = 1):Array<Float>
+	{
+		var sin:Float = sinAmplitude;
+		var cos:Float = cosAmplitude;
+		var frq:Float = (frequency * PI / length);
 		
-// 		cosTable = new FloatArray(length);
-// 		sinTable = new FloatArray(length);
+		cosTable = new Array<Float>();
+		sinTable = new Array<Float>();
 		
-// 		for (int c = 0; c < length; c++)
-// 		{
-// 			cos -= sin * frq;
-// 			sin += cos * frq;
+		for ( c in 0 ... length)
+		{
+			cos -= sin * frq;
+			sin += cos * frq;
 			
-// 			cosTable.insert(c, cos);
-// 			sinTable.insert(c, sin);
-// 		}
+			cosTable[c] = cos;
+			sinTable[c] = sin;
+		}
 		
-// 		return sinTable;
-// 	}
+		return sinTable;
+	}
 
-// 	/**
-// 	 * Generate a sine and cosine table simultaneously and extremely quickly. Based on research by Franky of scene.at
-// 	 * <p>
-// 	 * The parameters allow you to specify the length, amplitude and frequency of the wave. Once you have called this function
-// 	 * you should get the results via getSinTable() and getCosTable(). This generator is fast enough to be used in real-time.
-// 	 * </p>
-// 	 * @param length 		The length of the wave
-// 	 * @param sinAmplitude 	The amplitude to apply to the sine table (default 1.0) if you need values between say -+ 125 then give 125 as the value
-// 	 * @param cosAmplitude 	The amplitude to apply to the cosine table (default 1.0) if you need values between say -+ 125 then give 125 as the value
-// 	 * 
-// 	 * @return	Returns the sine table
-// 	 * @see getSinTable
-// 	 * @see getCosTable
-// 	 */
-// 	public static FloatArray sinCosGenerator(int length, float sinAmplitude, float cosAmplitude)
-// 	{
-// 		return sinCosGenerator(length, sinAmplitude, cosAmplitude, 1.0f);
-// 	}
-
-// 	/**
-// 	 * Generate a sine and cosine table simultaneously and extremely quickly. Based on research by Franky of scene.at
-// 	 * <p>
-// 	 * The parameters allow you to specify the length, amplitude and frequency of the wave. Once you have called this function
-// 	 * you should get the results via getSinTable() and getCosTable(). This generator is fast enough to be used in real-time.
-// 	 * </p>
-// 	 * @param length 		The length of the wave
-// 	 * @param sinAmplitude 	The amplitude to apply to the sine table (default 1.0) if you need values between say -+ 125 then give 125 as the value
-// 	 * 
-// 	 * @return	Returns the sine table
-// 	 * @see getSinTable
-// 	 * @see getCosTable
-// 	 */
-// 	public static FloatArray sinCosGenerator(int length, float sinAmplitude)
-// 	{
-// 		return sinCosGenerator(length, sinAmplitude, 1.0f, 1.0f);
-// 	}
-
-// 	/**
-// 	 * Generate a sine and cosine table simultaneously and extremely quickly. Based on research by Franky of scene.at
-// 	 * <p>
-// 	 * The parameters allow you to specify the length, amplitude and frequency of the wave. Once you have called this function
-// 	 * you should get the results via getSinTable() and getCosTable(). This generator is fast enough to be used in real-time.
-// 	 * </p>
-// 	 * @param length 		The length of the wave
-// 	 * 
-// 	 * @return	Returns the sine table
-// 	 * @see getSinTable
-// 	 * @see getCosTable
-// 	 */
-// 	public static FloatArray sinCosGenerator(int length)
-// 	{
-// 		return sinCosGenerator(length, 1.0f, 1.0f, 1.0f);
-// 	}
+	/**
+	 * Returns the sine table generated by sinCosGenerator(), or an empty array object if not yet populated
+	 * @return Array of sine wave data
+	 * @see sinCosGenerator
+	 */
+	public static function getSinTable():Array<Float>
+	{
+		return sinTable;
+	}
 	
-// 	/**
-// 	 * Returns the sine table generated by sinCosGenerator(), or an empty array object if not yet populated
-// 	 * @return Array of sine wave data
-// 	 * @see sinCosGenerator
-// 	 */
-// 	public static FloatArray getSinTable()
-// 	{
-// 		return sinTable;
-// 	}
-	
-// 	/**
-// 	 * Returns the cosine table generated by sinCosGenerator(), or an empty array object if not yet populated
-// 	 * @return Array of cosine wave data
-// 	 * @see sinCosGenerator
-// 	 */
-// 	public static FloatArray getCosTable()
-// 	{
-// 		return cosTable;
-// 	}
+	/**
+	 * Returns the cosine table generated by sinCosGenerator(), or an empty array object if not yet populated
+	 * @return Array of cosine wave data
+	 * @see sinCosGenerator
+	 */
+	public static function getCosTable():Array<Float>
+	{
+		return cosTable;
+	}
 	
 // 	/**
 // 	 * A faster version of Math.sqrt
@@ -1114,5 +1070,34 @@ class SpiMath
 	public static function max(Number1:Float, Number2):Float
 	{
 		return (Number1 >= Number2) ? Number1 : Number2;
+	}
+
+	/**
+	 * Round up to the next highest power of 2.
+	 * 
+	 * @param value A value that needs to be power of 2.
+	 * @return A value of power of 2.
+	 */
+	public static function ceilPowerOfTwo(value:Int):Int
+	{
+		value--;
+		value |= value >> 1;
+		value |= value >> 2;
+		value |= value >> 4;
+		value |= value >> 8;
+		value |= value >> 16;
+		value++;
+		return value;
+	}
+
+	/**
+	 * Round up to the next lowest power of 2.
+	 * 
+	 * @param value A value that needs to be power of 2.
+	 * @return A value of power of 2.
+	 */
+	public static function floorPowerOfTwo(value:Int):Int
+	{
+		return ceilPowerOfTwo(value) >> 1;
 	}
 }

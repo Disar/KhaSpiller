@@ -1,5 +1,6 @@
 package spiller;
 
+import kha.Configuration;
 import kha.Game;
 import kha.Canvas;
 import kha.Color;
@@ -15,21 +16,26 @@ import kha.Kravur;
 import kha.Loader;
 import kha.math.Vector2;
 import kha.Key;
+import kha.Scaler;
 import kha.Scheduler;
 import kha.ScreenCanvas;
+import kha.LoadingScreen;
 
+import kha.Sys;
 import spiller.math.SpiRandom;
 import spiller.system.flash.SpiGameStage;
 import spiller.system.flash.events.Event;
 import spiller.system.flash.events.KeyboardEvent;
 import spiller.system.flash.events.MouseEvent;
 import spiller.system.flash.events.EnterFrameEvent;
+import spiller.system.flash.FlashGraphics;
 import spiller.system.SpiPause;
 import spiller.system.kha.Keys;
 import spiller.sound.SpiSound;
 import spiller.system.time.SpiTimer;
 import spiller.system.time.SpiTimerManager;
 import spiller.system.SpiSplashScreen;
+using spiller.system.kha.graphics.GraphicsExtension;
 
 #if SPI_DEBUG
 import spiller.system.debug.SpiDebugger;
@@ -286,12 +292,12 @@ class SpiGame extends Game
 		#end
 
 		// Then get ready to create the game object for real;
-		if(SpiGame.useSplashScreen) {
+		// if(SpiGame.useSplashScreen) {
 			// _iState = SpiSplashScreen;
-			SpiSplashScreen.initialGameState = InitialState; // Set the initial game state after the spash screen
-		} else {
+			// SpiSplashScreen.initialGameState = InitialState; // Set the initial game state after the spash screen
+		// } else {
 			_iState = InitialState;
-		}
+		// }
 		requestedState = null;
 		_requestedReset = true;
 		_created = false;
@@ -708,12 +714,12 @@ class SpiGame extends Game
 		// flash.ui.Mouse.show();
 		_lostFocus = /*_focus.visible =*/ true;
 		// stage.frameRate = 10;0
-		//SpiG.setPause(true);
+		SpiG.setPause(true);
 	}
 	#end
 
 	/**
-	 * Handles the render call and figures out how many updates and draw calls to do.
+	 * Handles the update call and figures out how many updates and draw calls to do.
 	 */
 	override
 	public function update(): Void
@@ -728,7 +734,9 @@ class SpiGame extends Game
 		// Dispatch the on enter frame event
 		stage.dispatchEvent(_onEnterFrame);
 
+		#if SPI_SOUND_TRAY
 		updateSoundTray(_elapsedMS);
+		#end
 
 		if (!_lostFocus) {
 			#if SPI_DEBUG
@@ -789,9 +797,9 @@ class SpiGame extends Game
 		SpiG.clearBitmapCache();
 		
 		// Clear posible lightning stuff
-		// SpiG.spriteLightning.clear();
-		// SpiG.batch.setShader(null);
-		// SpiSprite.currentShader = null;
+		SpiG.spriteLightning.clear();
+		SpiG.batch.setShader(null);
+		SpiSprite.currentShader = null;
 
 
 		#if SPI_DEBUG
@@ -829,9 +837,11 @@ class SpiGame extends Game
 		// Handle game reset request
 		if (_requestedReset) {
 			_requestedReset = false;
-			//requestedState = ClassReflection.newInstance(_iState);
+			requestedState = _iState;
+			#if SPI_RECORD_REPLAY
 			_replayTimer = 0;
 			_replayCancelKeys = null;
+			#end
 			SpiG.reset();
 		}
 
@@ -980,10 +990,14 @@ class SpiGame extends Game
 		if(SpiG.batch == null)
 			return;
 
+		// Clear screen
+		SpiG.batch.begin();
+
+		// Reset visible entities count
 		SpiBasic.VISIBLECOUNT = 0;
 
+		// Set up devaults
 		var mark:Float = Scheduler.time();
-
 		var i:Int = 0;
 		var l:Int = SpiG.displayList.length;
 
@@ -1007,16 +1021,16 @@ class SpiGame extends Game
 
 			SpiG.unlockCameras();
 
-			// SpiG.drawPlugins();
+			SpiG.drawPlugins();
 		}
 
 		// Draw fps display
 		// No need to delete because only in debug mode
 		if (SpiG.debug || SpiG.showFPS) {
-			_backBuffer.g2.begin();
+			SpiG.batch.begin(false);
 			if(_font != null) {
 				SpiG.batch.font = _font;
-				SpiG.batch.drawString("fps: " + _fps + " / " + SpiG.getFramerate(), ScreenCanvas.the.width - 160, 0);
+				SpiG.batch.drawString("fps: " + 0 + " / " + SpiG.getFramerate(), ScreenCanvas.the.width - 160, 0);
 			}
 //			if(_font != null && SpiG.debug)
 //				_font.draw(SpiG.batch, SpiSystemInfo.MemInfo(), 60, 60);
@@ -1037,6 +1051,15 @@ class SpiGame extends Game
 		if (debuggerUp)
 			debugger.perf.spillerDraw(Std.int(Scheduler.time() - mark));
 		#end
+
+
+		SpiG.batch.font = _font;
+		SpiG.batch.drawString("fps: " + 0 + " / " + SpiG.getFramerate(), ScreenCanvas.the.width - 160, 0);
+		// Finish rendering
+		SpiG.batch.end();
+		startRender(frame);
+        Scaler.scale(_backBuffer, frame, Sys.screenRotation);
+        endRender(frame);
 	}
 
 	/**
@@ -1048,24 +1071,25 @@ class SpiGame extends Game
 		if (_created)
 			return;
 
+		Configuration.setScreen(new LoadingScreen()); //TODO custom loading screen
+		Loader.the.loadRoom("spiller", onLoadCompleded);
+	}
+
+	/**
+	 * Callback for afyer loading everything.
+	 */
+	 private function onLoadCompleded():Void
+	{
+		if (_created)
+			return;
+
+		Configuration.setScreen(this);
 		_total = Scheduler.time();
-
-		// // Set up the listener
-		// Gdx.input.setCatchBackKey(true);
-		// Gdx.input.setCatchMenuKey(true);
-
-		// // Set up OpenGL
-		// SpiG.gl = Gdx.gl20;
-
-		// // Common OpenGL
-		// SpiG.gl.glEnable(GL20.GL_SCISSOR_TEST);
-		// SpiG.gl.glDisable(GL20.GL_CULL_FACE);
-		// SpiG.gl.glDisable(GL20.GL_DITHER);
-		// SpiG.gl.glDisable(GL20.GL_DEPTH_TEST);
 
 		_backBuffer = Image.createRenderTarget(SpiG.width, SpiG.height);
 		SpiG.batch = _backBuffer.g2;
-		SpiG.flashGfx = Graphics.initGraphics();
+		SpiG.batch.useBilinearFiltering(false);
+		SpiG.flashGfx = FlashGraphics.initGraphics();
 
 		// Catch the cursor if we have to
 		if (!useSystemCursor) {
@@ -1088,7 +1112,7 @@ class SpiGame extends Game
 
 		// Initialize the assets and create the font
 		var fs:FontStyle = new FontStyle(false, false, false);
-		_font = cast(Loader.the.loadFont("spiller/data/font/nokiafc22.fnt", fs, 12), Kravur);
+		_font = cast(Loader.the.loadFont("nokiafc", fs, 12), Kravur);
 
 		// Let mobile devs opt out of unnecessary overlays.
 		if (!SpiG.mobile) {

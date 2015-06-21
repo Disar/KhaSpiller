@@ -1246,28 +1246,27 @@ class SpiCamera extends SpiBasic
 	// 	return glCamera;
 	// }
 
-	// /**
-	//  * If we want to use the Zoom Offset for bounds checking.
-	//  */
-	// public void setUseZoomOffsetForBounds(boolean value)
-	// {
-	// 	_useZoomOffsetForBounds = value;
-	// }
+	/**
+	 * If we want to use the Zoom Offset for bounds checking.
+	 */
+	public function setUseZoomOffsetForBounds(value:Bool):Void
+	{
+		_useZoomOffsetForBounds = value;
+	}
 
-
-	// /**
-	//  * Return if we are using the Zoom Offset for bounds checking.
-	//  */
-	// public boolean getUseZoomOffsetForBounds()
-	// {
-	// 	return _useZoomOffsetForBounds;
-	// }
+	/**
+	 * Return if we are using the Zoom Offset for bounds checking.
+	 */
+	public function getUseZoomOffsetForBounds():Bool
+	{
+		return _useZoomOffsetForBounds;
+	}
 	
-	// /**
-	//  * Get the offset full screen.
-	//  */
-	// public SpiPoint getOffsetFullscreen()
-	// {
-	// 	return _offsetFullscreen;
-	// }
+	/**
+	 * Get the offset full screen.
+	 */
+	public function getOffsetFullscreen():SpiPoint
+	{
+		return _offsetFullscreen;
+	}
 }

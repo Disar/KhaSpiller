@@ -17,6 +17,7 @@ typedef ReplayCallback = Void->Void;
  */
 class SpiReplay
 {
+	#if SPI_RECORD_REPLAY
 	/**
 	 * The random number generator seed value for this recording.
 	 */
@@ -194,4 +195,5 @@ class SpiReplay
 		frame = 0;
 		finished = false;
 	}
+	#end
 }

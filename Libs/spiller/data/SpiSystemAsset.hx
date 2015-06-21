@@ -14,7 +14,7 @@ class SpiSystemAsset
 	/**
 	 * The file handler.
 	 */
-	public static inline var systemFont:String = "com/ratalaika/spiller/data/font/nokiafc22.ttf";
+	public static inline var systemFont:String = "nokiafc";
 	/**
 	 * The default image, used when creating an empty {@link SpiSprite}.
 	 */

@@ -297,6 +297,7 @@ class SpiBasic implements ISpiDestroyable
 
 /**
  * Types of spiller objects - mainly for collisions.
+ * To be safe, start your own ID's from 1000.
  */
 abstract SpiType(Int) from Int from UInt to Int to UInt
 {
@@ -310,5 +311,5 @@ abstract SpiType(Int) from Int from UInt to Int to UInt
 
 
 
-	public static inline var PLUGIN_TIME_MANAGER:SpiType    = 1000;
+	public static inline var PLUGIN_TIME_MANAGER:SpiType    = 500;
 }

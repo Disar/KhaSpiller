@@ -11,6 +11,7 @@ package spiller.system.replay;
  */
 class SpiMouseRecord
 {
+	#if SPI_RECORD_REPLAY
 	/**
 	 * The main X value of the mouse in world space.
 	 */
@@ -43,4 +44,5 @@ class SpiMouseRecord
 		button = Button;
 		wheel = Wheel;
 	}
+	#end
 }

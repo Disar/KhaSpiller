@@ -2,14 +2,25 @@
 	"format": 2,
 	"game": {
 		"name": "KhaSpiller",
-		"width": 800,
+		"width": 640,
 		"height": 480
 	},
 	"assets": [
-		
+		{
+			"type": "blob",
+			"file": "font/nokiafc12.kravur",
+			"name": "nokiafc12.kravur"
+		}
 	],
 	"rooms": [
-		
+		{
+			"name": "spiller",
+			"parent": null,
+			"neighbours": [],
+			"assets": [
+				"nokiafc12.kravur"
+			]
+		}
 	],
 	"sources": [
 		"Libs/"

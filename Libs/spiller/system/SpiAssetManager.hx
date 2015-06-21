@@ -7,10 +7,13 @@ import kha.Sound;
 import kha.Music;
 import kha.Blob;
 import kha.StorageFile;
+import kha.Video;
 
 import spiller.SpiG;
 import spiller.system.SpiAssetManager.AssetType;
 import spiller.util.tmx.TiledMap;
+import spiller.system.kha.graphics.atlas.AtlasRegion;
+import spiller.system.kha.graphics.atlas.TextureAtlas;
 
 /**
  * This class provides an easy way to load and store textures, fonts, sounds and music.
@@ -33,6 +36,14 @@ class SpiAssetManager
 	 * The assets map.
 	 */
 	private var _groups:Map<String, Array<Asset>>;
+	/**
+	 * The runtime textures.
+	 */
+	private var _runtimeTextures:Map<String, AtlasRegion>;
+	/**
+	 * The atlas maps.
+	 */
+	private var _textureAtlases:Map<String, TextureAtlas>;
 	
 	/**
 	 * Return the manager instance.
@@ -48,6 +59,8 @@ class SpiAssetManager
 	public function new()
 	{
 		_assetManager = Loader.the;
+		_runtimeTextures = new Map<String, AtlasRegion>();
+		_textureAtlases = new Map<String, TextureAtlas>();
 	}
 
 	/**
@@ -59,15 +72,44 @@ class SpiAssetManager
 	 * 
 	 * @return The asset, if found.
 	 */
-	public function load(FileName:String, Type:AssetType):Dynamic
+	public function get(fileName:String, type:AssetType):Dynamic
 	{
-		if(!Loader.containsAsset(FileName, Type))
-		{
-			_assetManager.load(FileName, Type);
-			_assetManager.finishLoading();
+		if(!containsAsset(fileName, type)) {
+			throw "Asset " + fileName + " not loaded!";
 		}
 
-		return _assetManager.get(FileName, Type);
+		switch(type) {
+			case IMAGE:
+				return getImage(fileName);
+			case MUSIC:
+				return getMusic(fileName);
+			case SOUND:
+				return getSound(fileName);
+			case VIDEO:
+				return getVideo(fileName);
+			case BLOB:
+				return getBlob(fileName);
+			case SHADER:
+				return getShader(fileName);
+			case ATLAS:
+				return getAtlas(fileName);
+			case ANY:
+				return null;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Generate a new atlas from an image and a text, LibGDX style.
+	 * The atlas image & text MUST be loaded before call this.
+	 * This method only set up memory atlas representation not loads anything.
+	 */
+	public function loadAtlas(fileText:String, graphicImage:String, atlasId:String):Void
+	{
+		var textureAtlas = new TextureAtlas();
+		textureAtlas.loadAtlas(fileText, graphicImage);
+		_textureAtlases.set(atlasId, textureAtlas);
 	}
 
 	/**
@@ -90,6 +132,10 @@ class SpiAssetManager
 				_assetManager.removeBlob(_assetManager.blobs, FileName);
 			case SHADER:
 			case ANY:
+			case ATLAS:
+				_textureAtlases.remove(FileName);
+				_assetManager.removeImage(_assetManager.images, FileName);
+
 		}
 	}
 
@@ -115,8 +161,13 @@ class SpiAssetManager
 			case BLOB:
 				return _assetManager.isBlobAvailable(FileName);
 			case SHADER:
+				//TODO return _assetManager.isShaderAvailable(FileName);
+			case ATLAS:
+				return _textureAtlases.exists(FileName);
 			case ANY:
-				return _assetManager.isImageAvailable(FileName) || 
+				return _textureAtlases.exists(FileName)         ||
+					   _runtimeTextures.exists(FileName)        ||
+					   _assetManager.isImageAvailable(FileName) || 
 					   _assetManager.isSoundAvailable(FileName) ||
 					   _assetManager.isMusicAvailable(FileName) ||
 					   _assetManager.isBlobAvailable(FileName)  ||
@@ -126,67 +177,32 @@ class SpiAssetManager
 		return false;
 	}
 
-	// /**
-	//  * Disposes all textures that were created at run time i.e. not loaded from
-	//  * an external file.
-	//  */
-	// public void disposeRunTimeTextures()
-	// {
-	// 	// Dispose TextureAtlases first, to prevent conflicts with textures that
-	// 	// are parts of atlases.
-	// 	Array<String> assetNames = _assetManager.getAssetNames();
+	/**
+	 * Disposes all textures that were created at run time i.e. not loaded from
+	 * an external file.
+	 */
+	public function disposeRunTimeTextures():Void
+	{
+		for (textureKey in _runtimeTextures.keys()) {
+			var texture:AtlasRegion = _runtimeTextures.get(textureKey);
+			_runtimeTextures.remove(textureKey);
+			_textureAtlases.remove(textureKey);
+			texture.getTexture().unload();
+		}
+	}
 
-	// 	// Cycle through all the assets looking for TextureAtlases. If any of an
-	// 	// atlas' textures were
-	// 	// dynamically created, dispose the whole thing.
-	// 	for(String assetName : assetNames)
-	// 	{
-	// 		if(_assetManager.isLoaded(assetName) && _assetManager.getAssetType(assetName).equals(TextureAtlas.class))
-	// 		{
-	// 			Array<String> dependencies = _assetManager.getDependencies(assetName);
-	// 			boolean dispose = false;
-	// 			for(String dependency : dependencies)
-	// 			{
-	// 				Texture texture = _assetManager.get(dependency, Texture.class);
-	// 				TextureData textureData = texture.getTextureData();
-	// 				// Quickest way to check if Texture was created at run time
-	// 				// or not.
-	// 				if(!textureData.disposePixmap())
-	// 				{
-	// 					dispose = true;
+	/**
+	 * Disposes all textures that were created at run time i.e. not loaded from
+	 * an external file.
+	 */
+	public function addRuntimeTexture(key:String, image:Image):Void
+	{
+		if(_runtimeTextures.exists(key))
+			return;
 
-	// 					if(!textureData.isPrepared())
-	// 						textureData.prepare();
-
-	// 					textureData.consumePixmap().dispose();
-	// 				}
-	// 			}
-	// 			if(dispose)
-	// 				_assetManager.unload(assetName);
-	// 		}
-	// 	}
-
-	// 	// Now safe to dispose all other managed Textures
-	// 	assetNames = _assetManager.getAssetNames();
-
-	// 	for(String assetName : assetNames)
-	// 	{
-	// 		if(_assetManager.getAssetType(assetName).equals(Texture.class))
-	// 		{
-	// 			Texture texture = _assetManager.get(assetName, Texture.class);
-	// 			TextureData textureData = texture.getTextureData();
-	// 			if(!textureData.disposePixmap())
-	// 			{
-	// 				_assetManager.unload(assetName);
-
-	// 				if(!textureData.isPrepared())
-	// 					textureData.prepare();
-
-	// 				textureData.consumePixmap().dispose();
-	// 			}
-	// 		}
-	// 	}
-	// }
+		var atlas:AtlasRegion = new AtlasRegion(image, key);
+		_runtimeTextures.set(key, atlas);
+	}
 
 	/**
 	 * Disposes all assets of a certain type.
@@ -194,10 +210,18 @@ class SpiAssetManager
 	public function disposeAssets(Type:AssetType):Void
 	{
 		switch(Type) {
+			case SHADER:
+			case ANY:
 			case IMAGE:
 				for (imagename in _assetManager.images.keys()) {
 					if (!Loader.containsAsset(imagename, "image", _assetManager.enqueued))
 						_assetManager.removeImage(_assetManager.images, imagename);
+				}
+				for (textureKey in _runtimeTextures.keys()) {
+					var texture:AtlasRegion = _runtimeTextures.get(textureKey);
+					_runtimeTextures.remove(textureKey);
+					_textureAtlases.remove(textureKey);
+					texture.getTexture().unload();
 				}
 			case MUSIC:
 				for (musicname in _assetManager.musics.keys()) { 
@@ -219,8 +243,12 @@ class SpiAssetManager
 					if (!Loader.containsAsset(blobname,  "blob",  _assetManager.enqueued))
 						_assetManager.removeBlob(_assetManager.blobs, blobname);
 				}
-			case ANY:
-			case SHADER:
+			case ATLAS:
+				for (atlasKey in _textureAtlases.keys()) {
+					if (!Loader.containsAsset(atlasKey, "image", _assetManager.enqueued))
+						_assetManager.removeImage(_assetManager.images, atlasKey);
+					_textureAtlases.remove(atlasKey);
+				}
 		}
 	}
 
@@ -346,6 +374,17 @@ class SpiAssetManager
 	}
 
 	/**
+	 * Get an video according to its file name.
+	 * 
+	 * @param fileName The file name.
+	 * @return The asset.
+	 */
+	public function getVideo(fileName:String):Video
+	{
+		return _assetManager.getVideo(fileName);
+	}
+
+	/**
 	 * Get an blob according to its file name.
 	 * 
 	 * @param fileName The file name.
@@ -357,7 +396,7 @@ class SpiAssetManager
 	}
 
 	/**
-	 * Get an shader according to its file name.
+	 * Get a shader according to its file name.
 	 * 
 	 * @param fileName The file name.
 	 * @return The asset.
@@ -365,6 +404,20 @@ class SpiAssetManager
 	public function getShader(fileName:String):Blob
 	{
 		return _assetManager.getShader(fileName);
+	}
+
+	/**
+	 * Get an atlas according to its file name.
+	 * 
+	 * @param fileName The file name.
+	 * @return The asset.
+	 */
+	public function getAtlas(fileName:String):Dynamic
+	{
+		if(_runtimeTextures.exists(fileName))
+			return _runtimeTextures.get(fileName);
+		else
+			return _textureAtlases.get(fileName);
 	}
 
 	/**
@@ -480,4 +533,5 @@ enum AssetType
 	VIDEO;
 	BLOB;
 	SHADER;
+	ATLAS;
 }

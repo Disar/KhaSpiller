@@ -1,5 +1,7 @@
 package spiller.util;
 
+import kha.Color;
+
 import spiller.math.SpiMath;
 import spiller.system.macros.SpiMacroUtil;
 
@@ -74,6 +76,154 @@ abstract SpiColor(Int) from Int from UInt to Int to UInt
 	public var lightness(get, set):Float;
 	
 	private static var COLOR_REGEX = ~/^(0x|#)(([A-F0-9]{2}){3,4})$/i;
+
+	// /**
+	//  * Returns a random color value between black and white
+	//  * <p>
+	//  * Set the min value to start each channel from the given offset.
+	//  * </p>
+	//  * <p>
+	//  * Set the max value to restrict the maximum color used per channel
+	//  * </p>
+	//  * 
+	//  * @param min The lowest value to use for the color
+	//  * @param max The highest value to use for the color
+	//  * @param alpha The alpha value of the returning color (default 255 = fully opaque)
+	//  * 
+	//  * @return 32-bit color value with alpha
+	//  */
+	// public static int getRandomColor(int min, int max, int alpha)
+	// {
+	// 	// Sanity checks
+	// 	if(max > 255) {
+	// 		SpiG.log("SpiColor Warning: getRandomColor - max value too high");
+	// 		return getColor24(255, 255, 255);
+	// 	}
+		
+	// 	if(min > max) {
+	// 		SpiG.log("SpiColor Warning: getRandomColor - min value higher than max");
+	// 		return getColor24(255, 255, 255);
+	// 	}
+		
+	// 	int red = (int) (min + SpiG.random() * (max - min));
+	// 	int green = (int) (min + SpiG.random() * (max - min));
+	// 	int blue = (int) (min + SpiG.random() * (max - min));
+		
+	// 	return getColor32(alpha, red, green, blue);
+	// }
+
+
+	// /**
+	//  * Given an alpha and 3 color values this will return an integer representation of it
+	//  * 
+	//  * @param alpha The Alpha value (between 0 and 255)
+	//  * @param red The Red channel value (between 0 and 255)
+	//  * @param green The Green channel value (between 0 and 255)
+	//  * @param blue The Blue channel value (between 0 and 255)
+	//  * 
+	//  * @return A native color value integer (format: 0xAARRGGBB)
+	//  */
+	// public static int getColor32(int alpha, int red, int green, int blue)
+	// {
+	// 	return alpha << 24 | red << 16 | green << 8 | blue;
+	// }
+
+	// *
+	//  * Given 3 color values this will return an integer representation of it
+	//  * 
+	//  * @param red The Red channel value (between 0 and 255)
+	//  * @param green The Green channel value (between 0 and 255)
+	//  * @param blue The Blue channel value (between 0 and 255)
+	//  * 
+	//  * @return A native color value integer (format: 0xRRGGBB)
+	 
+	// public static int getColor24(int red, int green, int blue)
+	// {
+	// 	return red << 16 | green << 8 | blue;
+	// }
+
+	// /**
+	//  * Return the component parts of a color as an Object with the properties alpha, red, green, blue
+	//  * 
+	//  * <p>
+	//  * Alpha will only be set if it exist in the given color (0xAARRGGBB)
+	//  * </p>
+	//  * 
+	//  * @param color in RGB (0xRRGGBB) or ARGB format (0xAARRGGBB)
+	//  * 
+	//  * @return Object with properties: alpha, red, green, blue
+	//  */
+	// // TODO: public static int getRGB(int color):Object
+	// // {
+	// // var alpha = color >>> 24;
+	// // var red = color >> 16 & 0xFF;
+	// // var green = color >> 8 & 0xFF;
+	// // var blue = color & 0xFF;
+	// //
+	// // return { alpha: alpha, red: red, green: green, blue: blue };
+	// // }
+
+	// /**
+	//  * Given a native color value (in the format 0xAARRGGBB) this will return the Alpha component, as a value between 0 and 255
+	//  * 
+	//  * @param color In the format 0xAARRGGBB
+	//  * 
+	//  * @return The Alpha component of the color, will be between 0 and 255 (0 being no Alpha, 255 full Alpha)
+	//  */
+	// public static int getAlpha(int color)
+	// {
+	// 	return color >>> 24;
+	// }
+
+	// /**
+	//  * Given a native color value (in the format 0xAARRGGBB) this will return the Alpha component as a value between 0 and 1
+	//  * 
+	//  * @param color In the format 0xAARRGGBB
+	//  * 
+	//  * @return The Alpha component of the color, will be between 0 and 1 (0 being no Alpha (opaque), 1 full Alpha (transparent))
+	//  */
+	// public static float getAlphaFloat(int color)
+	// {
+	// 	int f = color >>> 24;
+
+	// 	return f / 255;
+	// }
+
+	/**
+	 * Given a native color value (in the format 0xAARRGGBB) this will return the Red component, as a value between 0 and 255
+	 * 
+	 * @param color In the format 0xAARRGGBB
+	 * 
+	 * @return The Red component of the color, will be between 0 and 255 (0 being no color, 255 full Red)
+	 */
+	public static inline function getRed(color:Int)
+	{
+		return color >> 16 & 0xFF;
+	}
+
+	/**
+	 * Given a native color value (in the format 0xAARRGGBB) this will return the Green component, as a value between 0 and 255
+	 * 
+	 * @param color In the format 0xAARRGGBB
+	 * 
+	 * @return The Green component of the color, will be between 0 and 255 (0 being no color, 255 full Green)
+	 */
+	public static inline function getGreen(color:Int)
+	{
+		return color >> 8 & 0xFF;
+	}
+
+	/**
+	 * Given a native color value (in the format 0xAARRGGBB) this will return the Blue component, as a value between 0 and 255
+	 * 
+	 * @param color In the format 0xAARRGGBB
+	 * 
+	 * @return The Blue component of the color, will be between 0 and 255 (0 being no color, 255 full Blue)
+	 */
+	public static inline function getBlue(color:Int)
+	{
+		return color & 0xFF;
+	}
 	
 	/**
 	 * Create a color from the lest significant four bytes of an Int
@@ -360,6 +510,16 @@ abstract SpiColor(Int) from Int from UInt to Int to UInt
 	public inline function to24Bit():SpiColor
 	{
 		return this & 0xffffff;
+	}
+
+	/**
+	 * Return a Kha Color version of this color.
+	 * 
+	 * @return A Kha Color version of this color
+	 */
+	public inline function toKhaColor():Color
+	{
+		return Color.fromValue(this);
 	}
 	
 	/**

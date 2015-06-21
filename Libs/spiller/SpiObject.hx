@@ -2,7 +2,7 @@ package spiller;
 
 import spiller.math.SpiMath;
 // import spiller.system.SpiTile;
-import spiller.system.flash.Graphics;
+import spiller.system.flash.FlashGraphics;
 import spiller.SpiBasic.SpiType;
 import spiller.util.SpiColor;
 import spiller.util.SpiDestroyUtil;
@@ -510,7 +510,7 @@ class SpiObject extends SpiBasic
 		var boundingBoxWidth = Std.int(width);
 		var boundingBoxHeight = Std.int(height);
 		
-		var gfx:Graphics = SpiG.flashGfx;
+		var gfx:FlashGraphics = SpiG.flashGfx;
 		var boundingBoxColor:Int;
 		if(allowCollisions > 0)
 		{

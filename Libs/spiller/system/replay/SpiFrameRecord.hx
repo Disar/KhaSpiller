@@ -9,6 +9,7 @@ import spiller.system.input.SpiInput.KeyData;
  */
 class SpiFrameRecord
 {
+	#if SPI_RECORD_REPLAY
 	/**
 	 * Which frame of the game loop this record is from or for.
 	 */
@@ -142,4 +143,5 @@ class SpiFrameRecord
 			
 		return this;
 	}
+	#end
 }

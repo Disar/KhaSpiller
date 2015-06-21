@@ -211,6 +211,11 @@ class SpiMouse
 		// Update the x, y, screenX, and screenY variables based on the default camera.
 		// This is basically a combination of getWorldPosition() and getScreenPosition()
 		var camera:SpiCamera = SpiG.camera;
+
+		//TODO Remove?
+		if(camera == null)
+			return;
+
 		screenX = Std.int((o.screenPosition.x - camera.x)/(camera.getZoom() * camera._screenScaleFactorX));
 		screenY = Std.int((o.screenPosition.y - camera.y)/(camera.getZoom() * camera._screenScaleFactorY));
 		x = screenX + camera.scroll.x;

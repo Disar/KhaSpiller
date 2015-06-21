@@ -1,22 +1,35 @@
 package spiller;
 
+import haxe.CallStack;
+
+import kha.Configuration;
 import kha.graphics2.Graphics;
+import kha.graphics4.Program;
 import kha.Image;
 
+import kha.Scheduler;
+import kha.Scheduler.TimeTask;
+import spiller.math.SpiMath;
 import spiller.math.SpiRandom;
 import spiller.math.SpiPoint;
 import spiller.math.SpiRect;
 import spiller.physics.SpiQuadTree;
-import spiller.system.flash.Graphics;
+import spiller.system.flash.FlashGraphics;
 import spiller.system.flash.SpiGameStage;
 import spiller.system.input.SpiKeyboard;
 import spiller.system.input.SpiMouse;
 import spiller.sound.SpiSound;
 import spiller.sound.SpiVolumeHandler;
+import spiller.system.kha.graphics.atlas.AtlasRegion;
+import spiller.system.kha.graphics.atlas.TextureAtlas;
+import spiller.system.kha.graphics.SpiShaderProgram;
 import spiller.system.SpiPause.PauseEvent;
 import spiller.SpiBasic.SpiType;
 import spiller.system.store.SpiSave;
 import spiller.system.SpiAssetManager;
+import spiller.effects.lighting.SpiLightning;
+import spiller.util.SpiColor;
+import spiller.system.time.SpiTimerManager;
 
 #if SPI_RECORD_REPLAY
 import spiller.system.replay.SpiReplay;
@@ -35,10 +48,10 @@ import spiller.system.replay.SpiReplay;
  * 
  * @version 1.4 - 02/07/2013
  * @author ratalaika / Ratalaika Games
- * @author Ka Wing Chin
- * @author Thomas Weston
  */
 @:allow(spiller)
+@:access(kha.Scheduler)
+@:access(kha.Configuration)
 class SpiG
 {
 	// /**
@@ -243,15 +256,15 @@ class SpiG
 	 * declared above, but you can do what you like with it.
 	 */
 	public static var camera:SpiCamera;
-	// /**
-	//  * An array container for <code>ShaderProgram</code>s.
-	//  */
-	// public static ObjectMap<String, SpiShaderProgram> shaders;
-	// /**
-	//  * This <code>ShaderProgram</code> will be used for
-	//  * <code>SpriteBatch.setShader()</code> only.
-	//  */
-	// public static ShaderProgram batchShader;
+	/**
+	 * An array container for <code>ShaderProgram</code>s.
+	 */
+	public static var shaders:Map<String, SpiShaderProgram>;
+	/**
+	 * This <code>ShaderProgram</code> will be used for
+	 * <code>SpriteBatch.setShader()</code> only.
+	 */
+	public static var batchShader:Program;
 	/**
 	 * An array container for plugins.
 	 * By default spiller uses a couple of plugins:
@@ -262,7 +275,7 @@ class SpiG
 	 * Useful helper objects for doing Flash-specific rendering.
 	 * Primarily used for "debug visuals" like drawing bounding boxes directly to the screen buffer.
 	 */
-	public static var flashGfx:Graphics;
+	public static var flashGfx:FlashGraphics;
 	/**
 	 * Internal storage system to prevent assets from being used repeatedly in memory.
 	 */
@@ -279,18 +292,18 @@ class SpiG
 	 * The camera currently being drawn.
 	 */
 	private static var activeCamera:SpiCamera;
-	// /**
-	//  * The sprite lightning plugin.
-	//  */
-	// public static SpiLightning spriteLightning;
+	/**
+	 * The sprite lightning plugin.
+	 */
+	public static var spriteLightning:SpiLightning;
 	// /**
 	//  * Internal, a pre-allocated array to prevent <code>new</code> calls.
 	//  */
 	// private static float[] _floatArray;
-	// /**
-	//  * Global tweener for tweening between multiple worlds
-	//  */
-	// public static SpiBasic tweener = new SpiBasic();
+	/**
+	 * Global tweener for tweening between multiple worlds
+	 */
+	public static var tweener:SpiBasic = new SpiBasic();
 	/**
 	 * Helper to refer a (1, 1) SpiPoint.
 	 */
@@ -390,17 +403,13 @@ class SpiG
 		}
 	}
 
-	// /**
-	//  * Get the current stack trace.
-	//  */
-	// public static String getStackTrace()
-	// {
-	// 	StackTraceElement[] st = Thread.currentThread().getStackTrace();
-	// 	StringBuffer buf = new StringBuffer();
-	// 	for(int i = 0; i < st.length; i++)
-	// 		buf.append("StackTrace"+ " "+ st[i] + "\n");
-	// 	return buf.toString();
-	// }
+	/**
+	 * Get the current stack trace.
+	 */
+	public static function getStackTrace():String
+	{
+		return CallStack.toString(CallStack.callStack());
+	}
 
 	/**
 	 * Disable the pause system.
@@ -550,8 +559,9 @@ class SpiG
 			_game.maxAccumulation = Std.int(_game._step);
 
 		// Update the fps at runtime
-		//if(updateFPS != null)
-		//	updateFPS.updateFPS(Framerate);
+		var timerTask:TimeTask = Scheduler.getTimeTask(Configuration.id);
+		if(timerTask != null)
+			timerTask.period = 1 / Framerate;
 	}
 	
 	/**
@@ -1393,199 +1403,114 @@ class SpiG
 	 */
 	public static function checkBitmapCache(Key:String):Bool
 	{
-		return _cache.containsAsset(Key, IMAGE);
+		return _cache.containsAsset(Key, IMAGE) || _cache.containsAsset(Key, ATLAS);
 	}
 	
-// 	/**
-// 	 * Generates a new <code>TextureRegion</code> object (a colored square) and caches it.
-// 	 * 
-// 	 * @param Width 	How wide the square should be.
-// 	 * @param Height 	How high the square should be.
-// 	 * @param Color 	What color the square should be (0xAARRGGBB)
-// 	 * @param Unique	Ensures that the <code>TextureRegion</code> uses a new slot in the cache.
-// 	 * @param Key		Force the cache to use a specific Key to index the <code>TextureRegion</code>.
-// 	 * 
-// 	 * @return The <code>AtlasRegion</code> we just created.
-// 	 */
-// 	public static AtlasRegion createBitmap(int Width, int Height, int Color, boolean Unique, String Key)
-// 	{		
-// 		if(Key == null)
-// 		{
-// 			Key = Width+"x"+Height+":"+Color;
-// 			if(Unique && checkBitmapCache(Key))
-// 			{
-// 				// Generate a unique key
-// 				int inc = 0;
-// 				String ukey;
-// 				do
-// 				{
-// 					ukey = Key + inc++;
-// 				}
-// 				while(checkBitmapCache(ukey));
-// 				Key = ukey;
-// 			}
-// 		}
+	/**
+	 * Generates a new <code>TextureRegion</code> object (a colored square) and caches it.
+	 * 
+	 * @param Width 	How wide the square should be.
+	 * @param Height 	How high the square should be.
+	 * @param Color 	What color the square should be (0xAARRGGBB)
+	 * @param Unique	Ensures that the <code>TextureRegion</code> uses a new slot in the cache.
+	 * @param Key		Force the cache to use a specific Key to index the <code>TextureRegion</code>.
+	 * 
+	 * @return The <code>AtlasRegion</code> we just created.
+	 */
+	public static function createBitmap(Width:Int, Height:Int, Color:SpiColor, Unique:Bool = false, Key:String = null):AtlasRegion
+	{		
+		if(Key == null)
+		{
+			Key = Width+"x"+Height+":"+Color;
+			if(Unique && checkBitmapCache(Key))
+			{
+				// Generate a unique key
+				var inc:Int = 0;
+				var ukey:String;
+				do {
+					ukey = Key + inc++;
+				} while(checkBitmapCache(ukey));
+				Key = ukey;
+			}
+		}
 		
-// 		if(!checkBitmapCache(Key))
-// 		{
-// 			if (Width == 0 || Height == 0)
-// 				throw new RuntimeException("A bitmaps width and height must be greater than zero.");
+		if(!checkBitmapCache(Key))
+		{
+			if (Width == 0 || Height == 0) {
+				throw "A bitmaps width and height must be greater than zero.";
+			}
 
-// 			Pixmap pixmap = new Pixmap(MathUtils.nextPowerOfTwo(Width), MathUtils.nextPowerOfTwo(Height), Format.RGBA8888);			
-// 			pixmap.setColor(SpiU.argbToRgba(Color));
-// 			pixmap.fill();
-			
-// 			TextureParameter parameter = new TextureParameter();
-// 			parameter.textureData = new SpiManagedTextureData(pixmap);
-// 			_cache.load(Key, Texture.class, parameter);
-// 		}
-// 		return new AtlasRegion(_cache.load(Key, Texture.class), 0, 0, Width, Height);
-// 	}
+			var pixmap:Image = Image.create(SpiMath.ceilPowerOfTwo(Width), SpiMath.ceilPowerOfTwo(Height));
+			pixmap.g2.color = Color.toKhaColor();
+			pixmap.g2.fillRect(0, 0, Width, Height);
+			pixmap.g2.color = SpiColor.WHITE.toKhaColor();
+			_cache.addRuntimeTexture(Key, pixmap);
+		}
+		return _cache.get(Key, ATLAS);
+	}
 	
-	// /**
-	//  * Generates a new <code>TextureRegion</code> object (a colored square) and caches it.
-	//  * 
-	//  * @param Width 	How wide the square should be.
-	//  * @param Height 	How high the square should be.
-	//  * @param Color 	What color the square should be (0xAARRGGBB)
-	//  * @param Unique	Ensures that the <code>TextureRegion</code> uses a new slot in the cache.
-	//  * 
-	//  * @return The <code>AtlasRegion</code> we just created.
-	//  */
-	// public static AtlasRegion createBitmap(int Width, int Height, int Color, boolean Unique)
-	// {
-	// 	return createBitmap(Width, Height, Color, Unique, null);
-	// }
+	/**
+	 * Loads a <code>TextureRegion</code> from a file and caches it.
+	 * 
+	 * @param	Graphic		The image file that you want to load.
+	 * @param	Reverse		Whether to generate a flipped version. Not used.
+	 * @param	Unique		Ensures that the <code>TextureRegion</code> uses a new slot in the cache.
+	 * @param	Key			Force the cache to use a specific Key to index the <code>TextureRegion</code>.
+	 * 
+	 * @return	The <code>AtlasRegion</code> we just created.
+	 */
+	public static function addBitmap(Graphic:String, Reverse:Bool = false, Unique:Bool = false, Key:String = null):AtlasRegion
+	{
+		if(Key != null) {
+			Unique = true;
+		} else {
+			Key = Graphic/*+(Reverse?"_REVERSE_":"")*/;
+			if(Unique && checkBitmapCache(Key)) {
+				var inc:Int = 0;
+				var ukey:String;
+				do {
+					ukey = Key + inc++;
+				} while(checkBitmapCache(ukey));
+				Key = ukey;
+			}
+		}
+		
+		var atlasRegion:AtlasRegion = null;
+		var split:Array<String> = Graphic.split(":");
 
-	// /**
-	//  * Generates a new <code>TextureRegion</code> object (a colored square) and caches it.
-	//  * 
-	//  * @param Width 	How wide the square should be.
-	//  * @param Height 	How high the square should be.
-	//  * @param Color 	What color the square should be (0xAARRGGBB)
-	//  * 
-	//  * @return The <code>AtlasRegion</code> we just created.
-	//  */
-	// public static AtlasRegion createBitmap(int Width, int Height, int Color)
-	// {
-	// 	return createBitmap(Width, Height, Color, false, null);
-	// }
-	
-	// /**
-	//  * Loads a <code>TextureRegion</code> from a file and caches it.
-	//  * 
-	//  * @param	Graphic		The image file that you want to load.
-	//  * @param	Reverse		Whether to generate a flipped version. Not used.
-	//  * @param	Unique		Ensures that the <code>TextureRegion</code> uses a new slot in the cache.
-	//  * @param	Key			Force the cache to use a specific Key to index the <code>TextureRegion</code>.
-	//  * 
-	//  * @return	The <code>AtlasRegion</code> we just created.
-	//  */
-	// public static AtlasRegion addBitmap(String Graphic, boolean Reverse, boolean Unique, String Key)
-	// {
-	// 	if(Key != null) {
-	// 		Unique = true;
-	// 	} else {
-	// 		Key = Graphic/*+(Reverse?"_REVERSE_":"")*/;
-	// 		if(Unique && checkBitmapCache(Key)) {
-	// 			int inc = 0;
-	// 			String ukey;
-	// 			do {
-	// 				ukey = Key + inc++;
-	// 			} while(checkBitmapCache(ukey));
-	// 			Key = ukey;
-	// 		}
-	// 	}
+		// If no region has been specified, load as standard texture 
+		if (split.length == 1) {
+			var texture:Image = _cache.getImage(Graphic);
+			atlasRegion = new AtlasRegion(texture, 0, 0, texture.width, texture.height);
+		// Otherwise, load as TextureAtlas 
+		} else if (split.length == 2) {
+			var fileName:String = split[0];
+			var regionName:String = split[1];
 		
-	// 	AtlasRegion atlasRegion = null;
-	// 	String[] split = Graphic.split(":");
+			atlasRegion = loadTextureAtlas(fileName).findRegion(regionName);
+		
+			if (atlasRegion == null)
+				throw "Could not find region " + regionName + " in " + fileName;
+		} else {
+			throw "Invalid path: " + Graphic + ".";
+		}
+		
+		if (Unique) {
+			if(!checkBitmapCache(Key)) {
+				var rx:Int = atlasRegion.getRegionX();
+				var ry:Int = atlasRegion.getRegionY();
+				var rw:Int = atlasRegion.getRegionWidth();
+				var rh:Int = atlasRegion.getRegionHeight();
+				
+				var newPixmap:Image = Image.create(SpiMath.ceilPowerOfTwo(rw), SpiMath.ceilPowerOfTwo(rh));
+				newPixmap.g2.drawSubImage(atlasRegion.getTexture(), 0, 0, rx, ry, rw, rh);
+				_cache.addRuntimeTexture(Key, newPixmap);
+			}
+			atlasRegion = _cache.get(Key, ATLAS);
+		}
 
-	// 	// If no region has been specified, load as standard texture 
-	// 	if (split.length == 1) {
-	// 		Texture texture = _cache.load(Graphic, Texture.class);
-	// 		atlasRegion = new AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
-	// 	// Otherwise, load as TextureAtlas 
-	// 	} else if (split.length == 2) {
-	// 		String fileName = split[0];
-	// 		String regionName = split[1];
-		
-	// 		atlasRegion = loadTextureAtlas(fileName).findRegion(regionName);
-		
-	// 		if (atlasRegion == null)
-	// 			throw new RuntimeException("Could not find region " + regionName + " in " + fileName);
-	// 	}
-	// 	else
-	// 	{
-	// 		throw new IllegalArgumentException("Invalid path: " + Graphic + ".");
-	// 	}
-		
-	// 	if (Unique) {
-	// 		if(!checkBitmapCache(Key)) {
-	// 			TextureData textureData = atlasRegion.getTexture().getTextureData();
-		
-	// 			if(!textureData.isPrepared())
-	// 				textureData.prepare();
-				
-	// 			int rx = atlasRegion.getRegionX();
-	// 			int ry = atlasRegion.getRegionY();
-	// 			int rw = atlasRegion.getRegionWidth();
-	// 			int rh = atlasRegion.getRegionHeight();
-				
-	// 			Pixmap newPixmap = new Pixmap(MathUtils.nextPowerOfTwo(rw), MathUtils.nextPowerOfTwo(rh), Pixmap.Format.RGBA8888);
-	// 			Pixmap graphicPixmap = textureData.consumePixmap();
-	// 			newPixmap.drawPixmap(graphicPixmap, 0, 0, rx, ry, rw, rh);
-				
-	// 			if (textureData.disposePixmap())
-	// 				graphicPixmap.dispose();
-				
-	// 			TextureParameter parameter = new TextureParameter();
-	// 			parameter.textureData = new SpiManagedTextureData(newPixmap);
-	// 			_cache.load(Key, Texture.class, parameter);
-	// 		}
-	// 		atlasRegion = new AtlasRegion(_cache.load(Key, Texture.class), 0, 0, atlasRegion.getRegionWidth(), atlasRegion.getRegionHeight());
-	// 	}
-
-	// 	return atlasRegion;
-	// }
-	
-	// /**
-	//  * Loads a <code>AtlasRegion</code> from a file and caches it.
-	//  * 
-	//  * @param	Graphic		The image file that you want to load.
-	//  * @param	Reverse		Whether to generate a flipped version. Not used.
-	//  * @param	Unique		Ensures that the <code>TextureRegion</code> uses a new slot in the cache.
-	//  * 
-	//  * @return	The <code>AtlasRegion</code> we just created.
-	//  */
-	// public static AtlasRegion addBitmap(String Graphic, boolean Reverse, boolean Unique)
-	// {
-	// 	return addBitmap(Graphic, Reverse, Unique, null);
-	// }
-	
-	// /**
-	//  * Loads a <code>AtlasRegion</code> from a file and caches it.
-	//  * 
-	//  * @param	Graphic		The image file that you want to load.
-	//  * @param	Reverse		Whether to generate a flipped version. Not used.
-	//  * 
-	//  * @return	The <code>AtlasRegion</code> we just created.
-	//  */
-	// public static AtlasRegion addBitmap(String Graphic, boolean Reverse)
-	// {
-	// 	return addBitmap(Graphic, Reverse, false, null);
-	// }
-	
-	// /**
-	//  * Loads a <code>AtlasRegion</code> from a file and caches it.
-	//  * 
-	//  * @param	Graphic		The image file that you want to load.
-	//  * 
-	//  * @return	The <code>AtlasRegion</code> we just created.
-	//  */
-	// public static AtlasRegion addBitmap(String Graphic)
-	// {
-	// 	return addBitmap(Graphic, false, false, null);
-	// }
+		return atlasRegion;
+	}
 	
 	/**
 	 * Loads a <code>TextureAtlas</code> from a file and caches it.
@@ -1594,9 +1519,9 @@ class SpiG
 	 * 
 	 * @return The <code>TextureAtlas</code>.
 	 */
-	public static function loadTextureAtlas(Path:String):Image
+	public static function loadTextureAtlas(Path:String):TextureAtlas
 	{
-		return _cache.load(Path, IMAGE);
+		return _cache.get(Path, ATLAS);
 	}
 
 	/**
@@ -1607,7 +1532,7 @@ class SpiG
 	 */
 	public static function disposeTextureAtlas(Path:String):Void
 	{
-		_cache.unload(Path, IMAGE);
+		_cache.unload(Path, ATLAS);
 	}
 	
 	/**
@@ -2171,29 +2096,29 @@ class SpiG
 	//TODO	return overlap(ObjectOrGroup1, ObjectOrGroup2, NotifyCallback, separate);
 	}
 	
-	// /**
-	//  * Adds a new plugin to the global plugin array.
-	//  * 
-	//  * @param	Plugin	Any object that extends SpiBasic. Useful for managers and other things.  See spiller.plugin for some examples!
-	//  * 
-	//  * @return	The same <code>SpiBasic</code>-based plugin you passed in.
-	//  */
-	// public static SpiBasic addPlugin(SpiBasic Plugin)
-	// {
-	// 	// Don't add repeats
-	// 	Array<SpiBasic> pluginList = plugins;
-	// 	int i = 0;
-	// 	int l = pluginList.size;
-	// 	while(i < l)
-	// 	{
-	// 		if(pluginList.get(i++).toString().equals(Plugin.toString()))
-	// 			return Plugin;
-	// 	}
+	/**
+	 * Adds a new plugin to the global plugin array.
+	 * 
+	 * @param	Plugin	Any object that extends SpiBasic. Useful for managers and other things.  See spiller.plugin for some examples!
+	 * 
+	 * @return	The same <code>SpiBasic</code>-based plugin you passed in.
+	 */
+	public static function addPlugin(Plugin:SpiBasic):SpiBasic
+	{
+		// Don't add repeats
+		var pluginList:Array<SpiBasic> = plugins;
+		var i:Int = 0;
+		var l:Int = pluginList.length;
+
+		while(i < l) {
+			if(pluginList[i].type == Plugin.type)
+				return Plugin;
+		}
 		
-	// 	// no repeats! safe to add a new instance of this plugin
-	// 	pluginList.add(Plugin);
-	// 	return Plugin;
-	// }
+		// no repeats! safe to add a new instance of this plugin
+		pluginList.push(Plugin);
+		return Plugin;
+	}
 
 	/**
 	 * Retrieves a plugin based on its class name from the global plugin array.
@@ -2207,8 +2132,7 @@ class SpiG
 		var pluginList:Array<SpiBasic> = plugins;
 		var i:Int = 0;
 		var l:Int = pluginList.length;
-		while(i < l)
-		{
+		while(i < l) {
 			if(pluginList[i].type == ClassType)
 				return plugins[i];
 			i++;
@@ -2216,51 +2140,48 @@ class SpiG
 		return null;
 	}
 		
-	// /**
-	//  * Removes an instance of a plugin from the global plugin array.
-	//  * 
-	//  * @param	Plugin	The plugin instance you want to remove.
-	//  * 
-	//  * @return	The same <code>SpiBasic</code>-based plugin you passed in.
-	//  */
-	// public static SpiBasic removePlugin(SpiBasic Plugin)
-	// {
-	// 	//Don't add repeats
-	// 	Array<SpiBasic> pluginList = plugins;
-	// 	int i = pluginList.size-1;
-	// 	while(i >= 0)
-	// 	{
-	// 		if(pluginList.get(i) == Plugin)
-	// 			pluginList.removeIndex(i);
-	// 		i--;
-	// 	}
-	// 	return Plugin;
-	// }
+	/**
+	 * Removes an instance of a plugin from the global plugin array.
+	 * 
+	 * @param	Plugin	The plugin instance you want to remove.
+	 * 
+	 * @return	The same <code>SpiBasic</code>-based plugin you passed in.
+	 */
+	public static function removePlugin(Plugin:SpiBasic):SpiBasic
+	{
+		var pluginList:Array<SpiBasic> = plugins;
+		var i:Int = pluginList.length - 1;
+
+		while(i >= 0) {
+			if(pluginList[i] == Plugin)
+				pluginList.splice(i, 1);
+			i--;
+		}
+		return Plugin;
+	}
 	
-	// /**
-	//  * Removes an instance of a plugin from the global plugin array.
-	//  * 
-	//  * @param	ClassType	The class name of the plugin type you want removed from the array.
-	//  * 
-	//  * @return	Whether or not at least one instance of this plugin type was removed.
-	//  */
-	// public static boolean removePluginType(Class<? extends SpiBasic> ClassType)
-	// {
-	// 	//Don't add repeats
-	// 	boolean results = false;
-	// 	Array<SpiBasic> pluginList = plugins;
-	// 	int i = pluginList.size-1;
-	// 	while(i >= 0)
-	// 	{
-	// 		if(ClassReflection.isInstance(ClassType, pluginList.get(i)))
-	// 		{
-	// 			pluginList.removeIndex(i);
-	// 			results = true;
-	// 		}
-	// 		i--;
-	// 	}
-	// 	return results;
-	// }
+	/**
+	 * Removes an instance of a plugin from the global plugin array.
+	 * 
+	 * @param	ClassType	The class name of the plugin type you want removed from the array.
+	 * 
+	 * @return	Whether or not at least one instance of this plugin type was removed.
+	 */
+	public static function removePluginType(ClassType:SpiType):Bool
+	{
+		var results:Bool = false;
+		var pluginList:Array<SpiBasic> = plugins;
+		var i:Int = pluginList.length - 1;
+
+		while(i >= 0) {
+			if(pluginList[i].type == ClassType) {
+				pluginList.splice(i, 1);
+				results = true;
+			}
+			i--;
+		}
+		return results;
+	}
 	
 	/**
 	 * Called by <code>SpiGame</code> to set up <code>SpiG</code> during <code>SpiGame</code>'s constructor.
@@ -2284,13 +2205,13 @@ class SpiG
 		SpiCamera.defaultScaleMode = ScaleMode;
 		cameras = new Array<SpiCamera>();
 		displayList = new Array<SpiCamera>();
-	// 	spriteLightning = new SpiLightning();
+		spriteLightning = new SpiLightning();
 		camera = null;
 
 		// Set the plugin stuff
 		plugins = new Array<SpiBasic>();
 	// 	addPlugin(new SpiDebugPathDisplay());
-	// 	addPlugin(new SpiTimerManager());
+		addPlugin(new SpiTimerManager());
 		
 		// Set the input stuff
 		mouse = new SpiMouse();
@@ -2332,7 +2253,7 @@ class SpiG
 	// 	SpiU.setSeed(globalSeed);
 		worldBounds = new SpiRect(-10, -10, width + 20, height + 20);
 		worldDivisions = 6;
-	// 	spriteLightning.clear();
+		spriteLightning.clear();
 	// 	SpiDebugPathDisplay debugPathDisplay = (SpiDebugPathDisplay) getPlugin(SpiDebugPathDisplay.class);
 	// 	if(debugPathDisplay != null)
 	// 		debugPathDisplay.clear();
@@ -2459,27 +2380,27 @@ class SpiG
 		}
 	}
 
-	// /**
-	//  * Used by the game object to call <code>draw()</code> on all the plugins.
-	//  */
-	// public static void drawPlugins()
-	// {
-	// 	// Start the part of the screen where the plugins will be drawn
-	// 	flashGfx.begin();
+	/**
+	 * Used by the game object to call <code>draw()</code> on all the plugins.
+	 */
+	public static function drawPlugins():Void
+	{
+		// Start the part of the screen where the plugins will be drawn
+		flashGfx.begin();
 		
-	// 	SpiBasic plugin;
-	// 	Array<SpiBasic> pluginList = plugins;
-	// 	int i = 0;
-	// 	int l = pluginList.size;
-	// 	while(i < l)
-	// 	{
-	// 		plugin = pluginList.get(i++);
-	// 		if(plugin.exists && plugin.visible)
-	// 			plugin.draw();
-	// 	}
+		var plugin:SpiBasic;
+		var pluginList:Array<SpiBasic> = plugins;
+		var i:Int = 0;
+		var l:Int = pluginList.length;
+		while(i < l)
+		{
+			plugin = pluginList[i++];
+			if(plugin.exists && plugin.visible)
+				plugin.draw();
+		}
 		
-	// 	flashGfx.end();
-	// }
+		flashGfx.end();
+	}
 	
 	// /**
 	//  * Vibrates for the given amount of time. Note that you'll need the permission
@@ -2751,17 +2672,17 @@ class SpiG
 	// 	batchShader = null;
 	// }
 	
-	// /**
-	//  * Preload the lightning textures in order to check for flushing.
-	//  * 
-	//  * @param texture
-	//  * @param normals
-	//  * @param specular
-	//  */
-	// public static void preloadLightning(Texture texture, Texture normals)
-	// {
-	// 	spriteLightning.preloadLightning(texture, normals);
-	// }
+	/**
+	 * Preload the lightning textures in order to check for flushing.
+	 * 
+	 * @param texture
+	 * @param normals
+	 * @param specular
+	 */
+	public static function preloadLightning(texture:Image, normals:Image):Void
+	{
+		spriteLightning.preloadLightning(texture, normals);
+	}
 	
 	// /**
 	//  * Start full screen

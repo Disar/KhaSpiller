@@ -1,7 +1,6 @@
 package spiller.math;
 
-//import spiller.SpiGame;
-//import spiller.system.frontEnds.VCRFrontEnd;
+import spiller.SpiGame;
 import spiller.util.SpiColor;
 
 /**
@@ -30,13 +29,9 @@ class SpiRandom
 	public function new(?InitialSeed:Int)
 	{
 		if (InitialSeed != null)
-		{
 			initialSeed = InitialSeed;
-		}
 		else
-		{
 			resetInitialSeed();
-		}
 	}
 	
 	/**
@@ -472,7 +467,6 @@ class SpiRandom
 	 * 
 	 * @param   StandardMode   If true, entire game will be reset, else just the current state will be reset.
 	 */
-	@:allow(spiller.system.frontEnds.VCRFrontEnd.startRecording)
 	private static inline function updateRecordingSeed(StandardMode:Bool = true):Int
 	{
 		return _recordingSeed = SpiG.random.initialSeed = StandardMode ? SpiG.random.initialSeed : _stateSeed;

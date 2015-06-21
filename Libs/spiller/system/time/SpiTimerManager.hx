@@ -1,6 +1,7 @@
 package spiller.system.time;
 
 import spiller.SpiBasic;
+import spiller.SpiBasic.SpiType;
 
 /**
  * A simple manager for tracking and updating game timer objects.
@@ -24,6 +25,7 @@ class SpiTimerManager extends SpiBasic
 	public function new()
 	{
 		super();
+		type = SpiType.PLUGIN_TIME_MANAGER;
 		_timers = new Array<SpiTimer>();
 		visible = false; //don't call draw on this plugin
 	}
